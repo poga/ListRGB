@@ -2,7 +2,7 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage]>
 .controller AppCtrl: <[$scope storage $location]> ++ ($scope, storage, $location) ->
   storage.bind $scope, \list, defaultValue: []
   $scope.add = ->
-    $scope.list.push title: $scope.newItem
+    $scope.list.unshift title: $scope.newItem
     $scope.newItem = ""
 
   $scope.toggleItem = (id) ->

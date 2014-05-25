@@ -1,4 +1,10 @@
 #buttons .button {
-  margin-top: 17.5px;
+  margin-top: 10px;
   margin-left: 20px;
+}
+.itemTime {
+  color: #808080;
+}
+.projectTitle i.star {
+  margin-right: 15px;
 }

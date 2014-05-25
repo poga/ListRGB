@@ -13,7 +13,8 @@ html(ng-app="app")
     .ui.grid
       .two.wide.column
       .seven.wide.column
-        h1.header
+        h3.header.projectTitle
+          i.list.disabled.icon
           | poga / list
       #buttons.four.wide.column
         .ui.labeled.small.icon.button
@@ -26,34 +27,46 @@ html(ng-app="app")
     .ui.divider
     .ui.grid
       .two.wide.column
-      .eight.wide.column
+      .nine.wide.column
         .ui.fluid.icon.input
           i.add.icon
           input(type="text"
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'add()'}")
-      .three.wide.column
-        .ui.fluid.icon.input
-          i.search.icon
-          input(type="text" placeholder="search" ng-model="search")
-      .three.wide.column
-    .ui.grid
-      .two.wide.column
-      .nine.wide.column
         .ui.very.relaxed.divided.list
           a.list-item.item(ng-repeat="item in list | filter:search"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
             ng-click="toggleItem(item.id)")
-            i.disabled.empty.checkbox.icon(ng-class="{disabled: !hover}")
+            i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
+            .right.floated.itemTime 3 minutes ago
             .content
               | {{item.title}}
+        .ui.basic.segment
+          h1.header TEST
+          p
+            | jaksdjald
       .two.wide.column
-        .ui.vertical.compact.fluid.menu
+        .ui.vertical.text.fluid.menu
+          .item
+            .ui.fluid.icon.input
+              i.search.icon
+              input(type="text" placeholder="search" ng-model="search")
           a.active.teal.hover.item
             i.user.icon
             | Menu 1
           a.hover.item
             i.mail.icon
             | Menu 2
+        .ui.list
+          .item
+            | 123123
+            .right.floated.itemTime
+              i.plus.green.icon
+              | 3 min ago
+          .item
+            | 123123
+            .right.floated.itemTime
+              i.minus.red.icon
+              | 3 min ago
       .three.wide.column
