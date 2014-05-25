@@ -19,6 +19,7 @@
     "semantic-ui": "~0.17.0",
     "jquery": "~2.1.1",
     "angular": "1.2.16",
-    "angularLocalStorage": "~0.1.7"
+    "angularLocalStorage": "~0.1.7",
+    "angular-ui-utils": "~0.1.1"
   }
 }
