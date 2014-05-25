@@ -1,6 +1,6 @@
 ## Usage
 
 ```
-npm i
-npm run dev
+$ npm i && bower i
+$ npm run dev
 ```
