@@ -18,3 +18,4 @@ devDependencies:
   'gulp-jade': \*
   'gulp-livereload': \*
   'connect-livereload': \*
+  'gulp-plumber': \*
