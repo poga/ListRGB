@@ -8,3 +8,14 @@
 .projectTitle i.star {
   margin-right: 15px;
 }
+.ui.divider {
+  margin-bottom: 0px !important;
+}
+#percentage {
+  background: -webkit-linear-gradient(left, #21a530 0%, #24bf2e 23%, #ff0 23%, #ff0 66%, #d84029 66%, #ea3333 90%, #ea3333 90%, #808080 90%, #808080 100%) !important;
+  background: -moz-linear-gradient(left, #21a530 0%, #24bf2e 23%, #ff0 23%, #ff0 66%, #d84029 66%, #ea3333 90%, #ea3333 90%, #808080 90%, #808080 100%) !important;
+  background: -o-linear-gradient(left, #21a530 0%, #24bf2e 23%, #ff0 23%, #ff0 66%, #d84029 66%, #ea3333 90%, #ea3333 90%, #808080 90%, #808080 100%) !important;
+  background: -ms-linear-gradient(left, #21a530 0%, #24bf2e 23%, #ff0 23%, #ff0 66%, #d84029 66%, #ea3333 90%, #ea3333 90%, #808080 90%, #808080 100%) !important;
+  background: linear-gradient(to right, #21a530 0%, #24bf2e 23%, #ff0 23%, #ff0 66%, #d84029 66%, #ea3333 90%, #ea3333 90%, #808080 90%, #808080 100%) !important;
+  margin-bottom: 20px;
+}

@@ -26,74 +26,82 @@ html(ng-app="app")
       .three.wide.column
     .ui.divider
     .ui.grid
-      .two.wide.column
-      .nine.wide.column
-        #projectDesc.ui.vertical.segment
-          | description
-        .ui.fluid.icon.input
-          i.add.icon
-          input(type="text"
-            placeholder="add to list"
-            ng-model="newItem" ui-keypress="{'enter': 'add()'}")
-        .ui.blue.segment
-          .ui.blue.ribbon.label
-            .text akjdkajl
-          .ui.very.relaxed.divided.list
-            a.list-item.item(ng-repeat="item in list | filter:search"
-              ng-mouseenter="hover=true"
-              ng-mouseleave="hover=false"
-              ng-click="toggleItem(item.id)")
-              i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
-              .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
-              .right.floated.itemTime.ng-hide(ng-show="hover")
-                i.thumbs.up.large.icon
-                i.thumbs.down.large.icon
-                i.setting.large.icon
-              .content
-                | {{item.title}}
-        .ui.segment
-          .ui.ribbon.label
-            .text 未分類
-          .ui.very.relaxed.divided.list
-            a.list-item.item(ng-repeat="item in list | filter:search"
-              ng-mouseenter="hover=true"
-              ng-mouseleave="hover=false"
-              ng-click="toggleItem(item.id)")
-              i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
-              .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
-              .right.floated.itemTime.ng-hide(ng-show="hover")
-                i.thumbs.up.large.icon
-                i.thumbs.down.large.icon
-                i.setting.large.icon
-              .content
-                | {{item.title}}
-        .ui.basic.segment
-          h1.header TEST
-          p
-            | Lorem ipsum dolor sit amet, donec porta et hendrerit aliquet integer, eget massa, ipsum mauris in. Curabitur metus non massa in risus wisi, orci enim, a varius ac proin nec amet, sed ipsum vitae mauris, quis erat quis nam placerat. Gravida arcu. Dictum nulla placerat dolor sed nunc ac, placerat lacus nibh amet auctor. Magna odio ut auctor at sodales, ullamcorper enim rutrum ipsum integer, eu suscipit odio, donec nibh ac, posuere vitae pellentesque sociis tempus velit. Nihil molestie id arcu, mollis quisque nec, mi tellus praesent congue duis, pulvinar orci. Odio pede lorem egestas id. Iaculis pellentesque, sit tristique erat donec, rutrum sed aliquam curabitur velit a laoreet, felis vitae ducimus id.
-          p
-            | Nisl praesent eget arcu, porta risus vel, amet aut. Aptent condimentum pulvinar viverra pellentesque risus, hendrerit et lorem ac nibh at, sit suscipit mauris ullamcorper aliquam, nec sed suspendisse lacinia ut dolor. Per consequat eget orci vivamus maecenas et, vivamus cras adipiscing, quis suspendisse nullam sit congue velit in, sodales commodo. Nec suscipit neque praesent lectus, habitasse erat neque praesent, curabitur vel, ullamcorper sit dolor, ipsum netus duis ac elementum. Tempor rhoncus fermentum mi, ultrices wisi consequat, nisl in, vel maecenas sodales. Quam et, pellentesque ipsum turpis hendrerit. Sit placerat nam lacus. Molestie nam placerat consequat lacus sagittis conubia, amet molestie consequat quam, ipsum ullamcorper tellus provident. Wisi pretium in condimentum at urna orci. Sed ligula massa ante, ut ipsum amet a dui justo, nunc eros, nulla pellentesque pellentesque labore phasellus ut.
-      .two.wide.column
-        .ui.vertical.text.fluid.menu
-          .item
-            .ui.fluid.icon.input
-              i.search.icon
-              input(type="text" placeholder="search" ng-model="search")
-          a.active.teal.hover.item
-            i.user.icon
-            | Menu 1
-          a.hover.item
-            i.mail.icon
-            | Menu 2
-        .ui.list
-          .item
-            | 123123
-            .right.floated.itemTime
-              i.plus.green.icon
-              | 3 min ago
-          .item
-            del asd
-            .right.floated.itemTime
-              i.minus.red.icon
-              | 5 min ago
-      .three.wide.column
+      .row
+        .two.wide.column
+        .eleven.wide.column
+        .three.wide.column
+      .row
+        .two.wide.column
+        .nine.wide.column
+          #projectDesc.ui.vertical.segment
+            | description
+          #percentage &nbsp;
+          .ui.fluid.icon.input
+            i.add.icon
+            input(type="text"
+              placeholder="add to list"
+              ng-model="newItem" ui-keypress="{'enter': 'add()'}")
+          .ui.blue.segment
+            .ui.blue.ribbon.label
+              .text akjdkajl
+            .ui.very.relaxed.divided.list
+              a.list-item.item(ng-repeat="item in list | filter:search"
+                ng-mouseenter="hover=true"
+                ng-mouseleave="hover=false"
+                ng-click="toggleItem(item.id)")
+                i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
+                .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
+                .right.floated.itemTime.ng-hide(ng-show="hover")
+                  i.smile.large.icon
+                  i.meh.down.large.icon
+                  i.frown.down.large.icon
+                  i.setting.large.icon
+                .content
+                  | {{item.title}}
+          .ui.segment
+            .ui.ribbon.label
+              .text 未分類
+            .ui.very.relaxed.divided.list
+              a.list-item.item(ng-repeat="item in list | filter:search"
+                ng-mouseenter="hover=true"
+                ng-mouseleave="hover=false"
+                ng-click="toggleItem(item.id)")
+                i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
+                .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
+                .right.floated.itemTime.ng-hide(ng-show="hover")
+                  i.smile.large.icon
+                  i.meh.down.large.icon
+                  i.frown.down.large.icon
+                  i.setting.large.icon
+                .content
+                  | {{item.title}}
+          .ui.basic.segment
+            h1.header TEST
+            p
+              | Lorem ipsum dolor sit amet, donec porta et hendrerit aliquet integer, eget massa, ipsum mauris in. Curabitur metus non massa in risus wisi, orci enim, a varius ac proin nec amet, sed ipsum vitae mauris, quis erat quis nam placerat. Gravida arcu. Dictum nulla placerat dolor sed nunc ac, placerat lacus nibh amet auctor. Magna odio ut auctor at sodales, ullamcorper enim rutrum ipsum integer, eu suscipit odio, donec nibh ac, posuere vitae pellentesque sociis tempus velit. Nihil molestie id arcu, mollis quisque nec, mi tellus praesent congue duis, pulvinar orci. Odio pede lorem egestas id. Iaculis pellentesque, sit tristique erat donec, rutrum sed aliquam curabitur velit a laoreet, felis vitae ducimus id.
+            p
+              | Nisl praesent eget arcu, porta risus vel, amet aut. Aptent condimentum pulvinar viverra pellentesque risus, hendrerit et lorem ac nibh at, sit suscipit mauris ullamcorper aliquam, nec sed suspendisse lacinia ut dolor. Per consequat eget orci vivamus maecenas et, vivamus cras adipiscing, quis suspendisse nullam sit congue velit in, sodales commodo. Nec suscipit neque praesent lectus, habitasse erat neque praesent, curabitur vel, ullamcorper sit dolor, ipsum netus duis ac elementum. Tempor rhoncus fermentum mi, ultrices wisi consequat, nisl in, vel maecenas sodales. Quam et, pellentesque ipsum turpis hendrerit. Sit placerat nam lacus. Molestie nam placerat consequat lacus sagittis conubia, amet molestie consequat quam, ipsum ullamcorper tellus provident. Wisi pretium in condimentum at urna orci. Sed ligula massa ante, ut ipsum amet a dui justo, nunc eros, nulla pellentesque pellentesque labore phasellus ut.
+        .two.wide.column
+          .ui.vertical.text.fluid.menu
+            .item
+              .ui.fluid.icon.input
+                i.search.icon
+                input(type="text" placeholder="search" ng-model="search")
+            a.active.teal.hover.item
+              i.user.icon
+              | Menu 1
+            a.hover.item
+              i.mail.icon
+              | Menu 2
+          .ui.list
+            .item
+              | 123123
+              .right.floated.itemTime
+                i.plus.green.icon
+                | 3 min ago
+            .item
+              del asd
+              .right.floated.itemTime
+                i.minus.red.icon
+                | 5 min ago
+        .three.wide.column
