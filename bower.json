@@ -1,0 +1,24 @@
+{
+  "name": "sopy",
+  "version": "0.0.1",
+  "authors": [
+    "Poga Po <poga.bahamut@gmail.com>"
+  ],
+  "description": "collaborative list maker",
+  "main": "public/index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic-ui": "~0.17.0",
+    "jquery": "~2.1.1",
+    "angular": "1.2.16",
+    "angularLocalStorage": "~0.1.7"
+  }
+}

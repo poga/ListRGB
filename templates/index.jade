@@ -1,0 +1,59 @@
+html(ng-app="app")
+  head
+    link(rel="stylesheet" href="/bower_components/semantic-ui/build/packaged/css/semantic.css")
+    script(src="/bower_components/jquery/dist/jquery.js")
+    script(src="/bower_components/semantic-ui/build/packaged/javascript/semantic.js")
+    script(src="/bower_components/angular/angular.js")
+    script(src="/bower_components/angular-ui-utils/ui-utils.js")
+    script(src="/bower_components/angular-cookies/angular-cookies.js")
+    script(src="/bower_components/angularLocalStorage/src/angularLocalStorage.js")
+    script(src="/lib/index.js")
+    link(rel="stylesheet" href="/css/index.css")
+  body(ng-controller="AppCtrl")
+    .ui.grid
+      .two.wide.column
+      .seven.wide.column
+        h1.header
+          | poga / list
+      #buttons.four.wide.column
+        .ui.labeled.small.icon.button
+          i.star.icon
+          | Star
+        .ui.labeled.small.icon.button
+          i.fork.code.icon
+          | Fork
+      .three.wide.column
+    .ui.divider
+    .ui.grid
+      .two.wide.column
+      .eight.wide.column
+        .ui.fluid.icon.input
+          i.add.icon
+          input(type="text"
+            placeholder="add to list"
+            ng-model="newItem" ui-keypress="{'enter': 'add()'}")
+      .three.wide.column
+        .ui.fluid.icon.input
+          i.search.icon
+          input(type="text" placeholder="search" ng-model="search")
+      .three.wide.column
+    .ui.grid
+      .two.wide.column
+      .nine.wide.column
+        .ui.very.relaxed.divided.list
+          a.list-item.item(ng-repeat="item in list | filter:search"
+            ng-mouseenter="hover=true"
+            ng-mouseleave="hover=false"
+            ng-click="toggleItem(item.id)")
+            i.disabled.empty.checkbox.icon(ng-class="{disabled: !hover}")
+            .content
+              | {{item.title}}
+      .two.wide.column
+        .ui.vertical.compact.fluid.menu
+          a.active.teal.hover.item
+            i.user.icon
+            | Menu 1
+          a.hover.item
+            i.mail.icon
+            | Menu 2
+      .three.wide.column
