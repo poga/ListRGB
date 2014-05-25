@@ -19,6 +19,7 @@
     "gulp-livescript": "*",
     "gulp-jade": "*",
     "gulp-livereload": "*",
-    "connect-livereload": "*"
+    "connect-livereload": "*",
+    "gulp-plumber": "*"
   }
 }

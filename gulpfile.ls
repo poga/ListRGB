@@ -5,6 +5,7 @@ nib = require \nib
 ls = require 'gulp-livescript'
 jade = require 'gulp-jade'
 lr = require 'gulp-livereload'
+plumber = require 'gulp-plumber'
 
 paths = do
   scripts: <[src/*.ls]>
@@ -24,18 +25,21 @@ gulp.task \server ->
 
 gulp.task \style ->
   gulp.src paths.styles
+    .pipe plumber!
     .pipe stylus { +errors, use: [nib!]}
     .pipe gulp.dest "css"
     .pipe lr!
 
 gulp.task \ls ->
   gulp.src paths.scripts
+    .pipe plumber!
     .pipe ls { +bare }
     .pipe gulp.dest "lib"
     .pipe lr!
 
 gulp.task \jade ->
   gulp.src paths.jade
+    .pipe plumber!
     .pipe jade!
     .pipe gulp.dest "."
     .pipe lr!
