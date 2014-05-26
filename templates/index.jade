@@ -10,79 +10,61 @@ html(ng-app="app")
     script(src="/lib/index.js")
     link(rel="stylesheet" href="/css/index.css")
   body(ng-controller="AppCtrl")
-    #header.ui.grid
-      .two.wide.column
-      .eight.wide.column
-        h3.header.projectTitle
-          i.large.building.disabled.icon
-          | poga / list
-      #buttons.four.wide.column
-        .ui.labeled.small.icon.button
-          i.star.icon
-          | Star
-        .ui.labeled.small.icon.button
-          i.fork.code.icon
-          | Fork
-        .ui.small.icon.button
-          i.print.icon
-      .two.wide.column
-    .ui.divider
     #content.ui.grid
-      .row
-        .two.wide.column
-        .nine.wide.column
-          #projectDesc
-            p
-              | Lorem ipsum dolor sit amet, donec porta et hendrerit aliquet integer
-          .ui.fluid.icon.input
-            i.add.icon
-            input(type="text"
-              placeholder="add to list"
-              ng-model="newItem" ui-keypress="{'enter': 'add()'}")
-          #percentage
-            span.vote-color(style="width:60%; background-color: green") &nbsp;
-            span.vote-color(style="width:30%; background-color: yellow") &nbsp;
-            span.vote-color(style="width:4%; background-color: red") &nbsp;
-            span.vote-color(style="width:6%; background-color: grey") &nbsp;
-          #list.ui.relaxed.divided.list
-            a.list-item.item(ng-repeat="item in list | filter:search"
-              ng-mouseenter="hover=true"
-              ng-mouseleave="hover=false"
-              ng-click="toggleItem(item.id)")
-              i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
-              .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
-              .right.floated.itemTime.ng-hide(ng-show="hover")
-                i.smile.icon
-                i.meh.down.icon
-                i.frown.down.icon
-                i.red.remove.icon(ng-click="deleteItem(item.title)")
-                i.setting.icon
-              .content
-                | {{item.title}}
-        #side.three.wide.column
-          .ui.fluid.icon.input
-            i.search.icon
-            input(type="text" placeholder="search" ng-model="search")
-          .ui.selection.celled.relaxed.small.list
-            a.item
-              .right.floated.label 123
-              i.folder.icon
-              .content
-                .header Categories
-            a.item
-              .right.floated.label 123
-              i.tag.icon
-              .content
-                .header Releases
-          .ui.very.relaxed.divided.small.list
-            .item
-              | 123123
-              .right.floated.itemTime
-                i.plus.green.icon
-                | 3 min ago
-            .item
-              del asd
-              .right.floated.itemTime
-                i.minus.red.icon
-                | 5 min ago
-        .two.wide.column
+      .three.wide.column
+      #main.eight.wide.column
+        #percentage
+          span.vote-color(style="width:60%; background-color: green") &nbsp;
+          span.vote-color(style="width:30%; background-color: yellow") &nbsp;
+          span.vote-color(style="width:4%; background-color: red") &nbsp;
+          span.vote-color(style="width:6%; background-color: grey") &nbsp;
+        #projectDesc
+          p
+            | Lorem ipsum dolor sit amet, donec porta et hendrerit aliquet integer
+        .ui.fluid.icon.input
+          i.add.icon
+          input(type="text"
+            placeholder="add to list"
+            ng-model="newItem" ui-keypress="{'enter': 'add()'}")
+        #list.ui.relaxed.divided.list
+          a.item(ng-repeat="item in list | filter:search"
+            ng-mouseenter="hover=true"
+            ng-mouseleave="hover=false"
+            ng-click="toggleItem(item.id)")
+            i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
+            .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
+            .right.floated.itemTime.ng-hide(ng-show="hover")
+              i.smile.icon
+              i.meh.down.icon
+              i.frown.down.icon
+              i.red.remove.icon(ng-click="deleteItem(item.title)")
+              i.setting.icon
+            .content
+              | {{item.title}}
+      #side.two.wide.column
+        .ui.fluid.icon.input
+          i.search.icon
+          input(type="text" placeholder="search" ng-model="search")
+        .ui.selection.celled.relaxed.small.list
+          a.item
+            .right.floated.label 123
+            i.folder.icon
+            .content
+              .header Categories
+          a.item
+            .right.floated.label 123
+            i.tag.icon
+            .content
+              .header Releases
+        .ui.very.relaxed.divided.small.list
+          .item
+            | 123123
+            .right.floated.itemTime
+              i.plus.green.icon
+              | 3 min ago
+          .item
+            del asd
+            .right.floated.itemTime
+              i.minus.red.icon
+              | 5 min ago
+      .three.wide.column
