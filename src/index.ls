@@ -8,6 +8,9 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage]>
   $scope.toggleItem = (id) ->
     console.log id
 
+  $scope.deleteItem = (id) ->
+    $scope.list.splice ($scope.list.indexOf id), 1
+
   console.log $location.path!
 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->

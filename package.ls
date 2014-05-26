@@ -14,7 +14,7 @@ devDependencies:
   'gulp-util': \*
   'gulp-stylus': \*
   nib: \*
-  'gulp-livescript': \*
+  'gulp-livescript': '~0.3.0'
   'gulp-jade': \*
   'gulp-livereload': \*
   'connect-livereload': \*
