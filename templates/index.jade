@@ -13,6 +13,10 @@ html(ng-app="app")
     #content.ui.grid
       .three.wide.column
       #main.eight.wide.column
+        #header-menu.ui.inverted.menu
+            .item
+              .content
+                |test
         #percentage
           span.vote-color(style="width:60%; background-color: green") &nbsp;
           span.vote-color(style="width:30%; background-color: yellow") &nbsp;
@@ -21,7 +25,7 @@ html(ng-app="app")
         #projectDesc
           p
             | Lorem ipsum dolor sit amet, donec porta et hendrerit aliquet integer
-        .ui.fluid.icon.input
+        #new-item-input.ui.fluid.left.icon.focus.input
           i.add.icon
           input(type="text"
             placeholder="add to list"

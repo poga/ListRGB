@@ -12,25 +12,45 @@ body {
   height: 100%;
   padding: 0;
 }
-#side {
-  margin-top: 35px;
+#main #header-menu {
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  margin-bottom: 0;
 }
-#percentage {
-  margin-top: 20px;
-  font-size: 9px;
+#main #projectDesc {
+  margin: 20px 40px;
+  font-size: 18px;
 }
-span.vote-color {
+#main #projectDesc p {
+  margin: 0;
+}
+#main #new-item-input {
+  margin: 0 30px;
+}
+#main #new-item-input input {
+  border: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #aaa;
+}
+#main #percentage {
+  line-height: 9px;
+}
+#main #percentage span.vote-color {
   display: inline-block;
 }
-#list {
-  padding: 10px 25px;
+#main #list {
+  margin: 10px 30px;
   font-size: 15px;
   color: #444;
 }
-#list .item {
+#main #list .item {
   padding-top: 12px;
   padding-bottom: 12px;
 }
-#list .item .itemTime {
+#main #list .item .itemTime {
   color: #808080;
+}
+#side {
+  margin-top: 35px;
 }
