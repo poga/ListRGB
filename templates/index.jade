@@ -32,11 +32,8 @@ html(ng-app="app")
         .two.wide.column
         .nine.wide.column
           #projectDesc
-            h1.header TEST
             p
-              | Lorem ipsum dolor sit amet, donec porta et hendrerit aliquet integer, eget massa, ipsum mauris in. Curabitur metus non massa in risus wisi, orci enim, a varius ac proin nec amet, sed ipsum vitae mauris, quis erat quis nam placerat. Gravida arcu. Dictum nulla placerat dolor sed nunc ac, placerat lacus nibh amet auctor. Magna odio ut auctor at sodales, ullamcorper enim rutrum ipsum integer, eu suscipit odio, donec nibh ac, posuere vitae pellentesque sociis tempus velit. Nihil molestie id arcu, mollis quisque nec, mi tellus praesent congue duis, pulvinar orci. Odio pede lorem egestas id. Iaculis pellentesque, sit tristique erat donec, rutrum sed aliquam curabitur velit a laoreet, felis vitae ducimus id.
-            p
-              | Nisl praesent eget arcu, porta risus vel, amet aut. Aptent condimentum pulvinar viverra pellentesque risus, hendrerit et lorem ac nibh at, sit suscipit mauris ullamcorper aliquam, nec sed suspendisse lacinia ut dolor. Per consequat eget orci vivamus maecenas et, vivamus cras adipiscing, quis suspendisse nullam sit congue velit in, sodales commodo. Nec suscipit neque praesent lectus, habitasse erat neque praesent, curabitur vel, ullamcorper sit dolor, ipsum netus duis ac elementum. Tempor rhoncus fermentum mi, ultrices wisi consequat, nisl in, vel maecenas sodales. Quam et, pellentesque ipsum turpis hendrerit. Sit placerat nam lacus. Molestie nam placerat consequat lacus sagittis conubia, amet molestie consequat quam, ipsum ullamcorper tellus provident. Wisi pretium in condimentum at urna orci. Sed ligula massa ante, ut ipsum amet a dui justo, nunc eros, nulla pellentesque pellentesque labore phasellus ut.
+              | Lorem ipsum dolor sit amet, donec porta et hendrerit aliquet integer
           .ui.fluid.icon.input
             i.add.icon
             input(type="text"
@@ -47,56 +44,21 @@ html(ng-app="app")
             span.vote-color(style="width:30%; background-color: yellow") &nbsp;
             span.vote-color(style="width:4%; background-color: red") &nbsp;
             span.vote-color(style="width:6%; background-color: grey") &nbsp;
-          .ui.blue.segment
-            .ui.blue.ribbon.label
-              .text 分類1
-            .ui.very.relaxed.divided.list
-              a.list-item.item(ng-repeat="item in list | filter:search"
-                ng-mouseenter="hover=true"
-                ng-mouseleave="hover=false"
-                ng-click="toggleItem(item.id)")
-                i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
-                .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
-                .right.floated.itemTime.ng-hide(ng-show="hover")
-                  i.smile.icon
-                  i.meh.down.icon
-                  i.frown.down.icon
-                  i.red.remove.icon(ng-click="deleteItem(item.title)")
-                  i.setting.icon
-                .content
-                  | {{item.title}}
-          .ui.teal.segment
-            .ui.ribbon.teal.label
-              .text 分類2
-            .ui.very.relaxed.divided.list
-              a.list-item.item(ng-repeat="item in list | filter:search"
-                ng-mouseenter="hover=true"
-                ng-mouseleave="hover=false"
-                ng-click="toggleItem(item.id)")
-                i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
-                .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
-                .right.floated.itemTime.ng-hide(ng-show="hover")
-                  i.smile.icon
-                  i.meh.down.icon
-                  i.frown.down.icon
-                  i.setting.icon
-                .content
-                  | {{item.title}}
-          .ui.segment
-            .ui.very.relaxed.divided.list
-              a.list-item.item(ng-repeat="item in list | filter:search"
-                ng-mouseenter="hover=true"
-                ng-mouseleave="hover=false"
-                ng-click="toggleItem(item.id)")
-                i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
-                .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
-                .right.floated.itemTime.ng-hide(ng-show="hover")
-                  i.smile.icon
-                  i.meh.down.icon
-                  i.frown.down.icon
-                  i.setting.icon
-                .content
-                  | {{item.title}}
+          #list.ui.relaxed.divided.list
+            a.list-item.item(ng-repeat="item in list | filter:search"
+              ng-mouseenter="hover=true"
+              ng-mouseleave="hover=false"
+              ng-click="toggleItem(item.id)")
+              i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
+              .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
+              .right.floated.itemTime.ng-hide(ng-show="hover")
+                i.smile.icon
+                i.meh.down.icon
+                i.frown.down.icon
+                i.red.remove.icon(ng-click="deleteItem(item.title)")
+                i.setting.icon
+              .content
+                | {{item.title}}
         #side.three.wide.column
           .ui.fluid.icon.input
             i.search.icon
@@ -112,7 +74,7 @@ html(ng-app="app")
               i.tag.icon
               .content
                 .header Releases
-          .ui.very.relaxed.small.list
+          .ui.very.relaxed.divided.small.list
             .item
               | 123123
               .right.floated.itemTime
