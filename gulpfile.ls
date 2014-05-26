@@ -27,6 +27,7 @@ gulp.task \style ->
   gulp.src paths.styles
     .pipe plumber!
     .pipe stylus { +errors, use: [nib!]}
+      .on 'error' -> @emit 'end'
     .pipe gulp.dest "css"
     .pipe lr!
 
