@@ -10,19 +10,23 @@ html(ng-app="app")
     script(src="/lib/index.js")
     link(rel="stylesheet" href="/css/index.css")
   body(ng-controller="AppCtrl")
-    #content.ui.grid
+    #content.ui.stackable.grid
       .three.wide.column
       #main.eight.wide.column
         #header-menu.ui.inverted.menu
-            .item
-              .content
-                |test
+          a.item
+            i.large.home.icon
+          .item
+            | Title
+          .right.menu
+            a.item
+              i.large.setting.icon
         #percentage
           span.vote-color(style="width:60%; background-color: green") &nbsp;
           span.vote-color(style="width:30%; background-color: yellow") &nbsp;
           span.vote-color(style="width:4%; background-color: red") &nbsp;
           span.vote-color(style="width:6%; background-color: grey") &nbsp;
-        #projectDesc
+        #project-desc
           p
             | Lorem ipsum dolor sit amet, donec porta et hendrerit aliquet integer
         #new-item-input.ui.fluid.left.icon.focus.input
@@ -30,45 +34,20 @@ html(ng-app="app")
           input(type="text"
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'add()'}")
-        #list.ui.relaxed.divided.list
-          a.item(ng-repeat="item in list | filter:search"
+        #list.ui.grid.vertically.divided
+          .row(ng-repeat="item in list | filter:search"
             ng-mouseenter="hover=true"
-            ng-mouseleave="hover=false"
-            ng-click="toggleItem(item.id)")
-            i.disabled.empty.right.arrow.icon(ng-class="{disabled: !hover}")
-            .right.floated.itemTime.ng-hide(ng-show="!hover") 3 minutes ago
-            .right.floated.itemTime.ng-hide(ng-show="hover")
-              i.smile.icon
-              i.meh.down.icon
-              i.frown.down.icon
-              i.red.remove.icon(ng-click="deleteItem(item.title)")
-              i.setting.icon
-            .content
-              | {{item.title}}
+            ng-mouseleave="hover=false")
+            .drag-anchor.one.wide.column {{$index+1}}
+            .one.wide.column
+              i.disabled.empty.checkbox.icon(ng-class="{disabled: !hover}" ng-click="toggleItem(item.id)")
+            .eight.wide.column
+              .ui.input.fluid
+                input(type="text" ng-model="item.title")
+            .one.wide.column.right.aligned
+              i.item-popup.disabled.ellipsis.horizontal.icon
       #side.two.wide.column
         .ui.fluid.icon.input
           i.search.icon
           input(type="text" placeholder="search" ng-model="search")
-        .ui.selection.celled.relaxed.small.list
-          a.item
-            .right.floated.label 123
-            i.folder.icon
-            .content
-              .header Categories
-          a.item
-            .right.floated.label 123
-            i.tag.icon
-            .content
-              .header Releases
-        .ui.very.relaxed.divided.small.list
-          .item
-            | 123123
-            .right.floated.itemTime
-              i.plus.green.icon
-              | 3 min ago
-          .item
-            del asd
-            .right.floated.itemTime
-              i.minus.red.icon
-              | 5 min ago
       .three.wide.column

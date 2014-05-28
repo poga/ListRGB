@@ -12,35 +12,50 @@ body
 
 #main
   background-color: white
-  height: 100%
   padding: 0
+  min-height: 1000px
   #header-menu
     border-radius: 0
     margin-bottom: 0
-  #projectDesc
+    input
+      background-color: transparent
+      border-color: #555555
+      color: white
+      font-size: 15px
+    i
+      color: white
+  #project-desc
     margin: 20px 40px
-    font-size: 18px
     p
+      font-size: 16px
+      color: #333333
       margin: 0
   #new-item-input
-    margin: 0 30px
+    margin: 0 60px
+    margin-bottom: 50px
     input
-      border: 0
+      border: none
       border-radius: 0
       border-bottom: 1px solid #aaaaaa
   #percentage
-    line-height: 9px
+    line-height: 12px
     span.vote-color
       display: inline-block
   #list
-    margin: 10px 30px
+    margin: 20px 30px
+    padding-left: 30px
+    padding-right: 30px
     font-size: 15px
-    color: #444444
-    .item
-      padding-top: 12px
-      padding-bottom: 12px
-      .itemTime
-        color: gray
+    .row
+      color: #666666
+      .drag-anchor
+        cursor: move
+        text-align: right
+      .icon
+        margin: 4px 0
+      input
+        border: none
+        padding: 0
 
 #side
   margin-top: 35px
