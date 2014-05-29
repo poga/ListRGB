@@ -11,16 +11,13 @@ html(ng-app="app")
     link(rel="stylesheet" href="/css/index.css")
   body(ng-controller="AppCtrl")
     #content.ui.stackable.grid
-      .three.wide.column
-      #main.eight.wide.column
+      .two.wide.column
+      #main.ten.wide.column
         #header-menu.ui.inverted.menu
           a.item
             i.large.home.icon
           .item
             | Title
-          .right.menu
-            a.item
-              i.large.setting.icon
         #percentage
           span.vote-color(style="width:60%; background-color: green") &nbsp;
           span.vote-color(style="width:30%; background-color: yellow") &nbsp;
@@ -38,16 +35,18 @@ html(ng-app="app")
           .row(ng-repeat="item in list | filter:search"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false")
-            .drag-anchor.one.wide.column {{$index+1}}
-            .one.wide.column
-              i.disabled.empty.checkbox.icon(ng-class="{disabled: !hover}" ng-click="toggleItem(item.id)")
+            .drag-anchor.one.wide.column.center.aligned {{$index+1}}
             .eight.wide.column
               .ui.input.fluid
                 input(type="text" ng-model="item.title")
-            .one.wide.column.right.aligned
+            .three.wide.column.right.aligned
+              i.smile.icon(ng-class="{disabled: !hover}" ng-click="toggleItem(item.id)")
+              i.meh.icon(ng-class="{disabled: !hover}" ng-click="toggleItem(item.id)")
+              i.frown.icon(ng-class="{disabled: !hover}" ng-click="toggleItem(item.id)")
+            .one.wide.column
               i.item-popup.disabled.ellipsis.horizontal.icon
       #side.two.wide.column
         .ui.fluid.icon.input
           i.search.icon
           input(type="text" placeholder="search" ng-model="search")
-      .three.wide.column
+      .two.wide.column
