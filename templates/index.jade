@@ -2,11 +2,13 @@ html(ng-app="app")
   head
     link(rel="stylesheet" href="/bower_components/semantic-ui/build/packaged/css/semantic.css")
     script(src="/bower_components/jquery/dist/jquery.js")
+    script(src="/bower_components/jquery-ui/ui/jquery-ui.js")
     script(src="/bower_components/semantic-ui/build/packaged/javascript/semantic.js")
     script(src="/bower_components/angular/angular.js")
     script(src="/bower_components/angular-ui-utils/ui-utils.js")
     script(src="/bower_components/angular-cookies/angular-cookies.js")
     script(src="/bower_components/angularLocalStorage/src/angularLocalStorage.js")
+    script(src="/bower_components/angular-ui-sortable/sortable.js")
     script(src="/lib/index.js")
     link(rel="stylesheet" href="/css/index.css")
   body(ng-controller="AppCtrl")
@@ -31,20 +33,19 @@ html(ng-app="app")
           input(type="text"
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'add()'}")
-        #list.ui.grid.vertically.divided
-          .row(ng-repeat="item in list | filter:search"
+        #list(ui-sortable ng-model="list")
+          .ui.segment(ng-repeat="item in list | filter:search"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false")
-            .drag-anchor.one.wide.column.center.aligned {{$index+1}}
-            .eight.wide.column
-              .ui.input.fluid
-                input(type="text" ng-model="item.title")
-            .three.wide.column.right.aligned
-              i.smile.icon(ng-class="{disabled: !hover}" ng-click="toggleItem(item.id)")
-              i.meh.icon(ng-class="{disabled: !hover}" ng-click="toggleItem(item.id)")
-              i.frown.icon(ng-class="{disabled: !hover}" ng-click="toggleItem(item.id)")
-            .one.wide.column
-              i.item-popup.disabled.ellipsis.horizontal.icon
+            .ui.right.corner.label
+              i.empty.checkbox.icon
+            .ui.grid.middle.aligned
+              .row.equal.height
+                .one.wide.column
+                  i.ellipsis.vertical.icon(ng-class="{disabled: !hover}")
+                .fifteen.wide.column
+                  .ui.fluid.input
+                    input(type="text" ng-model="item.title")
       #side.two.wide.column
         .ui.fluid.icon.input
           i.search.icon
