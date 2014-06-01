@@ -15,7 +15,7 @@ paths = do
 gulp.task \server ->
   require! express
   app = express!
-  #app.use (require 'connect-livereload')( port: 35729 )
+  app.use (require 'connect-livereload')( port: 35729 )
   app.use express.static path.resolve '.'
   app.all '/**' (req, res) ->
     res.sendfile __dirname + "/index.html"
@@ -29,25 +29,32 @@ gulp.task \style ->
     .pipe stylus { +errors, use: [nib!]}
       .on 'error' -> @emit 'end'
     .pipe gulp.dest "css"
-    .pipe lr!
 
 gulp.task \ls ->
   gulp.src paths.scripts
     .pipe plumber!
     .pipe ls { +bare }
     .pipe gulp.dest "lib"
-    .pipe lr!
 
 gulp.task \jade ->
   gulp.src paths.jade
     .pipe plumber!
     .pipe jade!
     .pipe gulp.dest "."
-    .pipe lr!
 
 gulp.task \watch ->
   gulp.watch paths.styles, <[style]>
   gulp.watch paths.scripts, <[ls]>
   gulp.watch paths.jade, <[jade]>
 
-gulp.task \default <[style ls jade watch server]>
+gulp.task \livereload ->
+  server = lr!
+  reload = (path) ->
+    server.changed path
+  gulp.watch paths.styles .on \change, reload
+  gulp.watch paths.scripts .on \change, reload
+  gulp.watch paths.jade .on \change, reload
+
+gulp.task \default <[style ls jade watch livereload server]>
+
+gulp.task \prepublish <[style ls jade]>

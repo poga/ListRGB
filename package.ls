@@ -5,6 +5,7 @@ description: 'collaborative list maker'
 version: '0.0.1'
 scripts:
   dev: "gulp --require LiveScript"
+  prepublish: "gulp --require LiveScript prepublish"
 dependencies:
   express: \*
 devDependencies:
