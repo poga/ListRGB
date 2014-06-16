@@ -24,6 +24,9 @@ html(ng-app="app")
               a.section poga
               .divider /
               .active.section Title
+          .right.menu
+            .item
+              i.large.setting.icon
         #percentage
           span.vote-color(style="width:{{green}}%; background-color: green; opacity: 0.75") &nbsp;
           span.vote-color(style="width:{{blue}}%; background-color: blue; opacity: 0.75") &nbsp;
@@ -38,7 +41,7 @@ html(ng-app="app")
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'add()'}")
         #list(ui-sortable ng-model="list")
-          .ui.vertical.segment(ng-repeat="item in list | filter:search"
+          .ui.vertical.segment(ng-repeat="item in list | filter:search | orderBy:predicate"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false")
             .ui.grid.middle.aligned

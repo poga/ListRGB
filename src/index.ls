@@ -6,7 +6,7 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
   $scope.red = 0
   $scope.grey = 0
 
-  $scope.predicate = 'none'
+  $scope.predicate = (x) -> $scope.list.indexOf(x)
   $scope.sorter = "none"
 
   $scope.headings = []
@@ -48,7 +48,7 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
         | \red => 3
       $scope.drag = {'display': 'none'}
     case 'none'
-      $scope.predicate = 'none'
+      $scope.predicate = (x) -> $scope.list.indexOf(x)
       $scope.drag = {'display': 'inline-block'}
 
   $scope.get-percent = (list, status) ->
