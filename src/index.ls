@@ -23,16 +23,16 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     $scope.list.unshift title: $scope.newItem, status: \none, createdAt: Date.now!
     $scope.newItem = ""
 
-  $scope.setStatus = (item, status) ->
+  $scope.set-status = (item, status) ->
     if item.status == status
       $scope.list[$scope.list.indexOf(item)] = item <<< status: \none
     else
       $scope.list[$scope.list.indexOf(item)] = item <<< status: status
 
-  $scope.removeItem = (item) ->
+  $scope.remove-item = (item) ->
     $scope.list.splice $scope.list.indexOf(item), 1
 
-  $scope.sortBy = (sorter) ->
+  $scope.sort-by = (sorter) ->
     $scope.sorter = sorter
     switch sorter
     case 'status'
