@@ -47,6 +47,9 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       $scope.predicate = 'none'
       $scope.drag = {'display': 'inline-block'}
 
+  $scope.get-percent = (list, status) ->
+    list.filter((x) -> x.status == status).length / list.length * 100
+
   do
     newList <- $scope.$watch 'list', _ , true
     if newList.length == 0
@@ -55,10 +58,11 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       $scope.red = 0
       $scope.grey = 0
     else
-      $scope.green = newList.filter((x) -> x.status == \green ).length / newList.length * 100
-      $scope.blue = newList.filter((x) -> x.status == \blue ).length / newList.length * 100
-      $scope.red = newList.filter((x) -> x.status == \red ).length / newList.length * 100
-      $scope.grey = newList.filter((x) -> x.status == \none ).length / newList.length * 100
+      $scope.green = $scope.get-percent newList, \red
+      $scope.blue = $scope.get-percent newList, \blue
+      $scope.red = $scope.get-percent newList, \red
+      $scope.grey = $scope.get-percent newList, \none
+
 
   console.log $location.path!
 
