@@ -45,20 +45,17 @@ html(ng-app="app")
                 .two.wide.column.center.aligned.status-col
                   i.icon(ng-class="{disabled: !hover && item.status != 'green',\
                     green: item.status == 'green',\
-                    'empty': item.status != 'green',\
-                    'checkbox': item.status != 'green',\
+                    'empty checkbox': item.status != 'green',\
                     sign: item.status == 'green'}"
                     ng-click="setStatus(item, 'green')")
                   i.icon(ng-class="{disabled: !hover && item.status != 'blue',\
                     blue: item.status == 'blue',\
-                    'empty': item.status != 'blue',\
-                    'checkbox': item.status != 'blue',\
+                    'empty checkbox': item.status != 'blue',\
                     sign: item.status == 'blue'}"
                     ng-click="setStatus(item, 'blue')")
                   i.icon(ng-class="{disabled: !hover && item.status != 'red',\
                     red: item.status == 'red',\
-                    'empty': item.status != 'red',\
-                    'checkbox': item.status != 'red',\
+                    'empty checkbox': item.status != 'red',\
                     sign: item.status == 'red'}"
                     ng-click="setStatus(item, 'red')")
                 .input-col.eleven.wide.column
