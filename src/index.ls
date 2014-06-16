@@ -6,8 +6,8 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable]
   $scope.red = 0
   $scope.grey = 0
 
-  $scope.predicate = '-createdAt'
-  $scope.sorter = "createdAt"
+  $scope.predicate = 'none'
+  $scope.sorter = "none"
 
   $scope.add = ->
     $scope.list.unshift title: $scope.newItem, status: \none, createdAt: Date.now!
@@ -24,16 +24,18 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable]
 
   $scope.sortBy = (sorter) ->
     $scope.sorter = sorter
-    if sorter == 'createdAt'
+    switch sorter
+    case 'createdAt'
       $scope.predicate = '-createdAt'
-    else if sorter == 'status'
+    case 'status'
       $scope.predicate = (x) ->
         switch x.status
         | \none => 0
         | \green => 1
         | \blue => 2
         | \red => 3
-      
+    case 'none'
+      $scope.predicate = 'none'
 
   do
     newList <- $scope.$watch 'list', _ , true

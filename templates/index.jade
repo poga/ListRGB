@@ -73,8 +73,9 @@ html(ng-app="app")
           i.search.icon
           input(type="text" placeholder="search" ng-model="search")
         .ui.basic.segment
-          h5.ui.header Sort
+          h5.ui.header View
           .ui.small.link.list
+            a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") by Origin
             a.item(ng-click="sortBy('createdAt')" ng-class="{active: sorter == 'createdAt'}") by Date
             a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") by Status
             a.item by Category
