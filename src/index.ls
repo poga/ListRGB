@@ -34,8 +34,10 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable]
         | \green => 1
         | \blue => 2
         | \red => 3
+      $scope.drag = {'display': 'none'}
     case 'none'
       $scope.predicate = 'none'
+      $scope.drag = {'display': 'inline-block'}
 
   do
     newList <- $scope.$watch 'list', _ , true

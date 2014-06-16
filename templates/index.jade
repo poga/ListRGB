@@ -67,18 +67,17 @@ html(ng-app="app")
                 .one.wide.column.right.aligned
                   i.remove.icon(ng-class="{disabled: !hover}" ng-click="removeItem(item)")
                 .drag-col.one.wide.column.left.aligned
-                  i.ellipsis.vertical.icon(ng-class="{disabled: !hover}")
+                  i.ellipsis.vertical.icon(ng-class="{disabled: !hover}" ng-style="drag")
       #side.two.wide.column
         .ui.fluid.icon.input
           i.search.icon
           input(type="text" placeholder="search" ng-model="search")
         .ui.basic.segment
-          h5.ui.header View
+          h5.ui.header Group By
           .ui.small.link.list
-            a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") by Origin
-            a.item(ng-click="sortBy('createdAt')" ng-class="{active: sorter == 'createdAt'}") by Date
-            a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") by Status
-            a.item by Category
+            a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
+            a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") Status
+            a.item Category
           .ui.divider
           h5.ui.header View
           .ui.small.link.list
