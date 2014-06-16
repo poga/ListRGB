@@ -89,5 +89,5 @@ html(ng-app="app")
             a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") Status
           .ui.divider
           .ui.list
-            .item(ng-repeat="h in headings") {{h.title | limitTo:10}}
+            .heading.item(ng-repeat="h in headings") {{h.title | limitTo:10}}
       .two.wide.column
