@@ -9,9 +9,13 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
   $scope.predicate = 'none'
   $scope.sorter = "none"
 
+  $scope.headings = []
+
   $scope.parse-heading = (list) ->
+    $scope.headings = []
     list.map (x) ->
-      if x.title == /^(#+)\s/ 
+      if x.title == /^(#+)\s/
+        $scope.headings.push title: x.title, h: (x.title == /^(#+)\s/).1.length
         x <<< h: (x.title == /^(#+)\s/).1.length
       else
         delete x.h
