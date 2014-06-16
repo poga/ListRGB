@@ -48,16 +48,11 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       $scope.drag = {'display': 'inline-block'}
 
   $scope.get-percent = (list, status) ->
+    return 0 if list.length == 0
     list.filter((x) -> x.status == status).length / list.length * 100
 
   do
     newList <- $scope.$watch 'list', _ , true
-    if newList.length == 0
-      $scope.green = 0
-      $scope.blue = 0
-      $scope.red = 0
-      $scope.grey = 0
-    else
       $scope.green = $scope.get-percent newList, \red
       $scope.blue = $scope.get-percent newList, \blue
       $scope.red = $scope.get-percent newList, \red
