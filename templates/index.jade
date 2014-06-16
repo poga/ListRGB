@@ -38,11 +38,13 @@ html(ng-app="app")
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'add()'}")
         #list(ui-sortable ng-model="list")
-          .ui.vertical.segment(ng-repeat="item in list | filter:search | orderBy:predicate"
+          .ui.vertical.segment(ng-repeat="item in list | filter:search"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false")
             .ui.grid.middle.aligned
               .row.equal.height
+                .drag-col.one.wide.column.right.aligned
+                  i.ellipsis.vertical.icon(ng-class="{disabled: !hover}" ng-style="drag")
                 .two.wide.column.center.aligned.status-col
                   i.icon(ng-class="{disabled: !hover && item.status != 'green',\
                     green: item.status == 'green',\
@@ -66,8 +68,6 @@ html(ng-app="app")
                       )
                 .one.wide.column.right.aligned
                   i.remove.icon(ng-class="{disabled: !hover}" ng-click="removeItem(item)")
-                .drag-col.one.wide.column.left.aligned
-                  i.ellipsis.vertical.icon(ng-class="{disabled: !hover}" ng-style="drag")
       #side.two.wide.column
         .ui.fluid.icon.input
           i.search.icon
@@ -83,6 +83,6 @@ html(ng-app="app")
             a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
             a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") Status
           .ui.divider
-          .ui.small.list
+          .ui.list
             .item(ng-repeat="h in headings") {{h.title | limitTo:10}}
       .two.wide.column
