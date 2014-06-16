@@ -31,8 +31,3 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable]
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true
 
-<- $
-
-$ '.ui.dropdown' .dropdown duration: 100ms, onChange: (v, t) ->
-  console.log v, t
-  
