@@ -19,12 +19,15 @@ html(ng-app="app")
           a.item
             i.large.home.icon
           .item
-            | Title
+            .ui.breadcrumb
+              a.section poga
+              .divider /
+              .active.section Title
         #percentage
-          span.vote-color(style="width:60%; background-color: green") &nbsp;
-          span.vote-color(style="width:30%; background-color: yellow") &nbsp;
-          span.vote-color(style="width:4%; background-color: red") &nbsp;
-          span.vote-color(style="width:6%; background-color: grey") &nbsp;
+          span.vote-color(style="width:{{green}}%; background-color: rgb(161, 207, 100); opacity: 0.75") &nbsp;
+          span.vote-color(style="width:{{blue}}%; background-color: rgb(100, 207, 245); opacity: 0.75") &nbsp;
+          span.vote-color(style="width:{{red}}%; background-color: rgb(217, 92, 92); opacity: 0.75") &nbsp;
+          span.vote-color(style="width:{{grey}}%; background-color: grey") &nbsp;
         #project-desc
           p
             | Lorem ipsum dolor sit amet, donec porta et hendrerit aliquet integer
@@ -34,20 +37,50 @@ html(ng-app="app")
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'add()'}")
         #list(ui-sortable ng-model="list")
-          .ui.segment(ng-repeat="item in list | filter:search"
+          .ui.vertical.segment(ng-repeat="item in list | filter:search"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false")
-            .ui.right.corner.label
-              i.empty.checkbox.icon
             .ui.grid.middle.aligned
               .row.equal.height
-                .one.wide.column
-                  i.ellipsis.vertical.icon(ng-class="{disabled: !hover}")
-                .fifteen.wide.column
+                .two.wide.column.center.aligned.status-col
+                  i.small.icon(ng-class="{disabled: !hover && item.status != 'green',\
+                    green: item.status == 'green',\
+                    'empty': item.status != 'green',\
+                    'checkbox': item.status != 'green',\
+                    sign: item.status == 'green'}"
+                    ng-click="setStatus(item, 'green')")
+                  i.small.icon(ng-class="{disabled: !hover && item.status != 'blue',\
+                    blue: item.status == 'blue',\
+                    'empty': item.status != 'blue',\
+                    'checkbox': item.status != 'blue',\
+                    sign: item.status == 'blue'}"
+                    ng-click="setStatus(item, 'blue')")
+                  i.small.icon(ng-class="{disabled: !hover && item.status != 'red',\
+                    red: item.status == 'red',\
+                    'empty': item.status != 'red',\
+                    'checkbox': item.status != 'red',\
+                    sign: item.status == 'red'}"
+                    ng-click="setStatus(item, 'red')")
+                .input-col.eleven.wide.column
                   .ui.fluid.input
                     input(type="text" ng-model="item.title")
+                .one.wide.column.left
+                  i.remove.icon(ng-class="{disabled: !hover}" ng-click="removeItem(item)")
+                .drag-col.one.wide.column.center.aligned
+                  i.ellipsis.vertical.icon(ng-class="{disabled: !hover}")
       #side.two.wide.column
         .ui.fluid.icon.input
           i.search.icon
           input(type="text" placeholder="search" ng-model="search")
+        .ui.basic.segment
+          h5.ui.header Sort
+          .ui.small.link.animated.list
+            a.active.item by Date
+            a.item by Status
+            a.item by Category
+          .ui.divider
+          h5.ui.header View
+          .ui.small.link.animated.list
+            a.active.item Myself
+            a.item World
       .two.wide.column

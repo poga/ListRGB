@@ -15,13 +15,12 @@ body
   padding: 0
   min-height: 1000px
   #header-menu
+    .ui.breadcrumb
+      .divider
+        color: #eeeeee
+        padding: 0 10px
     border-radius: 0
     margin-bottom: 0
-    input
-      background-color: transparent
-      border-color: #555555
-      color: white
-      font-size: 15px
     i
       color: white
   #project-desc
@@ -31,8 +30,8 @@ body
       color: #333333
       margin: 0
   #new-item-input
-    margin: 0 30px
-    margin-bottom: 50px
+    margin: 0 35px
+    margin-bottom: 30px
     input
       border: none
       border-radius: 0
@@ -43,15 +42,25 @@ body
       display: inline-block
   #list
     margin: 0px 30px
-    .column
-      .ellipsis.vertical.icon
-        font-size: 20px
-        cursor: move
-      margin: 0
-    .yellow.corner
-      border-color: yellow
-    input
-      border: none
+    .segment
+      .status-col
+        padding-right: 0
+        i
+          cursor: pointer
+      .drag-col
+        padding-right: 0
+      .input-col
+        padding-left: 0
+      .column
+        .ellipsis.vertical.icon
+          font-size: 20px
+          cursor: move
+        margin: 0
+      .yellow.corner
+        border-color: yellow
+      input
+        border: none
+        background-color: transparent
 
 #side
   margin-top: 35px
