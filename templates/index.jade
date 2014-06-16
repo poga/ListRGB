@@ -43,19 +43,19 @@ html(ng-app="app")
             .ui.grid.middle.aligned
               .row.equal.height
                 .two.wide.column.center.aligned.status-col
-                  i.small.icon(ng-class="{disabled: !hover && item.status != 'green',\
+                  i.icon(ng-class="{disabled: !hover && item.status != 'green',\
                     green: item.status == 'green',\
                     'empty': item.status != 'green',\
                     'checkbox': item.status != 'green',\
                     sign: item.status == 'green'}"
                     ng-click="setStatus(item, 'green')")
-                  i.small.icon(ng-class="{disabled: !hover && item.status != 'blue',\
+                  i.icon(ng-class="{disabled: !hover && item.status != 'blue',\
                     blue: item.status == 'blue',\
                     'empty': item.status != 'blue',\
                     'checkbox': item.status != 'blue',\
                     sign: item.status == 'blue'}"
                     ng-click="setStatus(item, 'blue')")
-                  i.small.icon(ng-class="{disabled: !hover && item.status != 'red',\
+                  i.icon(ng-class="{disabled: !hover && item.status != 'red',\
                     red: item.status == 'red',\
                     'empty': item.status != 'red',\
                     'checkbox': item.status != 'red',\
@@ -64,9 +64,9 @@ html(ng-app="app")
                 .input-col.eleven.wide.column
                   .ui.fluid.input
                     input(type="text" ng-model="item.title")
-                .one.wide.column.left
+                .one.wide.column.right.aligned
                   i.remove.icon(ng-class="{disabled: !hover}" ng-click="removeItem(item)")
-                .drag-col.one.wide.column.center.aligned
+                .drag-col.one.wide.column.left.aligned
                   i.ellipsis.vertical.icon(ng-class="{disabled: !hover}")
       #side.two.wide.column
         .ui.fluid.icon.input
