@@ -53,14 +53,14 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
 
   $scope.get-percent = (list, status) ->
     return 0 if list.length == 0
-    list.filter((x) -> x.status == status).length / list.length * 100
+    list.filter((x) -> x.status == status).length * 100.0 / list.length
 
   do
     newList <- $scope.$watch 'list', _ , true
-    $scope.green = $scope.get-percent newList, \red
+    $scope.green = $scope.get-percent newList, \green
     $scope.blue = $scope.get-percent newList, \blue
     $scope.red = $scope.get-percent newList, \red
-    $scope.grey = $scope.get-percent newList, \none
+    $scope.grey = 100 - $scope.green - $scope.blue - $scope.red
 
   console.log $location.path!
 
