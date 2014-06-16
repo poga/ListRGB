@@ -9,6 +9,7 @@ html(ng-app="app")
     script(src="/bower_components/angular-cookies/angular-cookies.js")
     script(src="/bower_components/angularLocalStorage/src/angularLocalStorage.js")
     script(src="/bower_components/angular-ui-sortable/sortable.js")
+    script(src="/bower_components/angular-elastic/elastic.js")
     script(src="/lib/index.js")
     link(rel="stylesheet" href="/css/index.css")
   body(ng-controller="AppCtrl")
@@ -60,7 +61,7 @@ html(ng-app="app")
                     ng-click="setStatus(item, 'red')")
                 .input-col.eleven.wide.column
                   .ui.fluid.input
-                    input(type="text" ng-model="item.title")
+                    textarea(ng-model="item.title" msd-elastic)
                 .one.wide.column.right.aligned
                   i.remove.icon(ng-class="{disabled: !hover}" ng-click="removeItem(item)")
                 .drag-col.one.wide.column.left.aligned
@@ -70,14 +71,14 @@ html(ng-app="app")
           i.search.icon
           input(type="text" placeholder="search" ng-model="search")
         .ui.basic.segment
+          h5.ui.header View
+          .ui.small.link.list
+            a.active.item Myself
+            a.item World
+          .ui.divider
           h5.ui.header Group By
           .ui.small.link.list
             a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
             a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") Status
             a.item Category
-          .ui.divider
-          h5.ui.header View
-          .ui.small.link.list
-            a.active.item Myself
-            a.item World
       .two.wide.column

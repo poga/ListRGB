@@ -1,4 +1,4 @@
-angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable]>
+angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic]>
 .controller AppCtrl: <[$scope storage $location]> ++ ($scope, storage, $location) ->
   storage.bind $scope, \list, defaultValue: []
   $scope.green = 0
