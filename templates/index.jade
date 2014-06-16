@@ -44,7 +44,9 @@ html(ng-app="app")
             .ui.grid.middle.aligned
               .row.equal.height
                 .drag-col.one.wide.column.right.aligned
-                  i.ellipsis.vertical.icon(ng-class="{disabled: !hover}" ng-style="drag")
+                  i.icon(ng-class="{disabled: !hover,\
+                    'angle right': !item.h,\
+                    'angle down': item.h}" ng-style="drag")
                 .two.wide.column.center.aligned.status-col
                   i.icon(ng-class="{disabled: !hover && item.status != 'green',\
                     green: item.status == 'green',\
