@@ -25,9 +25,9 @@ html(ng-app="app")
               .divider /
               .active.section Title
         #percentage
-          span.vote-color(style="width:{{green}}%; background-color: rgb(161, 207, 100); opacity: 0.75") &nbsp;
-          span.vote-color(style="width:{{blue}}%; background-color: rgb(100, 207, 245); opacity: 0.75") &nbsp;
-          span.vote-color(style="width:{{red}}%; background-color: rgb(217, 92, 92); opacity: 0.75") &nbsp;
+          span.vote-color(style="width:{{green}}%; background-color: green; opacity: 0.75") &nbsp;
+          span.vote-color(style="width:{{blue}}%; background-color: blue; opacity: 0.75") &nbsp;
+          span.vote-color(style="width:{{red}}%; background-color: red; opacity: 0.75") &nbsp;
           span.vote-color(style="width:{{grey}}%; background-color: grey") &nbsp;
         #project-desc
           p
@@ -44,9 +44,9 @@ html(ng-app="app")
             .ui.grid.middle.aligned
               .row.equal.height
                 .drag-col.one.wide.column.right.aligned
-                  i.icon(ng-class="{disabled: !hover,\
-                    'angle right': !item.h,\
-                    'angle down': item.h}" ng-style="drag")
+                  i.ellipsis.vertical.icon(ng-show="hover")
+                  i.angle.right.icon(ng-class="{disabled: !item.h,\
+                    'clockwise rotated': item.h}" ng-style="drag")
                 .two.wide.column.center.aligned.status-col
                   i.icon(ng-class="{disabled: !hover && item.status != 'green',\
                     green: item.status == 'green',\
@@ -63,13 +63,13 @@ html(ng-app="app")
                     'empty checkbox': item.status != 'red',\
                     sign: item.status == 'red'}"
                     ng-click="setStatus(item, 'red')")
-                .input-col.eleven.wide.column
+                .input-col.twelve.wide.column
                   .ui.fluid.input
                     textarea(ng-model="item.title" msd-elastic
                       ng-class="{1: 'h1', 2: 'h2', 3: 'h3'}[item.h]"
                       )
                 .one.wide.column.right.aligned
-                  i.remove.icon(ng-class="{disabled: !hover}" ng-click="removeItem(item)")
+                  i.remove.icon(ng-show="hover" ng-click="removeItem(item)")
       #side.two.wide.column
         .ui.fluid.icon.input
           i.search.icon
