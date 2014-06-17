@@ -47,24 +47,36 @@ html(ng-app="app")
             ng-class-even="'even'")
             .ui.grid.middle.aligned
               .row.equal.height
-                .drag-col.status-col.two.wide.column.right.aligned
-                  i.ellipsis.vertical.icon(ng-class="{'vis-hide': !hover}")
-                  i.icon(ng-class="{disabled: !hover && item.status != 'green',\
+                .icon-col.one.wide.column
+                  i.ellipsis.vertical.drag-icon.icon(ng-class="{'vis-hide': !hover}")
+                .icon-col.one.wide.column
+                  i.large.status-icon.icon(ng-class="{disabled: !hover1 && item.status != 'green',\
                     green: item.status == 'green',\
                     'empty checkbox': item.status != 'green',\
                     sign: item.status == 'green'}"
+                    ng-mouseenter="hover1=true"
+                    ng-mouseleave="hover1=false"
+                    ng-init="hover1=false"
                     ng-click="setStatus(item, 'green')")
-                  i.icon(ng-class="{disabled: !hover && item.status != 'blue',\
+                .icon-col.one.wide.column
+                  i.large.status-icon.icon(ng-class="{disabled: !hover2 && item.status != 'blue',\
                     blue: item.status == 'blue',\
                     'empty checkbox': item.status != 'blue',\
                     sign: item.status == 'blue'}"
+                    ng-mouseenter="hover2=true"
+                    ng-mouseleave="hover2=false"
+                    ng-init="hover2=false"
                     ng-click="setStatus(item, 'blue')")
-                  i.icon(ng-class="{disabled: !hover && item.status != 'red',\
+                .icon-col.one.wide.column
+                  i.large.status-icon.icon(ng-class="{disabled: !hover3 && item.status != 'red',\
                     red: item.status == 'red',\
                     'empty checkbox': item.status != 'red',\
                     sign: item.status == 'red'}"
+                    ng-mouseenter="hover3=true"
+                    ng-mouseleave="hover3=false"
+                    ng-init="hover3=false"
                     ng-click="setStatus(item, 'red')")
-                .input-col.twelve.wide.column
+                .input-col.drag-col.status-col.ten.wide.column
                   .ui.fluid.input
                     textarea(ng-model="item.title" msd-elastic)
                 .one.wide.column.right.aligned
