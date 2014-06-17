@@ -41,9 +41,10 @@ html(ng-app="app")
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'add()'}")
         #list(ui-sortable ng-model="list")
-          .ui.vertical.segment(ng-repeat="item in list | filter:search | orderBy:predicate"
+          .ui.segment(ng-repeat="item in list | filter:search | orderBy:predicate"
             ng-mouseenter="hover=true"
-            ng-mouseleave="hover=false")
+            ng-mouseleave="hover=false"
+            ng-class="{vertical: item.h, basic: !item.h}")
             .ui.grid.middle.aligned
               .row.equal.height
                 .drag-col.one.wide.column.right.aligned
