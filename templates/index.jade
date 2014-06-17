@@ -47,10 +47,8 @@ html(ng-app="app")
             ng-class-even="'even'")
             .ui.grid.middle.aligned
               .row.equal.height
-                .drag-col.one.wide.column.right.aligned
-                  i.ellipsis.vertical.icon(ng-show="hover")
-                  i.angle.right.icon.disabled(ng-style="drag")
-                .two.wide.column.center.aligned.status-col
+                .drag-col.status-col.two.wide.column.right.aligned
+                  i.ellipsis.vertical.icon(ng-class="{'vis-hide': !hover}")
                   i.icon(ng-class="{disabled: !hover && item.status != 'green',\
                     green: item.status == 'green',\
                     'empty checkbox': item.status != 'green',\
