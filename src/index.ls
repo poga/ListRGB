@@ -1,5 +1,5 @@
 angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic]>
-.controller AppCtrl: <[$scope storage $location]> ++ ($scope, storage, $location) ->
+.controller AppCtrl: <[$scope storage $location $window]> ++ ($scope, storage, $location, $window) ->
   storage.bind $scope, \list, defaultValue: []
   $scope.green = 0
   $scope.blue = 0
@@ -34,7 +34,8 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       $scope.list[$scope.list.indexOf(item)] = item <<< status: status
 
   $scope.remove-item = (item) ->
-    $scope.list.splice $scope.list.indexOf(item), 1
+    remove = $window.confirm("Remove Item: #{item.title} ?")
+    $scope.list.splice $scope.list.indexOf(item), 1 if remove
 
   $scope.sort-by = (sorter) ->
     $scope.sorter = sorter
