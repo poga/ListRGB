@@ -41,16 +41,15 @@ html(ng-app="app")
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'add()'}")
         #list(ui-sortable ng-model="list")
-          .ui.segment(ng-repeat="item in list | filter:search | orderBy:predicate"
+          .ui.basic.segment(ng-repeat="item in list | filter:search | orderBy:predicate"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
-            ng-class="{vertical: item.h, basic: !item.h}")
+            ng-class-even="'even'")
             .ui.grid.middle.aligned
               .row.equal.height
                 .drag-col.one.wide.column.right.aligned
                   i.ellipsis.vertical.icon(ng-show="hover")
-                  i.angle.right.icon(ng-class="{disabled: !item.h,\
-                    'clockwise rotated': item.h}" ng-style="drag")
+                  i.angle.right.icon.disabled(ng-style="drag")
                 .two.wide.column.center.aligned.status-col
                   i.icon(ng-class="{disabled: !hover && item.status != 'green',\
                     green: item.status == 'green',\
@@ -69,9 +68,7 @@ html(ng-app="app")
                     ng-click="setStatus(item, 'red')")
                 .input-col.twelve.wide.column
                   .ui.fluid.input
-                    textarea(ng-model="item.title" msd-elastic
-                      ng-class="{1: 'h1', 2: 'h2', 3: 'h3'}[item.h]"
-                      )
+                    textarea(ng-model="item.title" msd-elastic)
                 .one.wide.column.right.aligned
                   i.remove.icon(ng-show="hover" ng-click="removeItem(item)")
       #side.two.wide.column
@@ -89,6 +86,7 @@ html(ng-app="app")
             a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
             a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") Status
           .ui.divider
+          h5.ui.header Tag
           .ui.link.list
             a.heading.item(ng-repeat="h in headings") {{h.title | limitTo:10}}
       .two.wide.column

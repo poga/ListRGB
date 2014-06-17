@@ -11,18 +11,6 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
 
   $scope.headings = []
 
-  $scope.parse-heading = (list) ->
-    $scope.headings = []
-    list.map (x) ->
-      if x.title == /^(#+)\s/
-        $scope.headings.push title: x.title.replace(/^(#+)\s/, ''), h: (x.title == /^(#+)\s/).1.length
-        x <<< h: (x.title == /^(#+)\s/).1.length
-      else
-        delete x.h
-        x
-
-  $scope.$watch 'list', $scope.parse-heading, true
-
   $scope.add = ->
     $scope.list.unshift title: $scope.newItem, status: \none, createdAt: Date.now!
     $scope.newItem = ""
