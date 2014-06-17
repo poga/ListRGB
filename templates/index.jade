@@ -49,33 +49,15 @@ html(ng-app="app")
               .row.equal.height
                 .icon-col.one.wide.column
                   i.ellipsis.vertical.drag-icon.icon(ng-class="{'vis-hide': !hover}")
-                .icon-col.one.wide.column
-                  i.large.status-icon.icon(ng-class="{disabled: !hover1 && item.status != 'green',\
-                    green: item.status == 'green',\
-                    'empty checkbox': item.status != 'green',\
-                    sign: item.status == 'green'}"
-                    ng-mouseenter="hover1=true"
-                    ng-mouseleave="hover1=false"
-                    ng-init="hover1=false"
-                    ng-click="setStatus(item, 'green')")
-                .icon-col.one.wide.column
-                  i.large.status-icon.icon(ng-class="{disabled: !hover2 && item.status != 'blue',\
-                    blue: item.status == 'blue',\
-                    'empty checkbox': item.status != 'blue',\
-                    sign: item.status == 'blue'}"
-                    ng-mouseenter="hover2=true"
-                    ng-mouseleave="hover2=false"
-                    ng-init="hover2=false"
-                    ng-click="setStatus(item, 'blue')")
-                .icon-col.one.wide.column
-                  i.large.status-icon.icon(ng-class="{disabled: !hover3 && item.status != 'red',\
-                    red: item.status == 'red',\
-                    'empty checkbox': item.status != 'red',\
-                    sign: item.status == 'red'}"
-                    ng-mouseenter="hover3=true"
-                    ng-mouseleave="hover3=false"
-                    ng-init="hover3=false"
-                    ng-click="setStatus(item, 'red')")
+                .icon-col.one.wide.column(ng-repeat="st in statuses")
+                  i.large.status-icon.icon(ng-class="{disabled: !hover && item.status != st,\
+                    green: item.status == st,\
+                    'empty checkbox': item.status != st,\
+                    sign: item.status == st}"
+                    ng-mouseenter="hover=true"
+                    ng-mouseleave="hover=false"
+                    ng-init="hover=false"
+                    ng-click="setStatus(item, st)")
                 .input-col.drag-col.status-col.ten.wide.column
                   .ui.fluid.input
                     textarea(ng-model="item.title" msd-elastic)
@@ -88,13 +70,14 @@ html(ng-app="app")
         .ui.basic.segment
           h5.ui.header View
           .ui.small.link.list
-            a.active.item Myself
-            a.item World
+            a.active.item Mine
+            a.item Everyone
           .ui.divider
           h5.ui.header Group By
           .ui.small.link.list
             a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
             a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") Status
+            a.item(ng-click="sortBy('category')" ng-class="{active: sorter == 'category'}") Category
           .ui.divider
           h5.ui.header Tag
           .ui.link.list

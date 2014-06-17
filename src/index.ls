@@ -1,6 +1,7 @@
 angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic]>
 .controller AppCtrl: <[$scope storage $location $window]> ++ ($scope, storage, $location, $window) ->
   storage.bind $scope, \list, defaultValue: []
+  $scope.statuses = <[green blue red]>
   $scope.green = 0
   $scope.blue = 0
   $scope.red = 0
