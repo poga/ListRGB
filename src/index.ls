@@ -41,12 +41,15 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     $scope.sorter = sorter
     switch sorter
     case 'status'
-      $scope.predicate = (x) ->
-        switch x.status
-        | \none => 0
-        | \green => 1
-        | \blue => 2
-        | \red => 3
+      $scope.predicate = []
+        ..push (x) ->
+          switch x.status
+          | \none => 0
+          | \green => 1
+          | \blue => 2
+          | \red => 3
+        ..push (x) ->
+          $scope.list.indexOf(x)
       $scope.drag = {'display': 'none'}
     case 'none'
       $scope.predicate = (x) -> $scope.list.indexOf(x)
