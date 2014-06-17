@@ -28,10 +28,10 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     $scope.newItem = ""
 
   $scope.set-status = (item, status) ->
-    if item.status == status
-      $scope.list[$scope.list.indexOf(item)] = item <<< status: \none
+    $scope.list[$scope.list.indexOf(item)] = if item.status == status
+      item <<< status: \none
     else
-      $scope.list[$scope.list.indexOf(item)] = item <<< status: status
+      item <<< status: status
 
   $scope.remove-item = (item) ->
     remove = $window.confirm("Remove Item: #{item.title} ?")
