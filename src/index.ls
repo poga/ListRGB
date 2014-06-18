@@ -1,6 +1,11 @@
+setup-dropdown = ->
+  $('.ui.dropdown').dropdown onChange: (v, t) ->
+    angular.element($('body')).scope!setCategory(v, $(@).data('item-uuid'))
+
 angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic]>
 .controller AppCtrl: <[$scope storage $location $window]> ++ ($scope, storage, $location, $window) ->
   storage.bind $scope, \list, defaultValue: []
+  storage.bind $scope, \categories, defaultValue: []
 
   $scope <<< do
     statuses: <[green blue red]>
@@ -8,7 +13,6 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     blue: 0
     red: 0
     grey: 0
-    categories: []
 
     predicate: (x) -> $scope.list.indexOf(x)
     sorter: "none"
@@ -28,7 +32,13 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       $('.ui.dropdown').dropdown('destroy')
       $scope.categories.push $scope.newCategory
       $scope.newCategory = ""
-      setTimeout (-> $('.ui.dropdown').dropdown!), 1ms
+      setTimeout setup-dropdown, 1ms
+
+    set-category: (c, uuid) ->
+      for x in $scope.list
+        if x.uuid == uuid
+          x.c = c
+          return
 
     set-status: (item, status) ->
       $scope.list[$scope.list.indexOf(item)] = if item.status == status
@@ -77,4 +87,4 @@ angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true
 
 <- $
-$('.ui.dropdown').dropdown onChange: (v, t) -> console.log(v,t)
+setup-dropdown!

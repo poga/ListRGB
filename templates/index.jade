@@ -64,10 +64,10 @@ html(ng-app="app")
                   .ui.fluid.input
                     textarea(ng-model="item.title" msd-elastic)
                 .category-col.three.wide.column.right.aligned
-                  .ui.dropdown
-                    .text -
+                  .ui.dropdown(data-item-uuid="{{item.uuid}}")
+                    .text {{item.c}}
                     i.dropdown.icon.disabled
-                    .menu(ng-cloak)
+                    .menu
                       .item(ng-repeat="c in categories" data-text="{{c}}" data-value="{{c}}") {{c}}
                 .icon-col.one.wide.column.right.aligned
                   i.remove.icon(ng-class="{'vis-hide': !hover}" ng-click="removeItem(item)")
