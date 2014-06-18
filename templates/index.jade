@@ -59,11 +59,19 @@ html(ng-app="app")
                     ng-mouseleave="hover=false"
                     ng-init="hover=false"
                     ng-click="setStatus(item, st)")
-                .input-col.drag-col.status-col.ten.wide.column
+                .input-col.drag-col.status-col.nine.wide.column
                   .ui.fluid.input
                     textarea(ng-model="item.title" msd-elastic)
-                .one.wide.column.right.aligned
-                  i.remove.icon(ng-show="hover" ng-click="removeItem(item)")
+                .category-col.three.wide.column.right.aligned
+                  .ui.dropdown
+                    .text
+                    i.dropdown.icon.disabled
+                    .menu
+                      .item C1
+                      .item asdjkla
+                      .item asdas22222
+                .icon-col.one.wide.column.right.aligned
+                  i.remove.icon(ng-class="{'vis-hide': !hover}" ng-click="removeItem(item)")
       #side.two.wide.column
         .ui.fluid.icon.input
           i.search.icon
@@ -80,7 +88,11 @@ html(ng-app="app")
             a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") Status
             a.item(ng-click="sortBy('category')" ng-class="{active: sorter == 'category'}") Category
           .ui.divider
-          h5.ui.header Tag
+          h5.ui.header Categories
+          .ui.link.list
+            a.heading.item(ng-repeat="c in categories") {{c | limitTo:10}}
+          .ui.divider
+          h5.ui.header Tags
           .ui.link.list
             a.heading.item(ng-repeat="t in tags") {{t | limitTo:10}}
       .two.wide.column

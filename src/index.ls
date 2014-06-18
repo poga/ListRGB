@@ -8,6 +8,7 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     blue: 0
     red: 0
     grey: 0
+    categories: []
 
     predicate: (x) -> $scope.list.indexOf(x)
     sorter: "none"
@@ -69,3 +70,5 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true
 
+<- $
+$('.ui.dropdown').dropdown onChange: (v, t) -> console.log(v,t)
