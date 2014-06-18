@@ -22,7 +22,8 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       regex = /\s#(\S+)\s*?/g
       for x, i in list
         if x.title.match regex
-          $scope.tags ++= x.title.match regex
+          for tag in x.title.match(regex)
+            $scope.tags.push tag unless $scope.tags.indexOf(tag) != -1
 
     add-item: ->
       $scope.list.unshift title: $scope.newItem, status: \none, createdAt: Date.now!, uuid: uuid.v1!
