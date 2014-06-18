@@ -11,6 +11,7 @@ html(ng-app="app")
     script(src="/bower_components/angularLocalStorage/src/angularLocalStorage.js")
     script(src="/bower_components/angular-ui-sortable/sortable.js")
     script(src="/bower_components/angular-elastic/elastic.js")
+    script(src="/bower_components/node-uuid/uuid.js")
     script(src="/lib/index.js")
     link(rel="stylesheet" href="/css/index.css")
   body(ng-controller="AppCtrl")
@@ -40,9 +41,9 @@ html(ng-app="app")
           i.add.icon
           input(type="text"
             placeholder="add to list"
-            ng-model="newItem" ui-keypress="{'enter': 'add()'}")
+            ng-model="newItem" ui-keypress="{'enter': 'addItem()'}")
         #list(ui-sortable ng-model="list")
-          .ui.basic.segment(ng-repeat="item in list | filter:search | orderBy:predicate"
+          .ui.basic.segment(ng-repeat="item in list track by item.uuid | filter:search | orderBy:predicate"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
             ng-class-even="'even'")
@@ -67,9 +68,7 @@ html(ng-app="app")
                     .text
                     i.dropdown.icon.disabled
                     .menu
-                      .item C1
-                      .item asdjkla
-                      .item asdas22222
+                      .item(ng-repeat="c in Categories") {{c}}
                 .icon-col.one.wide.column.right.aligned
                   i.remove.icon(ng-class="{'vis-hide': !hover}" ng-click="removeItem(item)")
       #side.two.wide.column
@@ -91,6 +90,9 @@ html(ng-app="app")
           h5.ui.header Categories
           .ui.link.list
             a.heading.item(ng-repeat="c in categories") {{c | limitTo:10}}
+          .ui.icon.input.mini
+            i.plus.icon
+            input(type="text" ng-model="newCategory" ui-keypress="{'enter': 'addCategory()'}")
           .ui.divider
           h5.ui.header Tags
           .ui.link.list

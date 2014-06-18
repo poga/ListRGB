@@ -20,9 +20,13 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
         if x.title.match regex
           $scope.tags ++= x.title.match regex
 
-    add: ->
-      $scope.list.unshift title: $scope.newItem, status: \none, createdAt: Date.now!
+    add-item: ->
+      $scope.list.unshift title: $scope.newItem, status: \none, createdAt: Date.now!, uuid: uuid.v1!
       $scope.newItem = ""
+
+    add-category: ->
+      $scope.categories.push $scope.newCategory
+      $scope.newCategory = ""
 
     set-status: (item, status) ->
       $scope.list[$scope.list.indexOf(item)] = if item.status == status
