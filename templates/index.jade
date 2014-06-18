@@ -43,7 +43,7 @@ html(ng-app="app")
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'addItem()'}")
         #list(ui-sortable ng-model="list")
-          .ui.basic.segment(ng-repeat="item in list track by item.uuid | filter:search | orderBy:predicate"
+          .ui.basic.segment(ng-repeat="item in list | filter:search | orderBy:predicate track by item.uuid"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
             ng-class-even="'even'")
