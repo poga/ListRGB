@@ -51,7 +51,7 @@ html(ng-app="app")
                   i.ellipsis.vertical.drag-icon.icon(ng-class="{'vis-hide': !hover}")
                 .icon-col.one.wide.column(ng-repeat="st in statuses")
                   i.large.status-icon.icon(ng-class="{disabled: !hover && item.status != st,\
-                    green: item.status == st,\
+                    '{{st}}': item.status == st,\
                     'empty checkbox': item.status != st,\
                     sign: item.status == st}"
                     ng-mouseenter="hover=true"
