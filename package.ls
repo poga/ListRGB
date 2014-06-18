@@ -1,7 +1,7 @@
 #!/usr/bin/env lsc -cj
 author: 'Poga Po'
-name: 'sopy'
-description: 'collaborative list maker'
+name: 'ListRGB'
+description: 'List with Color'
 version: '0.0.1'
 scripts:
   dev: "gulp --require LiveScript"

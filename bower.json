@@ -1,10 +1,10 @@
 {
-  "name": "sopy",
+  "name": "ListRGB",
   "version": "0.0.1",
   "authors": [
-    "Poga Po <poga.bahamut@gmail.com>"
+    "Poga Po <poga.po@gmail.com>"
   ],
-  "description": "collaborative list maker",
+  "description": "List with Color",
   "main": "public/index.html",
   "license": "MIT",
   "private": true,
