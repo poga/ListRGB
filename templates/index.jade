@@ -81,5 +81,5 @@ html(ng-app="app")
           .ui.divider
           h5.ui.header Tag
           .ui.link.list
-            a.heading.item(ng-repeat="h in headings") {{h.title | limitTo:10}}
+            a.heading.item(ng-repeat="t in tags") {{t | limitTo:10}}
       .two.wide.column

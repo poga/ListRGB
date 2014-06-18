@@ -10,7 +10,14 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
   $scope.predicate = (x) -> $scope.list.indexOf(x)
   $scope.sorter = "none"
 
-  $scope.headings = []
+  $scope.parse-tags = (list) ->
+    $scope.tags = []
+    regex = /\s#(\S+)\s*?/g
+    for x, i in list
+      if x.title.match regex
+        $scope.tags ++= x.title.match regex
+
+  $scope.$watch 'list', $scope.parse-tags, true
 
   $scope.add = ->
     $scope.list.unshift title: $scope.newItem, status: \none, createdAt: Date.now!
