@@ -24,9 +24,11 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       $scope.list.unshift title: $scope.newItem, status: \none, createdAt: Date.now!, uuid: uuid.v1!
       $scope.newItem = ""
 
-    add-category: ->
+    add-category: !->
+      $('.ui.dropdown').dropdown('destroy')
       $scope.categories.push $scope.newCategory
       $scope.newCategory = ""
+      setTimeout (-> $('.ui.dropdown').dropdown!), 1ms
 
     set-status: (item, status) ->
       $scope.list[$scope.list.indexOf(item)] = if item.status == status
