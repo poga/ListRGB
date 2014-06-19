@@ -47,6 +47,12 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       else
         item <<< status: status
 
+    set-search: (str) -> 
+      $scope.search = str
+
+    set-search-category: (c) ->
+      $scope.search = {c: c}
+
     remove-item: (item) ->
       remove = $window.confirm("Remove Item: #{item.title} ?")
       $scope.list.splice $scope.list.indexOf(item), 1 if remove
@@ -65,6 +71,10 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
           ..push (x) ->
             $scope.list.indexOf(x)
         $scope.drag = {'display': 'none'}
+      case 'category'
+        $scope.predicate = []
+          ..push (x) ->
+            $scope.categories.indexOf x.c
       case 'none'
         $scope.predicate = (x) -> $scope.list.indexOf(x)
         $scope.drag = {'display': 'inline-block'}

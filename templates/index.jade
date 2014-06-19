@@ -90,12 +90,12 @@ html(ng-app="app")
           .ui.divider
           h5.ui.header Categories
           .ui.link.list
-            a.item.category-item(ng-repeat="c in categories") {{c | characters:10}}
+            a.item.category-item(ng-repeat="c in categories" ng-click="setSearchCategory(c)") {{c | characters:10}}
           .ui.icon.input.mini
             i.plus.icon
             input(type="text" ng-model="newCategory" ui-keypress="{'enter': 'addCategory()'}")
           .ui.divider
           h5.ui.header Tags
           .ui.link.list
-            a.item(ng-repeat="t in tags") {{t | characters:10}}
+            a.item(ng-repeat="t in tags" ng-click="setSearch(t)") {{t | characters:10}}
       .two.wide.column
