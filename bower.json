@@ -24,7 +24,8 @@
     "angular-ui-sortable": "~0.12.6",
     "jquery-ui": "~1.10.4",
     "angular-elastic": "~2.3.4",
-    "node-uuid": "~1.4.1"
+    "node-uuid": "~1.4.1",
+    "angular-truncate": "*"
   },
   "resolutions": {
     "angular": "1.2.18"

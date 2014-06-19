@@ -2,7 +2,7 @@ setup-dropdown = ->
   $('.ui.dropdown').dropdown onChange: (v, t) ->
     angular.element($('body')).scope!setCategory(v, $(@).data('item-uuid'))
 
-angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic]>
+angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic truncate]>
 .controller AppCtrl: <[$scope storage $location $window]> ++ ($scope, storage, $location, $window) ->
   storage.bind $scope, \list, defaultValue: []
   storage.bind $scope, \categories, defaultValue: []
