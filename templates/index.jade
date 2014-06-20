@@ -38,7 +38,8 @@ html(ng-app="app")
           span.vote-color(style="width:{{red}}%; background-color: red; opacity: 0.75") &nbsp;
           span.vote-color(style="width:{{grey}}%; background-color: grey") &nbsp;
         #project-desc
-          p {{desc}}
+          .ui.fluid.input
+            textarea(ng-model="desc" msd-elastic)
         #new-item-input.ui.fluid.left.icon.focus.input
           i.add.icon
           input(type="text"
