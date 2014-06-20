@@ -64,12 +64,6 @@ html(ng-app="app")
                 .input-col.drag-col.status-col.nine.wide.column
                   .ui.fluid.input
                     textarea(ng-model="item.title" msd-elastic)
-                .category-col.three.wide.column.right.aligned
-                  .ui.dropdown(data-item-uuid="{{item.uuid}}")
-                    .text {{item.c}}
-                    i.dropdown.icon.disabled
-                    .menu
-                      .item(ng-repeat="c in categories" data-text="{{c}}" data-value="{{c}}") {{c}}
                 .icon-col.one.wide.column.right.aligned
                   i.remove.icon(ng-class="{'vis-hide': !hover}" ng-click="removeItem(item)")
       #side.two.wide.column
@@ -87,13 +81,6 @@ html(ng-app="app")
             a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
             a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") Status
             a.item(ng-click="sortBy('category')" ng-class="{active: sorter == 'category'}") Category
-          .ui.divider
-          h5.ui.header Categories
-          .ui.link.list
-            a.item.category-item(ng-repeat="c in categories" ng-click="setSearchCategory(c)") {{c | characters:10}}
-          .ui.icon.input.mini
-            i.plus.icon
-            input(type="text" ng-model="newCategory" ui-keypress="{'enter': 'addCategory()'}")
           .ui.divider
           h5.ui.header Tags
           .ui.link.list

@@ -1,7 +1,3 @@
-setup-dropdown = ->
-  $('.ui.dropdown').dropdown onChange: (v, t) ->
-    angular.element($('body')).scope!setCategory(v, $(@).data('item-uuid'))
-
 angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic truncate]>
 .controller AppCtrl: <[$scope storage $location $window]> ++ ($scope, storage, $location, $window) ->
   storage.bind $scope, \list, defaultValue: []
@@ -29,18 +25,6 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       $scope.list.unshift title: $scope.newItem, status: \none, createdAt: Date.now!, uuid: uuid.v1!
       $scope.newItem = ""
 
-    add-category: !->
-      $('.ui.dropdown').dropdown('destroy')
-      $scope.categories.push $scope.newCategory
-      $scope.newCategory = ""
-      setTimeout setup-dropdown, 1ms
-
-    set-category: (c, uuid) ->
-      for x in $scope.list
-        if x.uuid == uuid
-          x.c = c
-          return
-
     set-status: (item, status) ->
       $scope.list[$scope.list.indexOf(item)] = if item.status == status
         item <<< status: \none
@@ -49,9 +33,6 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
 
     set-search: (str) -> 
       $scope.search = str
-
-    set-search-category: (c) ->
-      $scope.search = {c: c}
 
     remove-item: (item) ->
       remove = $window.confirm("Remove Item: #{item.title} ?")
@@ -71,10 +52,6 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
           ..push (x) ->
             $scope.list.indexOf(x)
         $scope.drag = {'display': 'none'}
-      case 'category'
-        $scope.predicate = []
-          ..push (x) ->
-            $scope.categories.indexOf x.c
       case 'none'
         $scope.predicate = (x) -> $scope.list.indexOf(x)
         $scope.drag = {'display': 'inline-block'}
@@ -97,5 +74,3 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true
 
-<- $
-setup-dropdown!
