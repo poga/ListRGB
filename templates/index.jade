@@ -43,7 +43,7 @@ html(ng-app="app")
           input(type="text"
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'addItem()'}")
-        #list(ui-sortable ng-model="list")
+        #list(ui-sortable="sortableOptions" ng-model="list")
           .ui.basic.segment(ng-repeat="item in list | filter:search | orderBy:predicate track by item.uuid"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
@@ -51,7 +51,7 @@ html(ng-app="app")
             .ui.grid.middle.aligned
               .row.equal.height
                 .icon-col.one.wide.column
-                  i.ellipsis.vertical.drag-icon.icon(ng-class="{'vis-hide': !hover}")
+                  i.ellipsis.vertical.drag-icon.icon(ng-class="{'vis-hide': !hover || sortableOptions.disabled}")
                 .icon-col.one.wide.column(ng-repeat="st in statuses")
                   i.large.status-icon.icon(ng-class="{disabled: !hover && item.status != st,\
                     '{{st}}': item.status == st,\

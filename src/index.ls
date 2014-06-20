@@ -52,9 +52,11 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
           ..push (x) ->
             $scope.list.indexOf(x)
         $scope.drag = {'display': 'none'}
+        $scope.sortable-options = disabled: true
       case 'none'
         $scope.predicate = (x) -> $scope.list.indexOf(x)
         $scope.drag = {'display': 'inline-block'}
+        $scope.sortable-options = disabled: false
 
     get-percent: (list, status) ->
       return 0 if list.length == 0
