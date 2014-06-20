@@ -65,7 +65,7 @@ html(ng-app="app")
                   .ui.fluid.input
                     textarea(ng-model="item.title" msd-elastic)
                 .icon-col.one.wide.column.right.aligned
-                  i.remove.icon(ng-class="{'vis-hide': !hover}" ng-click="removeItem(item)")
+                  i.trash.icon(ng-class="{'vis-hide': !hover}" ng-click="removeItem(item)")
       #side.two.wide.column
         .ui.fluid.icon.input
           i.search.icon
