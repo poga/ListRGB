@@ -1,7 +1,8 @@
 angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic truncate]>
 .controller AppCtrl: <[$scope storage $location $window]> ++ ($scope, storage, $location, $window) ->
   storage.bind $scope, \list, defaultValue: []
-  storage.bind $scope, \categories, defaultValue: []
+  storage.bind $scope, \desc, defaultValue: 'description here'
+  storage.bind $scope, \title, defaultValue: 'title here'
 
   $scope <<< do
     statuses: <[green blue red]>
@@ -9,8 +10,6 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     blue: 0
     red: 0
     grey: 0
-    title: 'test title'
-    desc: 'desc'
     user: 'poga'
 
     predicate: (x) -> $scope.list.indexOf(x)
