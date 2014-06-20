@@ -9,6 +9,9 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     blue: 0
     red: 0
     grey: 0
+    title: 'test title'
+    desc: 'desc'
+    user: 'poga'
 
     predicate: (x) -> $scope.list.indexOf(x)
     sorter: "none"

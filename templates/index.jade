@@ -22,11 +22,13 @@ html(ng-app="app")
         #header-menu.ui.inverted.menu
           a.item
             i.large.home.icon
-          .item
+          .item.breadcrumb-item
             .ui.breadcrumb
-              a.section poga
+              a.section {{user}}
               .divider /
-              .active.section Title
+          .item.menu-item-without-separator
+            .ui.input
+              input(type="text" ng-model="title")
           .right.menu
             .item
               i.large.setting.icon
@@ -36,8 +38,7 @@ html(ng-app="app")
           span.vote-color(style="width:{{red}}%; background-color: red; opacity: 0.75") &nbsp;
           span.vote-color(style="width:{{grey}}%; background-color: grey") &nbsp;
         #project-desc
-          p
-            | Lorem ipsum dolor sit amet, donec porta et hendrerit aliquet integer
+          p {{desc}}
         #new-item-input.ui.fluid.left.icon.focus.input
           i.add.icon
           input(type="text"
