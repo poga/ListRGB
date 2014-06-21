@@ -23,4 +23,4 @@ devDependencies:
   changesets: \~0.4.0
   'socket.io': \~1.0.6
   nodemon: \~1.2.0
-  'gulp-bower': \*
+  'gulp-bower': \~0.0.6
