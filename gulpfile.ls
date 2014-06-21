@@ -6,6 +6,7 @@ ls = require 'gulp-livescript'
 jade = require 'gulp-jade'
 lr = require 'gulp-livereload'
 plumber = require 'gulp-plumber'
+bower = require 'gulp-bower'
 
 paths = do
   scripts: <[src/*.ls]>
@@ -22,6 +23,8 @@ gulp.task \server ->
   http-server = require \http .create-server app
   http-server.listen 8000, ->
     gutil.log "Running on " + gutil.colors.bold.inverse "http://localhost:8000"
+
+gulp.task \bower -> bower!
 
 gulp.task \style ->
   gulp.src paths.styles
@@ -55,6 +58,8 @@ gulp.task \livereload ->
   gulp.watch paths.scripts .on \change, reload
   gulp.watch paths.jade .on \change, reload
 
-gulp.task \default <[style ls jade watch livereload server]>
+gulp.task \build <[bower style ls jade]>
 
-gulp.task \prepublish <[style ls jade]>
+gulp.task \default <[build watch livereload server]>
+
+gulp.task \prepublish <[build]>

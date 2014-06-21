@@ -4,8 +4,8 @@ name: 'ListRGB'
 description: 'List with Color'
 version: '0.0.1'
 scripts:
-  dev: "gulp --require LiveScript"
-  prepublish: "gulp --require LiveScript prepublish"
+  dev: "gulp"
+  prepublish: "gulp prepublish"
 dependencies:
   express: \*
 devDependencies:
@@ -23,3 +23,4 @@ devDependencies:
   changesets: \~0.4.0
   'socket.io': \~1.0.6
   nodemon: \~1.2.0
+  'gulp-bower': \*
