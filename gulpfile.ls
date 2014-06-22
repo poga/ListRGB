@@ -27,7 +27,7 @@ gulp.task \vendor:js <[bower]> ->
   f = bower-files!
     .pipe filter -> it.path == /\.js$/
   s = streamqueue {+objectMode}
-    .done f, gulp.src 'vendor/scripts/*.js'
+    .done f, gulp.src 'app/vendor/scripts/*.js'
     .pipe gulp-concat 'vendor.js'
     .pipe gulp.dest '_public/js'
 
