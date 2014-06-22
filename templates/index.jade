@@ -1,11 +1,10 @@
 html(ng-app="app")
   head
     title ListRGB
-    link(rel="stylesheet" href="/bower_components/semantic-ui/build/packaged/css/semantic.css")
-    script(src="/_public/js/vendor.js")
-    script(src="/node_modules/changesets/client-side.js")
+    link(rel="stylesheet" href="/semantic.css")
     script(src="/socket.io/socket.io.js")
-    script(src="/lib/index.js")
+    script(src="/js/vendor.js")
+    script(src="/js/index.js")
     link(rel="stylesheet" href="/css/index.css")
   body(ng-controller="AppCtrl")
     #content.ui.stackable.grid

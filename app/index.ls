@@ -1,8 +1,14 @@
-angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic truncate]>
-.controller AppCtrl: <[$scope storage $location $window]> ++ ($scope, storage, $location, $window) ->
+cs = changesets.Changeset
+dmp = new diff_match_patch()
+
+angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic truncate btford.socket-io]>
+.factory 'SocketIo', <[socketFactory]> ++ (socketFactory) -> return socketFactory!
+.controller AppCtrl: <[$scope storage $location $window SocketIo $timeout]> ++ ($scope, storage, $location, $window, SocketIo, $timeout) ->
   storage.bind $scope, \list, defaultValue: []
   storage.bind $scope, \desc, defaultValue: 'description here'
   storage.bind $scope, \title, defaultValue: 'title here'
+
+  $scope.old-title = $scope.title
 
   $scope <<< do
     statuses: <[green blue red]>
@@ -10,7 +16,7 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     blue: 0
     red: 0
     grey: 0
-    user: 'poga'
+    user: 'user'
 
     predicate: (x) -> $scope.list.indexOf(x)
     sorter: "none"
@@ -74,6 +80,15 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     $scope.grey = 100 - $scope.green - $scope.blue - $scope.red
 
   console.log $location.path!
+
+  t = ->
+    if $scope.old-title != $scope.title
+      console.log $scope.old-title, $scope.title
+      console.log cs.from-diff dmp.diff_main($scope.old-title, $scope.title)
+      $scope.old-title = $scope.title
+    $timeout t, 1000ms
+
+  $timeout t, 1000ms
 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true

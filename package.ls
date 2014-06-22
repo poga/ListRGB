@@ -25,8 +25,8 @@ devDependencies:
   'gulp-plumber': \~0.6.3
   changesets: \~0.4.0
   'socket.io': \~1.0.6
-  nodemon: \~1.2.0
   'gulp-bower': \~0.0.6
+  'gulp-wait': \~0.0.2
   'gulp-nodemon': \~1.0.4
   'gulp-bower-files': \~0.2.5
   'gulp-filter': \~0.5.0
