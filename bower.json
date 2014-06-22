@@ -25,9 +25,27 @@
     "jquery-ui": "~1.10.4",
     "angular-elastic": "~2.3.4",
     "node-uuid": "~1.4.1",
-    "angular-truncate": "*"
+    "angular-truncate": "*",
+    "google-diff-match-patch-js": "~1.0.0",
+    "angular-socket-io": "~0.6.0"
   },
   "resolutions": {
     "angular": "1.2.18"
+  },
+  "overrides": {
+    "angular": {
+      "dependencies": {
+        "jquery": "*"
+      }
+    },
+    "google-diff-match-patch-js": {
+      "main": "diff_match_patch_uncompressed.js"
+    },
+    "semantic-ui": {
+      "main": "./build/packaged/javascript/semantic.js"
+    },
+    "node-uuid": {
+      "main": "uuid.js"
+    }
   }
 }

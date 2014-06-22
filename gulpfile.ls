@@ -1,4 +1,4 @@
-require! <[gulp path]>
+require! <[gulp path streamqueue gulp-concat]>
 gutil = require 'gulp-util'
 stylus = require 'gulp-stylus'
 nib = require \nib
@@ -7,6 +7,8 @@ jade = require 'gulp-jade'
 lr = require 'gulp-livereload'
 plumber = require 'gulp-plumber'
 bower = require 'gulp-bower'
+bower-files = require 'gulp-bower-files'
+filter = require 'gulp-filter'
 
 paths = do
   scripts: <[src/*.ls]>
@@ -21,10 +23,28 @@ gulp.task \server ->
   app.all '/**' (req, res) ->
     res.sendfile __dirname + "/index.html"
   http-server = require \http .create-server app
+  io = require('socket.io')(http-server)
+
+  io.on \connection (socket) ->
+    console.log socket.id, \connected
+    socket.emit \id, socket.id
+
+    socket.on \op, ->
+      console.log socket.id, it
+      io.emit \op it
+
   http-server.listen 8000, ->
     gutil.log "Running on " + gutil.colors.bold.inverse "http://localhost:8000"
 
 gulp.task \bower -> bower!
+
+gulp.task \vendor:js <[bower]> ->
+  bower-files!
+    .pipe filter -> it.path == /\.js$/
+    .pipe gulp-concat 'vendor.js'
+    .pipe gulp.dest '_public/js'
+
+gulp.task \vendor <[vendor:js]>
 
 gulp.task \style ->
   gulp.src paths.styles
@@ -58,7 +78,7 @@ gulp.task \livereload ->
   gulp.watch paths.scripts .on \change, reload
   gulp.watch paths.jade .on \change, reload
 
-gulp.task \build <[bower style ls jade]>
+gulp.task \build <[bower style ls jade vendor]>
 
 gulp.task \default <[build watch livereload server]>
 
