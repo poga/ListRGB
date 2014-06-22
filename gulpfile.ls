@@ -13,8 +13,8 @@ filter = require 'gulp-filter'
 paths = do
   app:
     scripts: <[app/*.ls]>
-    styles: <[styles/*.styl]>
-    jade: <[templates/*.jade]>
+    styles: <[app/styles/*.styl]>
+    jade: <[app/templates/*.jade]>
   server:
     scripts: <[server/*.ls]>
 
