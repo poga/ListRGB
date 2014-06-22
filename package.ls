@@ -3,6 +3,9 @@ author: 'Poga Po'
 name: 'ListRGB'
 description: 'List with Color'
 version: '0.0.1'
+repository:
+  type: \git
+  url: "http://github.com/poga/ListRGB"
 scripts:
   dev: "gulp"
   prepublish: "gulp prepublish"
