@@ -19,7 +19,7 @@ html(ng-app="app")
               .divider /
           .item.menu-item-without-separator
             .ui.input
-              input(type="text" ng-model="title")
+              input(type="text" ng-model="title" debounce="500")
           .right.menu
             .item
               i.large.setting.icon

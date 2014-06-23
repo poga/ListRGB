@@ -27,7 +27,8 @@
     "node-uuid": "~1.4.1",
     "angular-truncate": "*",
     "google-diff-match-patch-js": "~1.0.0",
-    "angular-socket-io": "~0.6.0"
+    "angular-socket-io": "~0.6.0",
+    "ng-debounce": "~0.1.4"
   },
   "resolutions": {
     "angular": "1.2.18"

@@ -1,9 +1,9 @@
 cs = changesets.Changeset
 dmp = new diff_match_patch()
 
-angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic truncate btford.socket-io]>
+angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic truncate btford.socket-io debounce]>
 .factory 'SocketIo', <[socketFactory]> ++ (socketFactory) -> return socketFactory!
-.controller AppCtrl: <[$scope storage $location $window SocketIo $timeout]> ++ ($scope, storage, $location, $window, SocketIo, $timeout) ->
+.controller AppCtrl: <[$scope storage $location $window SocketIo]> ++ ($scope, storage, $location, $window, SocketIo) ->
   storage.bind $scope, \list, defaultValue: []
   storage.bind $scope, \desc, defaultValue: 'description here'
   storage.bind $scope, \title, defaultValue: 'title here'
@@ -81,14 +81,11 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
 
   console.log $location.path!
 
-  t = ->
-    if $scope.old-title != $scope.title
-      console.log $scope.old-title, $scope.title
-      console.log cs.from-diff dmp.diff_main($scope.old-title, $scope.title)
-      $scope.old-title = $scope.title
-    $timeout t, 1000ms
-
-  $timeout t, 1000ms
+  $scope.$watch 'title' (new-val, old-val) ->
+    console.log old-val, new-val
+    ot = cs.from-diff dmp.diff_main(old-val, new-val)
+    console.log ot.pack!
+    SocketIo.emit \op ot.pack!
 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true
