@@ -41,14 +41,12 @@ gulp.task \style ->
     .pipe stylus { +errors, use: [nib!]}
       .on 'error' -> @emit 'end'
     .pipe gulp.dest "_public/css"
-    .pipe lr!
 
 gulp.task \app:js ->
   gulp.src paths.app.scripts
     .pipe plumber!
     .pipe ls { +bare }
     .pipe gulp.dest "_public/js"
-    .pipe lr!
 
 gulp.task 'server:js' ->
   gulp.src paths.server.scripts
@@ -61,7 +59,6 @@ gulp.task \jade ->
     .pipe plumber!
     .pipe jade!
     .pipe gulp.dest "_public"
-    .pipe lr!
 
 gulp.task \watch ->
   gulp.watch paths.app.styles, <[style]>
@@ -69,8 +66,15 @@ gulp.task \watch ->
   gulp.watch paths.server.scripts, <[server:js]>
   gulp.watch paths.app.jade, <[jade]>
 
+gulp.task \livereload ->
+  lr.listen!
+  gulp.watch paths.app.jade .on \change, lr.changed
+  gulp.watch paths.app.styles .on \change, lr.changed
+  gulp.watch paths.app.scripts .on \change, lr.changed
+  gulp.watch paths.server.scripts .on \change, lr.changed
+
 gulp.task \build <[bower style app:js server:js jade vendor:js assets]>
 
-gulp.task \default <[build watch server]>
+gulp.task \default <[build watch server livereload]>
 
 gulp.task \prepublish <[build]>
