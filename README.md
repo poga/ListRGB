@@ -1,3 +1,9 @@
+# ListRGB
+
+Collaboration with Color
+
+## WIP, don't trust anything
+
 ## Usage
 
 ```
