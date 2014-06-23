@@ -53,7 +53,7 @@ html(ng-app="app")
                     ng-mouseenter="hover=true"
                     ng-mouseleave="hover=false"
                     ng-init="hover=false"
-                    ng-click="setStatus(item, st)")
+                    ng-click="toggleStatus(item, st)")
                 .input-col.drag-col.status-col.nine.wide.column
                   .ui.fluid.input
                     textarea(ng-model="item.title" msd-elastic)

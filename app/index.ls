@@ -3,10 +3,9 @@ dmp = new diff_match_patch()
 
 angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic truncate btford.socket-io debounce]>
 .factory 'SocketIo', <[socketFactory]> ++ (socketFactory) -> return socketFactory!
-.controller AppCtrl: <[$scope storage $location $window SocketIo]> ++ ($scope, storage, $location, $window, SocketIo) ->
-  storage.bind $scope, \list, defaultValue: []
-  storage.bind $scope, \desc, defaultValue: 'description here'
-  storage.bind $scope, \title, defaultValue: 'title here'
+.controller AppCtrl: <[$scope $location $window SocketIo $http]> ++ ($scope, $location, $window, SocketIo, $http) ->
+  <- $http.get "/_#{$location.path!}" .success _
+  $scope{list,title,desc} = it
 
   $scope.old-title = $scope.title
 
@@ -30,14 +29,18 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
             $scope.tags.push tag unless $scope.tags.indexOf(tag) != -1
 
     add-item: ->
-      $scope.list.unshift title: $scope.newItem, status: \none, createdAt: Date.now!, uuid: uuid.v1!
+      new-item = title: $scope.newItem, status: \none, createdAt: Date.now!, uuid: uuid.v1!
+      $scope.list.unshift new-item
       $scope.newItem = ""
+      SocketIo.emit \op op: 'add item', item: new-item
 
-    set-status: (item, status) ->
-      $scope.list[$scope.list.indexOf(item)] = if item.status == status
-        item <<< status: \none
+    toggle-status: (item, status) ->
+      if item.status == status
+        new-status = \none
       else
-        item <<< status: status
+        new-status = status
+      $scope.list[$scope.list.indexOf(item)] = item <<< status: new-status
+      SocketIo.emit \op op: 'set status', target: item.uuid, status: new-status
 
     set-search: (str) -> 
       $scope.search = str
@@ -45,6 +48,7 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     remove-item: (item) ->
       remove = $window.confirm("Remove Item: #{item.title} ?")
       $scope.list.splice $scope.list.indexOf(item), 1 if remove
+      SocketIo.emit \op op: 'remove item', target: item.uuid
 
     sort-by: (sorter) ->
       $scope.sorter = sorter
@@ -72,20 +76,21 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
 
   $scope.$watch 'list', $scope.parse-tags, true
 
-  do
-    newList <- $scope.$watch 'list', _ , true
-    $scope.green = $scope.get-percent newList, \green
-    $scope.blue = $scope.get-percent newList, \blue
-    $scope.red = $scope.get-percent newList, \red
+  $scope.$watch 'list', (new-list) ->
+    $scope.green = $scope.get-percent new-list, \green
+    $scope.blue = $scope.get-percent new-list, \blue
+    $scope.red = $scope.get-percent new-list, \red
     $scope.grey = 100 - $scope.green - $scope.blue - $scope.red
+  , true
 
   console.log $location.path!
 
   $scope.$watch 'title' (new-val, old-val) ->
-    console.log old-val, new-val
-    ot = cs.from-diff dmp.diff_main(old-val, new-val)
-    console.log ot.pack!
-    SocketIo.emit \op ot.pack!
+    if old-val != new-val
+      console.log old-val, new-val
+      ot = cs.from-diff dmp.diff_main(old-val, new-val)
+      console.log ot.pack!
+      SocketIo.emit \ot ot.pack!
 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true
