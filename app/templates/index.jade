@@ -59,22 +59,22 @@ html(ng-app="app")
                     textarea(ng-model="item.title" msd-elastic)
                 .icon-col.one.wide.column.right.aligned
                   i.trash.icon(ng-class="{'vis-hide': !hover}" ng-click="removeItem(item)")
-      #side.two.wide.column
+      #side.three.wide.column
         .ui.fluid.icon.input
           i.search.icon
-          input(type="text" placeholder="search" ng-model="search")
+          input(type="text" placeholder="search" ng-model="search" debounce="300")
         .ui.basic.segment
           h5.ui.header View
           .ui.small.link.list
             a.active.item Mine
             a.item Everyone
           .ui.divider
-          h5.ui.header Group By
+          h5.ui.header Sort By
           .ui.small.link.list
             a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
             a.item(ng-click="sortBy('status')" ng-class="{active: sorter == 'status'}") Status
           .ui.divider
           h5.ui.header Tags
           .ui.link.list
-            a.item(ng-repeat="t in tags" ng-click="setSearch(t)") {{t | characters:10}}
-      .two.wide.column
+            a.item(ng-repeat="t in tags" ng-click="setSearch(t)") {{t | characters:20}}
+      .one.wide.column
