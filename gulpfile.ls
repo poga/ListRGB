@@ -71,7 +71,6 @@ gulp.task \livereload ->
   gulp.watch paths.app.jade .on \change, lr.changed
   gulp.watch paths.app.styles .on \change, lr.changed
   gulp.watch paths.app.scripts .on \change, lr.changed
-  gulp.watch paths.server.scripts .on \change, lr.changed
 
 gulp.task \build <[bower style app:js server:js jade vendor:js assets]>
 
