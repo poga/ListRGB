@@ -4,7 +4,8 @@ dmp = new diff_match_patch()
 angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic truncate btford.socket-io debounce]>
 .factory 'SocketIo', <[socketFactory]> ++ (socketFactory) -> return socketFactory!
 .controller AppCtrl: <[$scope $location $window SocketIo $http]> ++ ($scope, $location, $window, SocketIo, $http) ->
-  <- $http.get "/_#{$location.path!}" .success _
+  $scope.document-id = $location.path! - /^\//
+  <- $http.get "/_/#{$scope.document-id}" .success _
   $scope{list,title,desc} = it
 
   $scope.old-title = $scope.title
@@ -32,7 +33,7 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       new-item = title: $scope.newItem, status: \none, createdAt: Date.now!, uuid: uuid.v1!
       $scope.list.unshift new-item
       $scope.newItem = ""
-      SocketIo.emit \op op: 'add item', item: new-item
+      SocketIo.emit \op op: 'add item', item: new-item, doc: $scope.document-id
 
     toggle-status: (item, status) ->
       if item.status == status
@@ -40,7 +41,7 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
       else
         new-status = status
       $scope.list[$scope.list.indexOf(item)] = item <<< status: new-status
-      SocketIo.emit \op op: 'set status', target: item.uuid, status: new-status
+      SocketIo.emit \op op: 'set status', target: item.uuid, status: new-status, doc: $scope.document-id
 
     set-search: (str) -> 
       $scope.search = str
@@ -48,7 +49,7 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     remove-item: (item) ->
       remove = $window.confirm("Remove Item: #{item.title} ?")
       $scope.list.splice $scope.list.indexOf(item), 1 if remove
-      SocketIo.emit \op op: 'remove item', target: item.uuid
+      SocketIo.emit \op op: 'remove item', target: item.uuid, doc: $scope.document-id
 
     sort-by: (sorter) ->
       $scope.sorter = sorter
@@ -83,7 +84,7 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
     $scope.grey = 100 - $scope.green - $scope.blue - $scope.red
   , true
 
-  console.log $location.path!
+  console.log $scope.document-id
 
   $scope.$watch 'title' (new-val, old-val) ->
     if old-val != new-val
