@@ -1,7 +1,7 @@
 cs = changesets.Changeset
 dmp = new diff_match_patch()
 
-angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable monospaced.elastic truncate btford.socket-io debounce]>
+angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btford.socket-io debounce]>
 .factory 'SocketIo', <[socketFactory]> ++ (socketFactory) -> return socketFactory!
 .controller AppCtrl: <[$scope $location $window SocketIo $http]> ++ ($scope, $location, $window, SocketIo, $http) ->
   $scope.document-id = $location.path! - /^\//
@@ -65,11 +65,9 @@ angular.module 'app.controllers', <[ui.keypress angularLocalStorage ui.sortable 
           ..push (x) ->
             $scope.list.indexOf(x)
         $scope.drag = {'display': 'none'}
-        $scope.sortable-options = disabled: true
       case 'none'
         $scope.predicate = (x) -> $scope.list.indexOf(x)
         $scope.drag = {'display': 'inline-block'}
-        $scope.sortable-options = disabled: false
 
     get-percent: (list, status) ->
       return 0 if list.length == 0

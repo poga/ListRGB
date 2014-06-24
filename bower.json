@@ -21,7 +21,6 @@
     "angular": "1.2.16",
     "angularLocalStorage": "~0.1.7",
     "angular-ui-utils": "~0.1.1",
-    "angular-ui-sortable": "~0.12.6",
     "jquery-ui": "~1.10.4",
     "angular-elastic": "~2.3.4",
     "node-uuid": "~1.4.1",
