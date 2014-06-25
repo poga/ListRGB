@@ -41,7 +41,7 @@ io.on \connection (socket) ->
     console.log socket.id, \op, it
     switch it.op
     case 'set status'
-      for item in docs[doc].list
+      for item in docs[it.doc].list
         if item.uuid == it.target
           item.status = it.status
           break
