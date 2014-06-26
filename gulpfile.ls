@@ -1,4 +1,4 @@
-require! <[gulp path streamqueue gulp-concat gulp-nodemon]>
+require! <[gulp path streamqueue gulp-concat gulp-nodemon browserify]>
 gutil = require 'gulp-util'
 stylus = require 'gulp-stylus'
 nib = require \nib
@@ -9,6 +9,7 @@ plumber = require 'gulp-plumber'
 bower = require 'gulp-bower'
 bower-files = require 'gulp-bower-files'
 filter = require 'gulp-filter'
+source = require 'vinyl-source-stream'
 
 paths = do
   app:
@@ -17,6 +18,8 @@ paths = do
     jade: <[app/templates/*.jade]>
   server:
     scripts: <[server/*.ls]>
+  shared:
+    scripts: <[shared/*.ls]>
 
 gulp.task \server <[server:js]> ->
   gulp-nodemon script: 'index.js', ignore: <[app _public vendor]>
@@ -46,6 +49,11 @@ gulp.task \app:js ->
   gulp.src paths.app.scripts
     .pipe plumber!
     .pipe ls { +bare }
+    .pipe gulp.dest "app"
+  browserify!
+    .add "./app/index.js"
+    .bundle!
+    .pipe source("app.js")
     .pipe gulp.dest "_public/js"
 
 gulp.task 'server:js' ->
@@ -53,6 +61,12 @@ gulp.task 'server:js' ->
     .pipe plumber!
     .pipe ls { +bare }
     .pipe gulp.dest "."
+
+gulp.task 'shared:js' ->
+  gulp.src paths.shared.scripts
+    .pipe plumber!
+    .pipe ls { +bare }
+    .pipe gulp.dest "shared"
 
 gulp.task \jade ->
   gulp.src paths.app.jade
@@ -63,8 +77,9 @@ gulp.task \jade ->
 gulp.task \watch ->
   gulp.watch paths.app.styles, <[style]>
   gulp.watch paths.app.scripts, <[app:js]>
-  gulp.watch paths.server.scripts, <[server:js]>
   gulp.watch paths.app.jade, <[jade]>
+  gulp.watch paths.server.scripts, <[server:js]>
+  gulp.watch paths.shared.scripts, <[shared:js]>
 
 gulp.task \livereload ->
   lr.listen!

@@ -10,3 +10,7 @@ index.html
 /_public/
 
 /index.js
+
+shared/document.js
+
+app/index.js

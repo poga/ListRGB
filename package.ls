@@ -32,3 +32,5 @@ devDependencies:
   'gulp-filter': \~0.5.0
   'streamqueue': \~0.1.1
   'gulp-concat': \~2.2.0
+  'browserify': \*
+  'vinyl-source-stream': \*
