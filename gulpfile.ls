@@ -1,4 +1,4 @@
-require! <[gulp path streamqueue gulp-concat gulp-nodemon browserify]>
+require! <[gulp path streamqueue gulp-concat gulp-nodemon browserify gulp-wait]>
 gutil = require 'gulp-util'
 stylus = require 'gulp-stylus'
 nib = require \nib
@@ -45,7 +45,7 @@ gulp.task \style ->
       .on 'error' -> @emit 'end'
     .pipe gulp.dest "_public/css"
 
-gulp.task \app:js ->
+gulp.task \app:js <[shared:js]> ->
   gulp.src paths.app.scripts
     .pipe plumber!
     .pipe ls { +bare }
@@ -54,6 +54,8 @@ gulp.task \app:js ->
     .add "./app/index.js"
     .bundle!
     .pipe source("app.js")
+    .pipe gulp-wait 1500ms     # if shared code is modified, we have to reload both server and client.
+                               # and we don't want client to load anything before server is started.
     .pipe gulp.dest "_public/js"
 
 gulp.task 'server:js' ->
@@ -79,7 +81,7 @@ gulp.task \watch ->
   gulp.watch paths.app.scripts, <[app:js]>
   gulp.watch paths.app.jade, <[jade]>
   gulp.watch paths.server.scripts, <[server:js]>
-  gulp.watch paths.shared.scripts, <[shared:js]>
+  gulp.watch paths.shared.scripts, <[app:js]>
 
 gulp.task \livereload ->
   lr.listen!
@@ -87,7 +89,7 @@ gulp.task \livereload ->
   gulp.watch '_public/*.html' .on \change, lr.changed
   gulp.watch '_public/css/**' .on \change, lr.changed
 
-gulp.task \build <[bower style app:js server:js jade vendor:js assets]>
+gulp.task \build <[bower style app:js server:js shared:js jade vendor:js assets]>
 
 gulp.task \default <[build watch server livereload]>
 
