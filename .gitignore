@@ -11,6 +11,6 @@ index.html
 
 /index.js
 
-shared/document.js
+app/*.js
 
-app/index.js
+shared/*.js
