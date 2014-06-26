@@ -68,9 +68,9 @@ gulp.task \watch ->
 
 gulp.task \livereload ->
   lr.listen!
-  gulp.watch paths.app.jade .on \change, lr.changed
-  gulp.watch paths.app.styles .on \change, lr.changed
-  gulp.watch paths.app.scripts .on \change, lr.changed
+  gulp.watch '_public/js/**' .on \change, lr.changed
+  gulp.watch '_public/*.html' .on \change, lr.changed
+  gulp.watch '_public/css/**' .on \change, lr.changed
 
 gulp.task \build <[bower style app:js server:js jade vendor:js assets]>
 
