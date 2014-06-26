@@ -34,3 +34,4 @@ devDependencies:
   'gulp-concat': \~2.2.0
   'browserify': \*
   'vinyl-source-stream': \*
+  'node-uuid': \*

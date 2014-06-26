@@ -36,6 +36,7 @@
     "streamqueue": "~0.1.1",
     "gulp-concat": "~2.2.0",
     "browserify": "*",
-    "vinyl-source-stream": "*"
+    "vinyl-source-stream": "*",
+    "node-uuid": "*"
   }
 }

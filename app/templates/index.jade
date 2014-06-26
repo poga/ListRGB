@@ -24,10 +24,10 @@ html(ng-app="app")
             .item
               i.large.setting.icon
         #percentage
-          span.vote-color(style="width:{{green}}%; background-color: green; opacity: 0.75") &nbsp;
-          span.vote-color(style="width:{{blue}}%; background-color: #6ECFF5; opacity: 0.75") &nbsp;
-          span.vote-color(style="width:{{red}}%; background-color: red; opacity: 0.75") &nbsp;
-          span.vote-color(style="width:{{grey}}%; background-color: grey") &nbsp;
+          span.vote-color(style="width:{{percentage.green}}%; background-color: green; opacity: 0.75") &nbsp;
+          span.vote-color(style="width:{{percentage.blue}}%; background-color: #6ECFF5; opacity: 0.75") &nbsp;
+          span.vote-color(style="width:{{percentage.red}}%; background-color: red; opacity: 0.75") &nbsp;
+          span.vote-color(style="width:{{percentage.grey}}%; background-color: grey") &nbsp;
         #project-desc
           .ui.fluid.input
             textarea(ng-model="desc" msd-elastic)
@@ -35,16 +35,16 @@ html(ng-app="app")
           i.add.icon
           input(type="text"
             placeholder="add to list"
-            ng-model="newItem" ui-keypress="{'enter': 'addItem()'}")
+            ng-model="newItem" ui-keypress="{'enter': 'addEntry()'}")
         #list(ng-model="list")
-          .ui.basic.segment(ng-repeat="item in list | filter:search | orderBy:predicate track by item.uuid"
+          .ui.basic.segment(ng-repeat="snapshot in doc.snapshots | filter:search | orderBy:predicate track by snapshot.uuid"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
             ng-class-even="'even'")
             .ui.grid.middle.aligned
               .row.equal.height
                 .icon-col.one.wide.column
-                .icon-col.one.wide.column(ng-repeat="st in statuses")
+                .icon-col.one.wide.column(ng-repeat="color in colors")
                   i.large.status-icon.icon(ng-class="{disabled: !hover && item.status != st,\
                     '{{st}}': item.status == st,\
                     'empty checkbox': item.status != st,\
@@ -55,9 +55,9 @@ html(ng-app="app")
                     ng-click="toggleStatus(item, st)")
                 .input-col.drag-col.status-col.nine.wide.column
                   .ui.fluid.input
-                    textarea(ng-model="item.title" msd-elastic)
+                    textarea(ng-model="snapshot.text" msd-elastic)
                 .icon-col.one.wide.column.right.aligned
-                  i.trash.icon(ng-class="{'vis-hide': !hover}" ng-click="removeItem(item)")
+                  i.trash.icon(ng-class="{'vis-hide': !hover}" ng-click="removeEntryByUuid(snapshot.entryUuid)")
       #side.three.wide.column
         .ui.fluid.icon.input
           i.search.icon
