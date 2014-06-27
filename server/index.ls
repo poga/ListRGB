@@ -40,30 +40,13 @@ io.on \connection (socket) ->
   socket.emit \id, socket.id
 
   socket.on \ot, ->
-    console.log socket.id, \ot, it
-    # PULL ALL OTs in it.parent history, transformAgainst them one by one, then parent this ot to the last ot, push it into the history
-    docs[it.doc].history[it.target] = [] unless docs[it.doc].history[it.target]
-    ot = cs.unpack it.ot
-    # XXX: get all ots after parent
-    for o in docs[it.doc].history[it.target]
-      ot = ot.transformAgainst o
-    docs[it.doc][it.target] = ot.apply docs[it.doc][it.target]
-    docs[it.doc].history[it.target].push ot
-    console.log docs[it.doc][it.target]
-    console.log docs[it.doc].history[it.target]
-    <- save-doc it.doc
-    socket.broadcast.emit \ot, it
-    # XXX send ack
+    # TODO
 
   socket.on \op ->
     console.log socket.id, \op, it
     switch it.op
     case 'set status'
-      for item in docs[it.doc-uuid].list
-        if item.uuid == it.target
-          item.status = it.status
-          break
-      <- save-doc it.doc-uuid
+      # TODO
     case 'add entry'
       console.log it.entry
       docs[it.doc-uuid].add-entry Entry.from-json(it.entry), it.tag
