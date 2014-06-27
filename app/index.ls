@@ -1,6 +1,6 @@
 cs = changesets.Changeset
 dmp = new diff_match_patch()
-Doc = require '../shared/document' .Doc
+Doc = require '../shared/doc' .Doc
 Edit = require '../shared/edit' .Edit
 Entry = require '../shared/entry' .Entry
 
@@ -32,13 +32,8 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     predicate: $scope.default-predicate
     sorter: "none"
 
-    get-percent: (list, status) ->
-      return 0 if list.length == 0
-      list.filter((x) -> x.status == status).length * 100.0 / list.length
-
     add-entry: ->
       entry = Entry.from-text $scope.new-item
-      console.log entry
       $scope.doc.add-entry(entry)
       SocketIo.emit \op op: 'add entry', doc-uuid: doc.uuid, entry: entry
       $scope.new-item = ""

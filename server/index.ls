@@ -1,4 +1,4 @@
-Doc = require './shared/document' .Doc
+Doc = require './shared/doc' .Doc
 Entry = require './shared/entry' .Entry
 require! <[fs path express]>
 cs = require('changesets').Changeset
