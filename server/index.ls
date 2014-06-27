@@ -10,7 +10,7 @@ save-doc = (doc, fn, cb) ->
 
 load-doc = (fn, cb) ->
   full-name = "#{fn}.json"
-  console.log \req-doc, full-name
+  console.log "loading doc #full-name"
   exists <- fs.exists full-name
   if exists
     err, data <- fs.readFile full-name, 'utf-8'
@@ -22,7 +22,7 @@ load-doc = (fn, cb) ->
 
 load-feedback = (doc-id, uid, cb) ->
   full = "feedback-#{doc-id}.json"
-  console.log \req-fb, full, uid, cb
+  console.log "loading feedback #full"
   exists <- fs.exists full
   if exists
     err, data <- fs.readFile full, 'utf-8'
