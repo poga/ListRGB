@@ -34,7 +34,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     fb: fb
     percentage: doc.percentage
     user: 'user'
-    tags: doc.tags
 
     default-predicate: (entry) -> $scope.doc.entries.indexOf(entry)
     predicate: $scope.default-predicate
@@ -58,7 +57,10 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       SocketIo.emit \op op: 'set feedback', uid: $scope.fb.user-id, entry-id: entry.uuid, color: $scope.fb.feedbacks[entry.uuid], doc-id: $scope.doc-id
 
     set-search: (str) ->
-      $scope.search = str
+      if $scope.search == str
+        $scope.search = ""
+      else
+        $scope.search = str
 
     sort-by: (sorter) ->
       $scope.sorter = sorter
@@ -84,6 +86,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         changed := n
         break
     if changed
+      $scope.doc.parse-tags!
       SocketIo.emit \op op: 'update entry', entry-uuid: changed.uuid, doc-id: $scope.doc-id, text: changed.text
   ,true
 
