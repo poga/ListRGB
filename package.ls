@@ -11,6 +11,8 @@ scripts:
   prepublish: "gulp prepublish"
 dependencies:
   express: \*
+  'socket.io': \~1.0.6
+  'node-uuid': \*
 devDependencies:
   jade: \~1.3.1
   LiveScript: \~1.2.0
@@ -23,8 +25,6 @@ devDependencies:
   'gulp-livereload': \~2.1.0
   'connect-livereload': \*
   'gulp-plumber': \~0.6.3
-  changesets: \~0.4.0
-  'socket.io': \~1.0.6
   'gulp-bower': \~0.0.6
   'gulp-wait': \~0.0.2
   'gulp-nodemon': \~1.0.4
@@ -34,4 +34,3 @@ devDependencies:
   'gulp-concat': \~2.2.0
   'browserify': \*
   'vinyl-source-stream': \*
-  'node-uuid': \*
