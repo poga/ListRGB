@@ -16,3 +16,14 @@ export class Feedback
   toJSON: ->
     user-id: @user-id, feedbacks: @feedbacks
 
+  calculate-percentage: (total) ->
+    percentage = {}
+    for c in @@color
+      percentage[c] = 0
+    for eid, color of @feedbacks
+      percentage[color]++
+    percentage[\none] += total - percentage[\green] - percentage[\blue] - percentage[\red] - percentage[\none]
+
+    for c in @@color
+      percentage[c] = percentage[c] / total * 100
+    return percentage

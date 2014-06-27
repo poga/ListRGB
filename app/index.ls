@@ -32,7 +32,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     colors: ListRGB.colors
     doc: doc
     fb: fb
-    percentage: doc.percentage
     user: 'user'
 
     default-predicate: (entry) -> $scope.doc.entries.indexOf(entry)
@@ -54,6 +53,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         $scope.fb.feedbacks[entry.uuid] = color
       else
         $scope.fb.feedbacks[entry.uuid] = \none
+      $scope.calculate-percentage $scope.doc.entries.length
       SocketIo.emit \op op: 'set feedback', uid: $scope.fb.user-id, entry-id: entry.uuid, color: $scope.fb.feedbacks[entry.uuid], doc-id: $scope.doc-id
 
     set-search: (str) ->
@@ -77,6 +77,12 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
           ..push $scope.default-predicate
       case 'none'
         $scope.predicate = $scope.default-predicate
+
+    calculate-percentage: ->
+      $scope.percentage = $scope.fb.calculate-percentage $scope.doc.entries.length
+      console.log $scope.percentage
+
+  $scope.calculate-percentage $scope.doc.entries.length
 
   $scope.$watch 'doc.entries' (new-entries, old-entries) ->
     # XXX: find a better way to do this
