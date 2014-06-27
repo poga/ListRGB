@@ -19,7 +19,7 @@ html(ng-app="app")
               .divider /
           .item.menu-item-without-separator
             .ui.input
-              input(type="text" ng-model="title" debounce="500")
+              input(type="text" ng-model="doc.title" debounce="500")
           .right.menu
             .item
               i.large.setting.icon
@@ -30,14 +30,14 @@ html(ng-app="app")
           span.vote-color(style="width:{{percentage.grey}}%; background-color: grey") &nbsp;
         #project-desc
           .ui.fluid.input
-            textarea(ng-model="desc" msd-elastic)
+            textarea(ng-model="doc.desc" msd-elastic)
         #new-item-input.ui.fluid.left.icon.focus.input
           i.add.icon
           input(type="text"
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'addEntry()'}")
         #list(ng-model="list")
-          .ui.basic.segment(ng-repeat="snapshot in doc.snapshots | filter:search | orderBy:predicate track by snapshot.uuid"
+          .ui.basic.segment(ng-repeat="entry in doc.entries | filter:search | orderBy:predicate track by entry.uuid"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
             ng-class-even="'even'")
@@ -45,19 +45,19 @@ html(ng-app="app")
               .row.equal.height
                 .icon-col.one.wide.column
                 .icon-col.one.wide.column(ng-repeat="color in colors")
-                  i.large.status-icon.icon(ng-class="{disabled: !hover && item.status != st,\
-                    '{{st}}': item.status == st,\
-                    'empty checkbox': item.status != st,\
-                    sign: item.status == st}"
+                  i.large.status-icon.icon(ng-class="{disabled: !hover && fb.feedbacks[entry.uuid] != color,\
+                    '{{color}}': fb.feedbacks[entry.uuid] == color,\
+                    'empty checkbox': fb.feedbacks[entry.uuid] != color,\
+                    sign: fb.feedbacks[entry.uuid] == color}"
                     ng-mouseenter="hover=true"
                     ng-mouseleave="hover=false"
                     ng-init="hover=false"
-                    ng-click="toggleStatus(item, st)")
+                    ng-click="toggleFeedback(entry, color)")
                 .input-col.drag-col.status-col.nine.wide.column
                   .ui.fluid.input
-                    textarea(ng-model="snapshot.text" msd-elastic)
+                    textarea(ng-model="entry.text" msd-elastic)
                 .icon-col.one.wide.column.right.aligned
-                  i.trash.icon(ng-class="{'vis-hide': !hover}" ng-click="removeEntryByUuid(snapshot.entryUuid)")
+                  i.trash.icon(ng-class="{'vis-hide': !hover}" ng-click="removeEntryByUuid(entry.uuid)")
       #side.three.wide.column
         .ui.fluid.icon.input
           i.search.icon
