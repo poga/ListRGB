@@ -23,7 +23,7 @@ devDependencies:
   'gulp-livescript': '~0.3.0'
   'gulp-jade': \~0.5.0
   'gulp-livereload': \~2.1.0
-  'connect-livereload': \*
+  'connect-livereload': \~0.4.0
   'gulp-plumber': \~0.6.3
   'gulp-bower': \~0.0.6
   'gulp-wait': \~0.0.2
@@ -32,5 +32,5 @@ devDependencies:
   'gulp-filter': \~0.5.0
   'streamqueue': \~0.1.1
   'gulp-concat': \~2.2.0
-  'browserify': \*
-  'vinyl-source-stream': \*
+  'browserify': \~4.1.11
+  'vinyl-source-stream': \~0.1.1
