@@ -76,5 +76,7 @@ html(ng-app="app")
           .ui.divider
           h5.ui.header Tags
           .ui.link.list
-            a.item(ng-repeat="t in doc.tags" ng-click="setSearch(t)") {{t | characters:20}}
+            a.item(ng-repeat="t in doc.tags"
+              ng-click="setSearch(t)"
+              ng-class="{active: ([search] | filter:t).length > 0}") {{t | characters:20}}
       .one.wide.column
