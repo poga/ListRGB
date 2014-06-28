@@ -74,9 +74,6 @@ io.on \connection (socket) ->
   console.log socket.id, \connected
   socket.emit \id, socket.id
 
-  socket.on \ot, ->
-    # TODO
-
   socket.on \op ->
     console.log socket.id, \op, it
     switch it.op
