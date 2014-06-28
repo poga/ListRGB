@@ -66,7 +66,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     sort-by: (sorter) ->
       $scope.sorter = sorter
       switch sorter
-      case 'status'
+      case 'color'
         $scope.predicate = []
           ..push (entry) ->
             switch $scope.fb.feedbacks[entry.uuid]
