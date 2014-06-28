@@ -30,7 +30,7 @@ html(ng-app="app")
           span.vote-color(style="width:{{percentage.none}}%; background-color: grey") &nbsp;
         #project-desc
           .ui.fluid.input
-            textarea(ng-model="doc.desc" msd-elastic)
+            textarea(ng-model="doc.desc" msd-elastic debounce="500")
         #new-item-input.ui.fluid.left.icon.focus.input
           i.add.icon
           input(type="text"
@@ -55,7 +55,7 @@ html(ng-app="app")
                     ng-click="toggleFeedback(entry, color)")
                 .input-col.drag-col.status-col.nine.wide.column
                   .ui.fluid.input
-                    textarea(ng-model="entry.text" msd-elastic)
+                    textarea(ng-model="entry.text" msd-elastic debounce="300")
                 .icon-col.one.wide.column.right.aligned
                   i.trash.icon(ng-class="{'vis-hide': !hover}" ng-click="removeEntryByUuid(entry.uuid)")
       #side.three.wide.column

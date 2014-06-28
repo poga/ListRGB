@@ -98,6 +98,28 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       SocketIo.emit \op op: 'update entry', entry-uuid: changed.uuid, doc-id: $scope.doc-id, text: changed.text
   ,true
 
+  $scope.$watch 'doc.title' (new-title, old-title) ->
+    if new-title != old-title
+      SocketIo.emit \op op: 'update title', doc-id: $scope.doc-id, text: new-title
+
+  $scope.$watch 'doc.desc' (new-desc, old-desc) ->
+    if new-desc != old-desc
+      SocketIo.emit \op op: 'update desc', doc-id: $scope.doc-id, text: new-desc
+
+  SocketIo.on \broadcast ->
+    console.log it
+    switch it.op
+    case 'add entry'
+      $scope.doc.add-entry it.entry
+    case 'remove entry'
+      $scope.doc.remove-entry-by-uuid it.entry-uuid
+    case 'update entry'
+      $scope.doc.update-entry it.entry-uuid, it.text
+    case 'update title'
+      $scope.doc.title = it.text
+    case 'update desc'
+      $scope.doc.desc = it.text
+
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true
 

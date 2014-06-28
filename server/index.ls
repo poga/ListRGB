@@ -105,6 +105,7 @@ io.on \connection (socket) ->
 
   socket.on \op ->
     console.log socket.id, \op, it
+    op = it
     switch it.op
     case 'set feedback'
       fb <- load-feedback it.doc-id, it.uid
@@ -114,14 +115,27 @@ io.on \connection (socket) ->
       doc <- load-doc it.doc-id
       doc.add-entry it.entry
       <- save-doc doc, it.doc-id
+      socket.broadcast.emit \broadcast, op
     case 'remove entry'
       doc <- load-doc it.doc-id
       doc.remove-entry-by-uuid it.entry-uuid
       <- save-doc doc, it.doc-id
+      socket.broadcast.emit \broadcast, op
     case 'update entry'
       doc <- load-doc it.doc-id
       doc.update-entry it.entry-uuid, it.text
       <- save-doc doc, it.doc-id
+      socket.broadcast.emit \broadcast, op
+    case 'update title'
+      doc <- load-doc it.doc-id
+      doc.title = it.text
+      <- save-doc doc, it.doc-id
+      socket.broadcast.emit \broadcast, op
+    case 'update desc'
+      doc <- load-doc it.doc-id
+      doc.desc = it.text
+      <- save-doc doc, it.doc-id
+      socket.broadcast.emit \broadcast, op
 
 http-server.listen 8000, ->
   console.log "Running on http://localhost:8000"
