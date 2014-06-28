@@ -35,6 +35,20 @@ load-feedback = (doc-id, uid, cb) ->
     fb = new Feedback uid
     cb fb
 
+load-feedback-all = (doc-id, cb) ->
+  full = "feedback-#{doc-id}.json"
+  console.log "loading feedback #full"
+  exists <- fs.exists full
+  if exists
+    err, data <- fs.readFile full, 'utf-8'
+    doc-fb = JSON.parse data
+    res = []
+    for uid, fb of doc-fb
+      res.push Feedback.load-json fb
+    cb res
+  else
+    cb undefined
+
 save-feedback = (doc-id, feedback, cb) ->
   doc-fb-fn = "feedback-#{doc-id}.json"
   exists <- fs.exists doc-fb-fn
@@ -57,6 +71,21 @@ save-feedback = (doc-id, feedback, cb) ->
 app = express!
 app.use (require 'connect-livereload')( port: 35729 )
 app.use express.static __dirname + "/_public"
+app.get '/_/:fn/stats' (req, res) ->
+  fn = req.param('fn')
+  fbs <- load-feedback-all fn
+  console.log fbs
+  stats = doc-id: fn, total:fbs.length
+  for fb in fbs
+    for eid, color of fb.feedbacks
+      stats[eid] = green: 0, red: 0, blue: 0, none: 0 unless stats[eid]
+      console.log eid, color
+      switch color
+      | \green    => stats[eid].green++
+      | \red      => stats[eid].red++
+      | \blue     => stats[eid].blue++
+      | otherwise => stats[eid].none++
+  res.send stats
 app.get '/_/:fn' (req, res) ->
   fn = req.param('fn')
   <- load-doc fn
