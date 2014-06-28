@@ -42,11 +42,13 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       entry = $scope.doc.add-entry-by-text $scope.new-item
       SocketIo.emit \op op: 'add entry', doc-id: $scope.doc-id, entry: entry
       $scope.new-item = ""
+      $scope.calculate-percentage $scope.doc.entries.length
 
     remove-entry-by-uuid: (entry-uuid) ->
       remove = $window.confirm("Remove Item: #{$scope.doc.find-entry(entry-uuid).text} ?")
       $scope.doc.remove-entry-by-uuid entry-uuid if remove
       SocketIo.emit \op op: 'remove entry', entry-uuid: entry-uuid, doc-id: $scope.doc-id
+      $scope.calculate-percentage $scope.doc.entries.length
 
     toggle-feedback: (entry, color) ->
       if $scope.fb.feedbacks[entry.uuid] != color
