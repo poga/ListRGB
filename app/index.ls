@@ -107,6 +107,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   $scope.calculate-percentage $scope.doc.entries.length
 
   $scope.$watch 'doc.entries' (new-entries, old-entries) ->
+    # XXX hacky
     if $scope.just-added
       $scope.just-added = false
       return
