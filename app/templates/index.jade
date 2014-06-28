@@ -37,10 +37,11 @@ html(ng-app="app")
             placeholder="add to list"
             ng-model="newItem" ui-keypress="{'enter': 'addEntry()'}")
         #list(ng-model="list")
-          .ui.basic.segment(ng-repeat="entry in doc.entries | filter:search | orderBy:predicate track by entry.uuid"
+          .ui.basic.segment(ng-repeat="entry in doc.entries | orderBy:predicate track by entry.uuid"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
-            ng-class-even="'even'")
+            ng-class-even="'even'"
+            ng-show="([entry] | filter:search).length > 0")
             .ui.grid.middle.aligned
               .row.equal.height
                 .icon-col.one.wide.column
