@@ -41,7 +41,7 @@ html(ng-app="app")
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
             ng-class-even="'even'"
-            ng-show="([entry] | filter:search).length > 0")
+            ng-show="([entry] | filter:{text: search}).length > 0")
             .ui.grid.middle.aligned
               .row.equal.height
                 .icon-col.one.wide.column
