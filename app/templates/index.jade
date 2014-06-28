@@ -24,10 +24,10 @@ html(ng-app="app")
             .item
               i.large.setting.icon
         #percentage
-          span.vote-color(style="width:{{percentage.green}}%; background-color: green; opacity: 0.75") &nbsp;
-          span.vote-color(style="width:{{percentage.blue}}%; background-color: #6ECFF5; opacity: 0.75") &nbsp;
-          span.vote-color(style="width:{{percentage.red}}%; background-color: red; opacity: 0.75") &nbsp;
-          span.vote-color(style="width:{{percentage.none}}%; background-color: grey") &nbsp;
+          span.vote-color.percent-green(style="width:{{percentage.green}}%") &nbsp;
+          span.vote-color.percent-blue(style="width:{{percentage.blue}}%") &nbsp;
+          span.vote-color.percent-red(style="width:{{percentage.red}}%") &nbsp;
+          span.vote-color.percent-none(style="width:{{percentage.none}}%") &nbsp;
         #project-desc
           .ui.fluid.input
             textarea(ng-model="doc.desc" msd-elastic debounce="500")
