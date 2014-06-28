@@ -74,12 +74,10 @@ app.use express.static __dirname + "/_public"
 app.get '/_/:fn/stats' (req, res) ->
   fn = req.param('fn')
   fbs <- load-feedback-all fn
-  console.log fbs
   stats = doc-id: fn, total:fbs.length
   for fb in fbs
     for eid, color of fb.feedbacks
       stats[eid] = green: 0, red: 0, blue: 0, none: 0 unless stats[eid]
-      console.log eid, color
       switch color
       | \green    => stats[eid].green++
       | \red      => stats[eid].red++
