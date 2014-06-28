@@ -13,11 +13,7 @@ html(ng-app="app")
         #header-menu.ui.inverted.menu
           a.item
             i.large.home.icon
-          .item.breadcrumb-item
-            .ui.breadcrumb
-              a.section {{user}}
-              .divider /
-          .item.menu-item-without-separator
+          .item
             .ui.input
               input(type="text" ng-model="doc.title" debounce="500")
           .right.menu

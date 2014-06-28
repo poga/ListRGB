@@ -32,7 +32,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     colors: ListRGB.colors
     doc: doc
     fb: fb
-    user: 'user'
 
     default-predicate: (entry) -> $scope.doc.entries.indexOf(entry)
     predicate: $scope.default-predicate
