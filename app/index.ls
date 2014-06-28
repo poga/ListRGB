@@ -19,6 +19,12 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       console.log it
       cb Feedback.load-json it
 .controller AppCtrl: <[$scope $location $window SocketIo ListRGB storage]> ++ ($scope, $location, $window, SocketIo, ListRGB, storage) ->
+  # connection status
+  SocketIo.on \connect      -> $scope.connected = yes
+  SocketIo.on \error        -> $scope.connected = no
+  SocketIo.on \disconnected -> $scope.connected = no
+  SocketIo.on \reconnecting -> $scope.connected = no
+
   storage.bind $scope, 'uid', defaultValue: uuid.v1!
 
   $scope.doc-id = $location.path! - /^\//
@@ -32,7 +38,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     colors: ListRGB.colors
     doc: doc
     fb: fb
-
+    
     default-predicate: (entry) -> $scope.doc.entries.indexOf(entry)
     predicate: $scope.default-predicate
     sorter: "none"

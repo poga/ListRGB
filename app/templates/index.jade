@@ -12,7 +12,7 @@ html(ng-app="app")
       #main.ten.wide.column
         #header-menu.ui.inverted.menu
           a.item
-            i.large.home.icon
+            i.large.icon(ng-class="{cloud: connected, loading: !connected}")
           .item
             .ui.input
               input(type="text" ng-model="doc.title" debounce="500")
