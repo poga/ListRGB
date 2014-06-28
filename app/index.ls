@@ -43,6 +43,18 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     predicate: $scope.default-predicate
     sorter: "none"
 
+    custom-filter: green: yes, red: yes, blue: yes, none: yes, text: ""
+
+    entry-filter: (custom-filter)->
+      return (e) ->
+        res = false
+        if (custom-filter[$scope.fb.feedbacks[e.uuid]] or
+          ($scope.fb.feedbacks[e.uuid] == undefined and custom-filter.none)) and
+          e.text.indexOf(custom-filter.text) != -1
+          res = true
+
+        return res
+
     add-entry: ->
       entry = $scope.doc.add-entry-by-text $scope.new-item
       SocketIo.emit \op op: 'add entry', doc-id: $scope.doc-id, entry: entry
@@ -124,6 +136,10 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       $scope.doc.title = it.text
     case 'update desc'
       $scope.doc.desc = it.text
+
+  $scope.$watch 'customFilter' ->
+    console.log it
+  ,true
 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true

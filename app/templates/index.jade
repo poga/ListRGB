@@ -37,7 +37,7 @@ html(ng-app="app")
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
             ng-class-even="'even'"
-            ng-show="([entry] | filter:{text: search}).length > 0")
+            ng-show="([entry] | filter:entryFilter(customFilter)).length > 0")
             .ui.grid.middle.aligned
               .row.equal.height
                 .icon-col.one.wide.column
@@ -58,7 +58,7 @@ html(ng-app="app")
       #side.three.wide.column
         .ui.fluid.icon.input
           i.search.icon
-          input(type="text" placeholder="search" ng-model="search" debounce="300")
+          input(type="text" placeholder="search" ng-model="customFilter.text" debounce="300")
         .ui.basic.segment
           h5.ui.header View
           .ui.small.link.list
@@ -70,6 +70,23 @@ html(ng-app="app")
             a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
             a.item(ng-click="sortBy('color')" ng-class="{active: sorter == 'color'}") Color
           .ui.divider
+          h5.ui.header Color
+          .color-select
+            .ui.checkbox.green
+              input(type="checkbox" name="green" ng-model="customFilter.green" id="green-check")
+              label(for="green-check") Green
+          .color-select
+            .ui.checkbox.blue
+              input(type="checkbox" name="blue" ng-model="customFilter.blue" id="blue-check")
+              label(for="blue-check") Blue
+          .color-select
+            .ui.checkbox.red
+              input(type="checkbox" name="red" ng-model="customFilter.red" id="red-check")
+              label(for="red-check") Red
+          .color-select
+            .ui.checkbox
+              input(type="checkbox" name="none" ng-model="customFilter.none" id="none-check")
+              label(for="none-check") None
           h5.ui.header Tags
           .ui.link.list
             a.item(ng-repeat="t in doc.tags"

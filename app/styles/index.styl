@@ -80,6 +80,9 @@ body
     padding-bottom: 100px
     .row
       height: 40px
+      border: 1px transparent solid
+    .row.focused
+      border: 1px red solid
     .segment.even
       background-color: rgba(0,0,0, 0.02)
     .segment
@@ -117,4 +120,12 @@ body
 
 #side
   margin-top: 35px
+  .color-select
+    margin-bottom: 5px
+    .green.checkbox label
+      color: green
+    .blue.checkbox label
+      color: blue
+    .red.checkbox label
+      color: red
 
