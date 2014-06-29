@@ -43,7 +43,7 @@ html(ng-app="app")
                 .icon-col.one.wide.column
                 .icon-col.one.wide.column(ng-repeat="color in colors")
                   i.large.status-icon.icon(ng-class="{disabled: !hover && fb.feedbacks[entry.uuid] != color,\
-                    '{{color}}': fb.feedbacks[entry.uuid] == color,\
+                    '{{color}}': fb.feedbacks[entry.uuid] == color || hover,\
                     'empty checkbox': fb.feedbacks[entry.uuid] != color,\
                     sign: fb.feedbacks[entry.uuid] == color}"
                     ng-mouseenter="hover=true"
