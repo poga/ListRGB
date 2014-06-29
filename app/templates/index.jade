@@ -60,11 +60,6 @@ html(ng-app="app")
           i.search.icon
           input(type="text" placeholder="search" ng-model="customFilter.text" debounce="300")
         .ui.basic.segment
-          h5.ui.header View
-          .ui.small.link.list
-            a.active.item Mine
-            a.item Everyone
-          .ui.divider
           h5.ui.header Sort By
           .ui.small.link.list
             a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
@@ -87,6 +82,7 @@ html(ng-app="app")
             .ui.checkbox
               input(type="checkbox" name="none" ng-model="customFilter.none" id="none-check")
               label(for="none-check") None
+          .ui.divider
           h5.ui.header Tags
           .ui.link.list
             a.item(ng-repeat="t in doc.tags"
