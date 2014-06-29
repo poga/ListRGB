@@ -75,10 +75,10 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       SocketIo.emit \op op: 'set feedback', uid: $scope.fb.user-id, entry-id: entry.uuid, color: $scope.fb.feedbacks[entry.uuid], doc-id: $scope.doc-id
 
     set-search: (str) ->
-      if $scope.search == str
-        $scope.search = ""
+      if $scope.custom-filter.text == str
+        $scope.custom-filter.text = ""
       else
-        $scope.search = str
+        $scope.custom-filter.text = str
 
     sort-by: (sorter) ->
       $scope.sorter = sorter
