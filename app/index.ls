@@ -14,10 +14,9 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       cb new SimpleDoc it
     colors: <[green blue red]>
     get-feedback: (doc-id, uid, cb) ->
-      console.log \get, "_/fb/#{doc-id}/#{uid}"
       <- $http.get "_/fb/#{doc-id}/#{uid}" .success _
-      console.log it
       cb Feedback.load-json it
+
 .controller AppCtrl: <[$scope $location $window SocketIo ListRGB storage]> ++ ($scope, $location, $window, SocketIo, ListRGB, storage) ->
   # connection status
   SocketIo.on \connect      -> $scope.connected = yes
@@ -28,11 +27,8 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   storage.bind $scope, 'uid', defaultValue: uuid.v1!
 
   $scope.doc-id = $location.path! - /^\//
-  console.log $scope.doc-id
   doc <- ListRGB.get $scope.doc-id
-  console.log doc
   fb <- ListRGB.get-feedback $scope.doc-id, $scope.uid
-  console.log fb
 
   $scope <<< do
     colors: ListRGB.colors
@@ -102,7 +98,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
     calculate-percentage: ->
       $scope.percentage = $scope.fb.calculate-percentage $scope.doc.entries.length
-      console.log $scope.percentage
 
   $scope.calculate-percentage $scope.doc.entries.length
 
@@ -133,7 +128,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       SocketIo.emit \op op: 'update desc', doc-id: $scope.doc-id, text: new-desc
 
   SocketIo.on \broadcast ->
-    console.log it
     switch it.op
     case 'add entry'
       $scope.doc.add-entry it.entry
@@ -145,10 +139,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       $scope.doc.title = it.text
     case 'update desc'
       $scope.doc.desc = it.text
-
-  $scope.$watch 'customFilter' ->
-    console.log it
-  ,true
 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true
