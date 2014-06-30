@@ -1,5 +1,3 @@
-cs = changesets.Changeset
-dmp = new diff_match_patch()
 Document = require '../shared/document' .Document
 UserFeedback = require '../shared/feedback' .UserFeedback
 
