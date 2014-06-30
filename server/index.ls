@@ -10,15 +10,16 @@ app.use (require 'connect-livereload')( port: 35729 )
 app.use express.static __dirname + "/_public"
 app.get '/_/:fn/stats' (req, res) ->
   fbs <- UserFeedback.load-all-redis redis, req.param('fn')
+  doc <- Document.find-or-create-redis redis, req.param('fn')
   stats = doc-id: req.param('fn'), total:fbs.length
   for fb in fbs
-    for eid, color of fb.feedbacks
-      stats[eid] = green: 0, red: 0, blue: 0, none: 0 unless stats[eid]
-      switch color
-      | \green    => stats[eid].green++
-      | \red      => stats[eid].red++
-      | \blue     => stats[eid].blue++
-      | otherwise => stats[eid].none++
+    for e in doc.entries
+      stats[e.uuid] = entry: e, green: 0, red: 0, blue: 0, none: 0 unless stats[e.uuid]
+      switch fb.feedbacks[e.uuid]
+      | \green    => stats[e.uuid].green++
+      | \red      => stats[e.uuid].red++
+      | \blue     => stats[e.uuid].blue++
+      | otherwise => stats[e.uuid].none++
   res.send stats
 app.get '/_/:fn' (req, res) ->
   <- Document.find-or-create-redis redis, req.param('fn')

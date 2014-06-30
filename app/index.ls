@@ -3,6 +3,29 @@ UserFeedback = require '../shared/feedback' .UserFeedback
 
 angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btford.socket-io debounce angularLocalStorage]>
 
+.directive 'sparkline' ->
+  return do
+    restrict: \A
+    require: \ngModel
+    link: (scope, ele, attrs, ngModel) ->
+      opts = type: attrs.type || 'line'
+      scope.$watch attrs.ngModel,(-> render!), true
+      scope.$watch attrs.opts,   (-> render!), true
+
+      render = ->
+        angular.extend opts, angular.fromJson attrs.opts if attrs.opts
+        if angular.isString ngModel.$viewValue
+          model = ngModel.$viewValue.replace(/(^,)|(,$)/g, "")
+        else
+          model = ngModel.$viewValue
+
+        if angular.isArray model
+          data = model
+        else
+          data = model.split ','
+
+        $(ele).sparkline data, opts
+
 .factory 'SocketIo', <[socketFactory]> ++ (socketFactory) -> return socketFactory!
 
 .factory 'ListRGB', <[$http SocketIo]> ++ ($http, SocketIo) ->
@@ -14,6 +37,9 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     get-feedback: (doc-id, uid, cb) ->
       <- $http.get "_/fb/#{doc-id}/#{uid}" .success _
       cb UserFeedback.load it
+    get-stats: (doc-id, cb) ->
+      <- $http.get "_/#doc-id/stats" .success _
+      cb it
 
 .controller AppCtrl: <[$scope $location $window SocketIo ListRGB storage]> ++ ($scope, $location, $window, SocketIo, ListRGB, storage) ->
   # connection status
@@ -27,12 +53,22 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   $scope.doc-id = $location.path! - /^\//
   doc <- ListRGB.get $scope.doc-id
   fb <- ListRGB.get-feedback $scope.doc-id, $scope.uid
+  stats <- ListRGB.get-stats $scope.doc-id
+  $scope.stats = {}
+  for k, v of stats
+    if k != "docId" and k != "total"
+      $scope.stats[k] = [v.green, v.blue, v.red]
+      if ($scope.stats[k].reduce (+) ) > 0
+        $scope.stats[k].push 0
+      else
+        $scope.stats[k].push 1
 
   $scope <<< do
     colors: ListRGB.colors
     doc: doc
     fb: fb
-    
+    spark: [1,2,3]
+
     default-predicate: (entry) -> $scope.doc.entries.indexOf(entry)
     predicate: $scope.default-predicate
     sorter: "none"

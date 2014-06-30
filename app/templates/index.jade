@@ -41,6 +41,10 @@ html(ng-app="app")
             .ui.grid.middle.aligned
               .row.equal.height
                 .icon-col.one.wide.column
+                  .sparkline(sparkline
+                    ng-model="stats[entry.uuid]"
+                    opts="{{ {'type': 'pie', 'width': '30px', 'sliceColors': ['#b8bd8b','#92dbf7','#e28585','#808080']} }}"
+                    )
                 .icon-col.one.wide.column(ng-repeat="color in colors")
                   i.large.status-icon.icon(ng-class="{disabled: !hover && fb.feedbacks[entry.uuid] != color,\
                     '{{color}}': fb.feedbacks[entry.uuid] == color || hover,\

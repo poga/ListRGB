@@ -20,10 +20,15 @@ export class UserFeedback
       cb result
 
   @load-doc-user-redis = (redis, doc-id, user-id, cb) ->
+    err, eids <- redis.lrange "doc:#doc-id:entries", 0, -1
+    throw err if err
     err, fb <- redis.hgetall "doc:#doc-id:feedbackers:#user-id"
     throw err if err
     if fb
-      cb UserFeedback.load user-id: user-id, feedbacks: fb
+      ufb = new UserFeedback user-id
+      for eid in eids
+        ufb.set eid, fb[eid]
+      cb ufb
     else
       cb new UserFeedback user-id
 
