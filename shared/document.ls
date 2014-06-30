@@ -1,7 +1,7 @@
 uuid = require 'node-uuid'
 require! async
 
-export class SimpleDoc
+export class Document
   @redis-set-title = (redis, doc-id, title, cb) ->
     err, v <- redis.set "doc:#doc-id:title", title
     cb!
@@ -15,7 +15,7 @@ export class SimpleDoc
     cb!
 
   @redis-add-entry-by-text = (redis, doc-id, text, cb) ->
-    <- SimpleDoc.redis-add-entry redis, doc-id, uuid: uuid.v1!, text: text, createdAt: Date.now!
+    <- Document.redis-add-entry redis, doc-id, uuid: uuid.v1!, text: text, createdAt: Date.now!
     cb!
 
   @redis-add-entry = (redis, doc-id, entry, cb) ->
@@ -32,7 +32,7 @@ export class SimpleDoc
     cb!
 
   @find-or-create-redis = (redis, doc-id, cb) ->
-    doc = new SimpleDoc!
+    doc = new Document!
     inits = []
     inits.push (cb) ->
       redis.setnx "doc:#doc-id:title", "untitled", cb

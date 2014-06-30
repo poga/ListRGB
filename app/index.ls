@@ -1,6 +1,6 @@
 cs = changesets.Changeset
 dmp = new diff_match_patch()
-SimpleDoc = require '../shared/simple-doc' .SimpleDoc
+Document = require '../shared/document' .Document
 UserFeedback = require '../shared/feedback' .UserFeedback
 
 angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btford.socket-io debounce angularLocalStorage]>
@@ -11,7 +11,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   return do
     get: (id, cb) ->
       <- $http.get "_/#{id}" .success _
-      cb new SimpleDoc it
+      cb new Document it
     colors: <[green blue red]>
     get-feedback: (doc-id, uid, cb) ->
       <- $http.get "_/fb/#{doc-id}/#{uid}" .success _

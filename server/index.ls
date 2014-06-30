@@ -1,4 +1,4 @@
-SimpleDoc = require './shared/simple-doc' .SimpleDoc
+Document = require './shared/document' .Document
 UserFeedback = require './shared/feedback' .UserFeedback
 require! <[fs path express redis]>
 
@@ -21,7 +21,7 @@ app.get '/_/:fn/stats' (req, res) ->
       | otherwise => stats[eid].none++
   res.send stats
 app.get '/_/:fn' (req, res) ->
-  <- SimpleDoc.find-or-create-redis redis, req.param('fn')
+  <- Document.find-or-create-redis redis, req.param('fn')
   res.send it
 app.get '/_/fb/:docid/:uid' (req, res) ->
   <- UserFeedback.load-doc-user-redis redis, req.param('docid'), req.param('uid')
@@ -43,19 +43,19 @@ io.on \connection (socket) ->
     case 'set feedback'
       <- UserFeedback.redis-set redis, it.doc-id, it.uid, it.entry-id, it.color
     case 'add entry'
-      <- SimpleDoc.redis-add-entry redis, it.doc-id, it.entry
+      <- Document.redis-add-entry redis, it.doc-id, it.entry
       socket.broadcast.emit \broadcast, op
     case 'remove entry'
-      <- SimpleDoc.redis-remove-entry redis, it.doc-id, it.entry-uuid
+      <- Document.redis-remove-entry redis, it.doc-id, it.entry-uuid
       socket.broadcast.emit \broadcast, op
     case 'update entry'
-      <- SimpleDoc.redis-set-entry redis, it.doc-id, it.entry-uuid, it.text
+      <- Document.redis-set-entry redis, it.doc-id, it.entry-uuid, it.text
       socket.broadcast.emit \broadcast, op
     case 'update title'
-      <- SimpleDoc.redis-set-title redis, it.doc-id, it.text
+      <- Document.redis-set-title redis, it.doc-id, it.text
       socket.broadcast.emit \broadcast, op
     case 'update desc'
-      <- SimpleDoc.redis-set-desc redis, it.doc-id, it.text
+      <- Document.redis-set-desc redis, it.doc-id, it.text
       socket.broadcast.emit \broadcast, op
 
 http-server.listen 8000, ->
