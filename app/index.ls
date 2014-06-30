@@ -67,7 +67,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     colors: ListRGB.colors
     doc: doc
     fb: fb
-    spark: [1,2,3]
 
     default-predicate: (entry) -> $scope.doc.entries.indexOf(entry)
     predicate: $scope.default-predicate

@@ -40,11 +40,7 @@ html(ng-app="app")
             ng-show="([entry] | filter:entryFilter(customFilter)).length > 0")
             .ui.grid.middle.aligned
               .row.equal.height
-                .icon-col.one.wide.column
-                  .sparkline(sparkline
-                    ng-model="stats[entry.uuid]"
-                    opts="{{ {'type': 'pie', 'width': '30px', 'sliceColors': ['#b8bd8b','#92dbf7','#e28585','#808080']} }}"
-                    )
+                .icon-col.one.wide.column.right.aligned
                 .icon-col.one.wide.column(ng-repeat="color in colors")
                   i.large.status-icon.icon(ng-class="{disabled: !hover && fb.feedbacks[entry.uuid] != color,\
                     '{{color}}': fb.feedbacks[entry.uuid] == color || hover,\
@@ -54,11 +50,17 @@ html(ng-app="app")
                     ng-mouseleave="hover=false"
                     ng-init="hover=false"
                     ng-click="toggleFeedback(entry, color)")
-                .input-col.drag-col.status-col.nine.wide.column
+                .input-col.drag-col.status-col.ten.wide.column
                   .ui.fluid.input
                     textarea(ng-model="entry.text" msd-elastic debounce="300")
                 .icon-col.one.wide.column.right.aligned
-                  i.trash.icon(ng-class="{'vis-hide': !hover}" ng-click="removeEntryByUuid(entry.uuid)")
+                  i.trash.icon(ng-click="removeEntryByUuid(entry.uuid)"
+                    ng-class="{'disabled': !hover}")
+                .icon-col.one.wide.column
+                  .sparkline(sparkline
+                    ng-model="stats[entry.uuid]"
+                    opts="{{ {'type': 'pie', 'width': '30px', 'sliceColors': ['#b8bd8b','#92dbf7','#e28585','#808080']} }}"
+                    )
       #side.three.wide.column
         .ui.fluid.icon.input
           i.search.icon
