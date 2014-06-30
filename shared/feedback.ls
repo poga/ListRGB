@@ -7,16 +7,16 @@ export class UserFeedback
     cb v
 
   @load-all-redis = (redis, doc-id, cb) ->
-    err, uids <- redis.smembers "doc:#doc-id:feedbackers", 0, -1
+    err, uids <- redis.smembers "doc:#doc-id:feedbackers"
     throw err if err
     async.map uids, (uid, cb) ->
       err, fb <- redis.hgetall "doc:#doc-id:feedbackers:#uid"
       throw err if err
       if fb
-        cb null, UserFeedback.load fb
+        cb null, UserFeedback.load user-id: uid, feedbacks: fb
       else
         cb null, new UserFeedback uid
-    , (result) ->
+    , (err, result) ->
       cb result
 
   @load-doc-user-redis = (redis, doc-id, user-id, cb) ->

@@ -66,9 +66,8 @@ app = express!
 app.use (require 'connect-livereload')( port: 35729 )
 app.use express.static __dirname + "/_public"
 app.get '/_/:fn/stats' (req, res) ->
-  fn = req.param('fn')
-  fbs <- load-feedback-all fn
-  stats = doc-id: fn, total:fbs.length
+  fbs <- UserFeedback.load-all-redis redis, req.param('fn')
+  stats = doc-id: req.param('fn'), total:fbs.length
   for fb in fbs
     for eid, color of fb.feedbacks
       stats[eid] = green: 0, red: 0, blue: 0, none: 0 unless stats[eid]
