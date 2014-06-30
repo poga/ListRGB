@@ -52,14 +52,12 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         return res
 
     add-entry: ->
-      $scope.just-added = yes
       entry = $scope.doc.add-entry-by-text $scope.new-item
       SocketIo.emit \op op: 'add entry', doc-id: $scope.doc-id, entry: entry
       $scope.new-item = ""
       $scope.calculate-percentage $scope.doc.entries.length
 
     remove-entry-by-uuid: (entry-uuid) ->
-      $scope.just-removed = yes
       remove = $window.confirm("Remove Item: #{$scope.doc.find-entry(entry-uuid).text} ?")
       if remove
         $scope.doc.remove-entry-by-uuid entry-uuid
@@ -102,18 +100,15 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   $scope.calculate-percentage $scope.doc.entries.length
 
   $scope.$watch 'doc.entries' (new-entries, old-entries) ->
-    # XXX hacky
-    if $scope.just-added
-      $scope.just-added = false
-      return
-    if $scope.just-removed
-      $scope.just-removed = false
+    if $scope.suppress-watch-entries
+      $scope.suppress-watch-entries = false
       return
     var changed
-    for n,i in new-entries
-      if n.text != old-entries[i].text
-        changed := n
-        break
+    for n in new-entries
+      for o in old-entries
+        if n.uuid == o.uuid
+          changed := n if n.text != o.text
+          break
     if changed
       $scope.doc.parse-tags!
       SocketIo.emit \op op: 'update entry', entry-uuid: changed.uuid, doc-id: $scope.doc-id, text: changed.text
@@ -134,6 +129,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     case 'remove entry'
       $scope.doc.remove-entry-by-uuid it.entry-uuid
     case 'update entry'
+      $scope.suppress-watch-entries = true
       $scope.doc.update-entry it.entry-uuid, it.text
     case 'update title'
       $scope.doc.title = it.text
