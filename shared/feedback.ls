@@ -3,6 +3,7 @@ require! async
 export class UserFeedback
   @redis-set = (redis, doc-id, user-id, entry-id, color, cb) ->
     err, v <- redis.hset "doc:#doc-id:feedbackers:#user-id", entry-id, color
+    err, v <- redis.sadd "doc:#doc-id:feedbackers", user-id
     cb v
 
   @load-all-redis = (redis, doc-id, cb) ->
