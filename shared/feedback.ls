@@ -1,7 +1,35 @@
-export class Feedback
+require! async
+
+export class UserFeedback
+  @redis-set = (redis, doc-id, user-id, entry-id, color, cb) ->
+    err, v <- redis.hset "doc:#doc-id:feedbackers:#user-id", entry-id, color
+    cb v
+
+  @load-all-redis = (redis, doc-id, cb) ->
+    err, uids <- redis.smembers "doc:#doc-id:feedbackers", 0, -1
+    throw err if err
+    async.map uids, (uid, cb) ->
+      err, fb <- redis.hgetall "doc:#doc-id:feedbackers:#uid"
+      throw err if err
+      if fb
+        cb null, UserFeedback.load fb
+      else
+        cb null, new UserFeedback uid
+    , (result) ->
+      cb result
+
+  @load-doc-user-redis = (redis, doc-id, user-id, cb) ->
+    err, fb <- redis.hgetall "doc:#doc-id:feedbackers:#user-id"
+    throw err if err
+    if fb
+      cb UserFeedback.load user-id: user-id, feedbacks: fb
+    else
+      cb new UserFeedback user-id
+
   @color = <[green blue red none]>
-  @load-json = (json) ->
-    fb = new Feedback
+
+  @load = (json) ->
+    fb = new UserFeedback
     fb.user-id = json.user-id
     fb.feedbacks = json.feedbacks
     return fb

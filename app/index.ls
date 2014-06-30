@@ -1,7 +1,7 @@
 cs = changesets.Changeset
 dmp = new diff_match_patch()
 SimpleDoc = require '../shared/simple-doc' .SimpleDoc
-Feedback = require '../shared/feedback' .Feedback
+UserFeedback = require '../shared/feedback' .UserFeedback
 
 angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btford.socket-io debounce angularLocalStorage]>
 
@@ -15,7 +15,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     colors: <[green blue red]>
     get-feedback: (doc-id, uid, cb) ->
       <- $http.get "_/fb/#{doc-id}/#{uid}" .success _
-      cb Feedback.load-json it
+      cb UserFeedback.load it
 
 .controller AppCtrl: <[$scope $location $window SocketIo ListRGB storage]> ++ ($scope, $location, $window, SocketIo, ListRGB, storage) ->
   # connection status

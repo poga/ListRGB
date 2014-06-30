@@ -1,53 +1,47 @@
 SimpleDoc = require './shared/simple-doc' .SimpleDoc
-Feedback = require './shared/feedback' .Feedback
-require! <[fs path express]>
+UserFeedback = require './shared/feedback' .UserFeedback
+require! <[fs path express redis]>
 
-save-doc = (doc, fn, cb) ->
-  err <- fs.writeFile "#{fn}.json", JSON.stringify doc, null, 4
-  throw err if err
-  console.log "#{fn}.json saved"
+redis = redis.createClient!
+redis.on \error -> throw it
+
+save-doc = (doc, id, cb) ->
+  <- redis.set "doc:#id", JSON.stringify doc
+  console.log "doc:#id saved"
   cb!
 
-load-doc = (fn, cb) ->
-  full-name = "#{fn}.json"
-  console.log "loading doc #full-name"
-  exists <- fs.exists full-name
-  if exists
-    err, data <- fs.readFile full-name, 'utf-8'
-    doc = new SimpleDoc JSON.parse data
-    cb doc
+load-doc = (id, cb) ->
+  console.log "loading doc:#id"
+  err, value <- redis.get "doc:#id"
+  if value
+    cb new SimpleDoc JSON.parse value
   else
-    doc = new SimpleDoc!
-    cb doc
+    cb new SimpleDoc!
 
 load-feedback = (doc-id, uid, cb) ->
-  full = "feedback-#{doc-id}.json"
-  console.log "loading feedback #full"
-  exists <- fs.exists full
-  if exists
-    err, data <- fs.readFile full, 'utf-8'
-    doc-fb = JSON.parse data
+  console.log "loading feedback fb:#doc-id"
+  err, value <- redis.get "fb:#doc-id"
+  if value
+    doc-fb = JSON.parse value
     if doc-fb[uid]
-      cb Feedback.load-json doc-fb[uid]
+      cb UserFeedback.load doc-fb[uid]
     else
-      cb new Feedback uid
+      cb new UserFeedback uid
   else
-    fb = new Feedback uid
-    cb fb
+      cb new UserFeedback uid
 
 load-feedback-all = (doc-id, cb) ->
   full = "feedback-#{doc-id}.json"
-  console.log "loading feedback #full"
-  exists <- fs.exists full
-  if exists
-    err, data <- fs.readFile full, 'utf-8'
-    doc-fb = JSON.parse data
-    res = []
+  console.log "loading feedback fb:#doc-id"
+  err, value <- redis.get "fb:#doc-id"
+  if value
+    doc-fb = JSON.parse value
+    fbs = []
     for uid, fb of doc-fb
-      res.push Feedback.load-json fb
-    cb res
+      fbs.push UserFeedback.load fb
+    cb fbs
   else
-    cb undefined
+    cb []
 
 save-feedback = (doc-id, feedback, cb) ->
   doc-fb-fn = "feedback-#{doc-id}.json"
@@ -85,11 +79,10 @@ app.get '/_/:fn/stats' (req, res) ->
       | otherwise => stats[eid].none++
   res.send stats
 app.get '/_/:fn' (req, res) ->
-  fn = req.param('fn')
-  <- load-doc fn
+  <- SimpleDoc.find-or-create-redis redis, req.param('fn')
   res.send it
 app.get '/_/fb/:docid/:uid' (req, res) ->
-  <- load-feedback req.param('docid'), req.param('uid')
+  <- UserFeedback.load-doc-user-redis redis, req.param('docid'), req.param('uid')
   res.send it
 app.all '/**' (req, res) ->
   res.sendfile __dirname + "/_public/index.html"
@@ -106,33 +99,21 @@ io.on \connection (socket) ->
     op = it
     switch it.op
     case 'set feedback'
-      fb <- load-feedback it.doc-id, it.uid
-      fb.set it.entry-id, it.color
-      <- save-feedback it.doc-id, fb
+      <- UserFeedback.redis-set redis, it.doc-id, it.uid, it.entry-id, it.color
     case 'add entry'
-      doc <- load-doc it.doc-id
-      doc.add-entry it.entry
-      <- save-doc doc, it.doc-id
+      <- SimpleDoc.redis-add-entry redis, it.doc-id, it.entry
       socket.broadcast.emit \broadcast, op
     case 'remove entry'
-      doc <- load-doc it.doc-id
-      doc.remove-entry-by-uuid it.entry-uuid
-      <- save-doc doc, it.doc-id
+      <- SimpleDoc.redis-remove-entry redis, it.doc-id, it.entry-uuid
       socket.broadcast.emit \broadcast, op
     case 'update entry'
-      doc <- load-doc it.doc-id
-      doc.update-entry it.entry-uuid, it.text
-      <- save-doc doc, it.doc-id
+      <- SimpleDoc.redis-set-entry redis, it.doc-id, it.entry-uuid, it.text
       socket.broadcast.emit \broadcast, op
     case 'update title'
-      doc <- load-doc it.doc-id
-      doc.title = it.text
-      <- save-doc doc, it.doc-id
+      <- SimpleDoc.redis-set-title redis, it.doc-id, it.text
       socket.broadcast.emit \broadcast, op
     case 'update desc'
-      doc <- load-doc it.doc-id
-      doc.desc = it.text
-      <- save-doc doc, it.doc-id
+      <- SimpleDoc.redis-set-desc redis, it.doc-id, it.text
       socket.broadcast.emit \broadcast, op
 
 http-server.listen 8000, ->

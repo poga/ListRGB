@@ -13,6 +13,8 @@ dependencies:
   express: \*
   'socket.io': \~1.0.6
   'node-uuid': \*
+  redis: \*
+  async: \*
 devDependencies:
   jade: \~1.3.1
   LiveScript: \~1.2.0
