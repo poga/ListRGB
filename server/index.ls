@@ -5,63 +5,6 @@ require! <[fs path express redis]>
 redis = redis.createClient!
 redis.on \error -> throw it
 
-save-doc = (doc, id, cb) ->
-  <- redis.set "doc:#id", JSON.stringify doc
-  console.log "doc:#id saved"
-  cb!
-
-load-doc = (id, cb) ->
-  console.log "loading doc:#id"
-  err, value <- redis.get "doc:#id"
-  if value
-    cb new SimpleDoc JSON.parse value
-  else
-    cb new SimpleDoc!
-
-load-feedback = (doc-id, uid, cb) ->
-  console.log "loading feedback fb:#doc-id"
-  err, value <- redis.get "fb:#doc-id"
-  if value
-    doc-fb = JSON.parse value
-    if doc-fb[uid]
-      cb UserFeedback.load doc-fb[uid]
-    else
-      cb new UserFeedback uid
-  else
-      cb new UserFeedback uid
-
-load-feedback-all = (doc-id, cb) ->
-  full = "feedback-#{doc-id}.json"
-  console.log "loading feedback fb:#doc-id"
-  err, value <- redis.get "fb:#doc-id"
-  if value
-    doc-fb = JSON.parse value
-    fbs = []
-    for uid, fb of doc-fb
-      fbs.push UserFeedback.load fb
-    cb fbs
-  else
-    cb []
-
-save-feedback = (doc-id, feedback, cb) ->
-  doc-fb-fn = "feedback-#{doc-id}.json"
-  exists <- fs.exists doc-fb-fn
-  if exists
-    err, data <- fs.readFile doc-fb-fn, 'utf-8'
-    doc-fb = JSON.parse data
-    doc-fb[feedback.user-id] = feedback
-    err <- fs.writeFile doc-fb-fn, JSON.stringify doc-fb, null, 4
-    throw err if err
-    console.log "#{doc-fb-fn} saved"
-    cb!
-  else
-    doc-fb = {}
-    doc-fb[feedback.user-id] = feedback
-    err <- fs.writeFile doc-fb-fn, JSON.stringify doc-fb, null, 4
-    throw err if err
-    console.log "#{doc-fb-fn} saved"
-    cb!
-
 app = express!
 app.use (require 'connect-livereload')( port: 35729 )
 app.use express.static __dirname + "/_public"
