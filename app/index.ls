@@ -168,6 +168,14 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       $scope.doc.title = it.text
     case 'update desc'
       $scope.doc.desc = it.text
+    case 'set feedback'
+      color-idx = green: 0, blue: 1, red: 2, none: 3
+      if $scope.stats[it.entry-id][color-idx[it.old]] > 0
+        $scope.stats[it.entry-id][color-idx[it.old]]--
+      if it.color != \none
+        $scope.stats[it.entry-id][color-idx[it.color]]++
+      if ($scope.stats[it.entry-id].reduce (+) ) == 0
+        $scope.stats[it.entry-id][3] = 1
 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true

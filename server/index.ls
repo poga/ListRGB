@@ -42,7 +42,8 @@ io.on \connection (socket) ->
     op = it
     switch it.op
     case 'set feedback'
-      <- UserFeedback.redis-set redis, it.doc-id, it.uid, it.entry-id, it.color
+      old-color, new-color <- UserFeedback.redis-set redis, it.doc-id, it.uid, it.entry-id, it.color
+      io.emit \broadcast,(op <<< old: old-color)
     case 'add entry'
       <- Document.redis-add-entry redis, it.doc-id, it.entry
       socket.broadcast.emit \broadcast, op
