@@ -70,6 +70,9 @@ html(ng-app="app")
           .ui.small.link.list
             a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
             a.item(ng-click="sortBy('color')" ng-class="{active: sorter == 'color'}") Color
+            a.item(ng-click="sortBy('stats-green')" ng-class="{active: sorter == 'stats-green'}") Stats-Green
+            a.item(ng-click="sortBy('stats-blue')" ng-class="{active: sorter == 'stats-blue'}") Stats-Blue
+            a.item(ng-click="sortBy('stats-red')" ng-class="{active: sorter == 'stats-red'}") Stats-Red
           .ui.divider
           h5.ui.header Color
           .color-select

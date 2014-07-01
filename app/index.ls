@@ -56,6 +56,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   doc <- ListRGB.get $scope.doc-id
   fb <- ListRGB.get-feedback $scope.doc-id, $scope.uid
   stats <- ListRGB.get-stats $scope.doc-id
+  # stats = { entry-id: [green, blue, red, none], ...}
   $scope.stats = {}
   for k, v of stats
     if k != "docId" and k != "total"
@@ -126,6 +127,21 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
             | \green => 1
             | \blue => 2
             | \red => 3
+          ..push $scope.default-predicate
+      case 'stats-green'
+        $scope.predicate = []
+          ..push (entry) ->
+            -1 * $scope.stats[entry.uuid].0
+          ..push $scope.default-predicate
+      case 'stats-blue'
+        $scope.predicate = []
+          ..push (entry) ->
+            -1 * $scope.stats[entry.uuid].1
+          ..push $scope.default-predicate
+      case 'stats-red'
+        $scope.predicate = []
+          ..push (entry) ->
+            -1 * $scope.stats[entry.uuid].2
           ..push $scope.default-predicate
       case 'none'
         $scope.predicate = $scope.default-predicate
