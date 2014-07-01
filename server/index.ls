@@ -49,6 +49,7 @@ io.on \connection (socket) ->
     switch it.op
     case 'set feedback'
       old-color, new-color <- UserFeedback.redis-set redis, doc-id, it.uid, it.entry-id, it.color
+      old-color = \none if old-color == null
       io.to(doc-id).emit \broadcast,(op <<< old: old-color)
     case 'add entry'
       <- Document.redis-add-entry redis, doc-id, it.entry

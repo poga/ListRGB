@@ -88,6 +88,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
     add-entry: ->
       entry = $scope.doc.add-entry-by-text $scope.new-item
+      $scope.stats[entry.uuid] = [0, 0, 0, 1]
       SocketIo.emit \op op: 'add entry', entry: entry
       $scope.new-item = ""
       $scope.calculate-percentage $scope.doc.entries.length
