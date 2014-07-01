@@ -40,6 +40,8 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     get-stats: (doc-id, cb) ->
       <- $http.get "_/#doc-id/stats" .success _
       cb it
+    rand-user-color: ->
+      <[#b58900 #cb4b16 #dc322f #d33682 #6c71c4 #268bd2 #2aa198 #859900]>[Math.floor(Math.random!*8)]
 
 .controller AppCtrl: <[$scope $location $window SocketIo ListRGB storage]> ++ ($scope, $location, $window, SocketIo, ListRGB, storage) ->
   # connection status
@@ -51,6 +53,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   SocketIo.on \reconnecting -> $scope.connected = no
 
   storage.bind $scope, 'uid', defaultValue: uuid.v1!
+  storage.bind $scope, 'userColor', defaultValue: ListRGB.rand-user-color!
 
   $scope.doc-id = $location.path! - /^\//
   doc <- ListRGB.get $scope.doc-id
@@ -70,6 +73,9 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     colors: ListRGB.colors
     doc: doc
     fb: fb
+
+    entry-style: {} # { entry-id: { background-color: color } }
+    entry-focusing: {} # { user-id: { entry-id: , color }}
 
     default-predicate: (entry) -> $scope.doc.entries.indexOf(entry)
     predicate: $scope.default-predicate
@@ -149,6 +155,22 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     calculate-percentage: ->
       $scope.percentage = $scope.fb.calculate-percentage $scope.doc.entries.length
 
+    focus-entry: (user-id, entry-id, color) ->
+      if color
+        $scope.entry-focusing[user-id] = entry-id: entry-id, color: color
+        $scope.entry-style[entry-id] = { 'border-color': color }
+      else
+        SocketIo.emit \op, op: \focus, entry-id: entry-id, color: $scope.user-color, user-id: $scope.uid
+
+    unfocus-entry: (user-id, entry-id) ->
+      delete $scope.entry-focusing[user-id]
+      delete $scope.entry-style[entry-id]
+      for uid, f of $scope.entry-focusing
+        if f.entry-id == entry-id
+          $scope.entry-style[entry-id] = { 'border-color': f.color }
+          break
+      SocketIo.emit \op, op: \unfocus, entry-id: entry-id, user-id: $scope.uid if user-id == $scope.uid
+
   $scope.calculate-percentage $scope.doc.entries.length
 
   $scope.$watch 'doc.entries' (new-entries, old-entries) ->
@@ -178,6 +200,10 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
   SocketIo.on \broadcast ->
     switch it.op
+    case 'focus'
+      $scope.focus-entry it.user-id, it.entry-id, it.color
+    case 'unfocus'
+      $scope.unfocus-entry it.user-id, it.entry-id
     case 'add entry'
       $scope.doc.add-entry it.entry
     case 'remove entry'

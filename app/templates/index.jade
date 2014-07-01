@@ -39,7 +39,7 @@ html(ng-app="app")
             ng-class-even="'even'"
             ng-show="([entry] | filter:entryFilter(customFilter)).length > 0")
             .ui.grid.middle.aligned
-              .row.equal.height
+              .row.equal.height(ng-style="entryStyle[entry.uuid]")
                 .icon-col.one.wide.column.right.aligned
                 .icon-col.one.wide.column(ng-repeat="color in colors")
                   i.large.status-icon.icon(ng-class="{disabled: !hover && fb.feedbacks[entry.uuid] != color,\
@@ -52,7 +52,9 @@ html(ng-app="app")
                     ng-click="toggleFeedback(entry, color)")
                 .input-col.drag-col.status-col.ten.wide.column
                   .ui.fluid.input
-                    textarea(ng-model="entry.text" msd-elastic debounce="300")
+                    textarea(ng-model="entry.text" msd-elastic debounce="300"
+                    ng-focus="focusEntry(uid, entry.uuid)"
+                    ng-blur="unfocusEntry(uid, entry.uuid)")
                 .icon-col.one.wide.column.right.aligned
                   i.trash.icon(ng-click="removeEntryByUuid(entry.uuid)"
                     ng-class="{'disabled': !hover}")

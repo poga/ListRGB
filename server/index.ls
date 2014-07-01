@@ -66,6 +66,10 @@ io.on \connection (socket) ->
     case 'update desc'
       <- Document.redis-set-desc redis, doc-id, it.text
       socket.broadcast.to(doc-id).emit \broadcast, op
+    case 'focus'
+      socket.broadcast.to(doc-id).emit \broadcast, op
+    case 'unfocus'
+      socket.broadcast.to(doc-id).emit \broadcast, op
 
 http-server.listen 8000, ->
   console.log "Running on http://localhost:8000"
