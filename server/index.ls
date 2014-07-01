@@ -39,33 +39,32 @@ io.on \connection (socket) ->
 
   socket.on \register ->
     console.log socket.id, \register, it
-    for room in socket.rooms
-      socket.leave room
-    socket.join it
+    # TODO: leave registered doc-id
+    <- socket.join it
 
   socket.on \op ->
-    console.log socket.id, \op, it
-    doc-id = socket.rooms.0
-    op = it
+    doc-id = socket.rooms.1 # rooms = [socket.id, doc.id]
+    console.log socket.id, doc-id, \op, it
+    op = it <<< doc-id: doc-id
     switch it.op
     case 'set feedback'
       old-color, new-color <- UserFeedback.redis-set redis, doc-id, it.uid, it.entry-id, it.color
-      io.emit \broadcast,(op <<< old: old-color)
+      io.to(doc-id).emit \broadcast,(op <<< old: old-color)
     case 'add entry'
       <- Document.redis-add-entry redis, doc-id, it.entry
-      socket.broadcast.emit \broadcast, op
+      io.to(doc-id).emit \broadcast, op
     case 'remove entry'
       <- Document.redis-remove-entry redis, doc-id, it.entry-uuid
-      socket.broadcast.emit \broadcast, op
+      io.to(doc-id).emit \broadcast, op
     case 'update entry'
       <- Document.redis-set-entry redis, doc-id, it.entry-uuid, it.text
-      socket.broadcast.emit \broadcast, op
+      io.to(doc-id).emit \broadcast, op
     case 'update title'
       <- Document.redis-set-title redis, doc-id, it.text
-      socket.broadcast.emit \broadcast, op
+      io.to(doc-id).emit \broadcast, op
     case 'update desc'
       <- Document.redis-set-desc redis, doc-id, it.text
-      socket.broadcast.emit \broadcast, op
+      io.to(doc-id).emit \broadcast, op
 
 http-server.listen 8000, ->
   console.log "Running on http://localhost:8000"
