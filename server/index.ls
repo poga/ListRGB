@@ -35,29 +35,36 @@ io = require('socket.io')(http-server)
 
 io.on \connection (socket) ->
   console.log socket.id, \connected
-  socket.emit \id, socket.id
+  #socket.emit \id, socket.id
+
+  socket.on \register ->
+    console.log socket.id, \register, it
+    for room in socket.rooms
+      socket.leave room
+    socket.join it
 
   socket.on \op ->
     console.log socket.id, \op, it
+    doc-id = socket.rooms.0
     op = it
     switch it.op
     case 'set feedback'
-      old-color, new-color <- UserFeedback.redis-set redis, it.doc-id, it.uid, it.entry-id, it.color
+      old-color, new-color <- UserFeedback.redis-set redis, doc-id, it.uid, it.entry-id, it.color
       io.emit \broadcast,(op <<< old: old-color)
     case 'add entry'
-      <- Document.redis-add-entry redis, it.doc-id, it.entry
+      <- Document.redis-add-entry redis, doc-id, it.entry
       socket.broadcast.emit \broadcast, op
     case 'remove entry'
-      <- Document.redis-remove-entry redis, it.doc-id, it.entry-uuid
+      <- Document.redis-remove-entry redis, doc-id, it.entry-uuid
       socket.broadcast.emit \broadcast, op
     case 'update entry'
-      <- Document.redis-set-entry redis, it.doc-id, it.entry-uuid, it.text
+      <- Document.redis-set-entry redis, doc-id, it.entry-uuid, it.text
       socket.broadcast.emit \broadcast, op
     case 'update title'
-      <- Document.redis-set-title redis, it.doc-id, it.text
+      <- Document.redis-set-title redis, doc-id, it.text
       socket.broadcast.emit \broadcast, op
     case 'update desc'
-      <- Document.redis-set-desc redis, it.doc-id, it.text
+      <- Document.redis-set-desc redis, doc-id, it.text
       socket.broadcast.emit \broadcast, op
 
 http-server.listen 8000, ->

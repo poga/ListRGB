@@ -43,7 +43,9 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
 .controller AppCtrl: <[$scope $location $window SocketIo ListRGB storage]> ++ ($scope, $location, $window, SocketIo, ListRGB, storage) ->
   # connection status
-  SocketIo.on \connect      -> $scope.connected = yes
+  SocketIo.on \connect      ->
+    SocketIo.emit \register, $scope.doc-id
+    $scope.connected = yes
   SocketIo.on \error        -> $scope.connected = no
   SocketIo.on \disconnected -> $scope.connected = no
   SocketIo.on \reconnecting -> $scope.connected = no
@@ -86,7 +88,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
     add-entry: ->
       entry = $scope.doc.add-entry-by-text $scope.new-item
-      SocketIo.emit \op op: 'add entry', doc-id: $scope.doc-id, entry: entry
+      SocketIo.emit \op op: 'add entry', entry: entry
       $scope.new-item = ""
       $scope.calculate-percentage $scope.doc.entries.length
 
@@ -94,7 +96,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       remove = $window.confirm("Remove Item: #{$scope.doc.find-entry(entry-uuid).text} ?")
       if remove
         $scope.doc.remove-entry-by-uuid entry-uuid
-        SocketIo.emit \op op: 'remove entry', entry-uuid: entry-uuid, doc-id: $scope.doc-id
+        SocketIo.emit \op op: 'remove entry', entry-uuid: entry-uuid
         $scope.calculate-percentage $scope.doc.entries.length
 
     toggle-feedback: (entry, color) ->
@@ -103,7 +105,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       else
         $scope.fb.feedbacks[entry.uuid] = \none
       $scope.calculate-percentage $scope.doc.entries.length
-      SocketIo.emit \op op: 'set feedback', uid: $scope.fb.user-id, entry-id: entry.uuid, color: $scope.fb.feedbacks[entry.uuid], doc-id: $scope.doc-id
+      SocketIo.emit \op op: 'set feedback', uid: $scope.fb.user-id, entry-id: entry.uuid, color: $scope.fb.feedbacks[entry.uuid]
 
     set-search: (str) ->
       if $scope.custom-filter.text == str
@@ -144,16 +146,18 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
           break
     if changed
       $scope.doc.parse-tags!
-      SocketIo.emit \op op: 'update entry', entry-uuid: changed.uuid, doc-id: $scope.doc-id, text: changed.text
+      SocketIo.emit \op op: 'update entry', entry-uuid: changed.uuid, text: changed.text
   ,true
 
   $scope.$watch 'doc.title' (new-title, old-title) ->
     if new-title != old-title
-      SocketIo.emit \op op: 'update title', doc-id: $scope.doc-id, text: new-title
+      SocketIo.emit \op op: 'update title', text: new-title
 
   $scope.$watch 'doc.desc' (new-desc, old-desc) ->
     if new-desc != old-desc
-      SocketIo.emit \op op: 'update desc', doc-id: $scope.doc-id, text: new-desc
+      SocketIo.emit \op op: 'update desc', text: new-desc
+
+  SocketIo.emit \register, $scope.doc-id
 
   SocketIo.on \broadcast ->
     switch it.op
