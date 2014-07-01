@@ -52,19 +52,19 @@ io.on \connection (socket) ->
       io.to(doc-id).emit \broadcast,(op <<< old: old-color)
     case 'add entry'
       <- Document.redis-add-entry redis, doc-id, it.entry
-      io.to(doc-id).emit \broadcast, op
+      socket.broadcast.to(doc-id).emit \broadcast, op
     case 'remove entry'
       <- Document.redis-remove-entry redis, doc-id, it.entry-uuid
-      io.to(doc-id).emit \broadcast, op
+      socket.broadcast.to(doc-id).emit \broadcast, op
     case 'update entry'
       <- Document.redis-set-entry redis, doc-id, it.entry-uuid, it.text
-      io.to(doc-id).emit \broadcast, op
+      socket.broadcast.to(doc-id).emit \broadcast, op
     case 'update title'
       <- Document.redis-set-title redis, doc-id, it.text
-      io.to(doc-id).emit \broadcast, op
+      socket.broadcast.to(doc-id).emit \broadcast, op
     case 'update desc'
       <- Document.redis-set-desc redis, doc-id, it.text
-      io.to(doc-id).emit \broadcast, op
+      socket.broadcast.to(doc-id).emit \broadcast, op
 
 http-server.listen 8000, ->
   console.log "Running on http://localhost:8000"
