@@ -51,7 +51,7 @@ gulp.task \app:js <[shared:js]> ->
     .pipe ls { +bare }
     .pipe gulp.dest "app"
   browserify!
-    .add "./app/index.js"
+    .add "./app/app.js"
     .bundle!
     .pipe source("app.js")
     .pipe gulp-wait 1500ms     # if shared code is modified, we have to reload both server and client.
