@@ -1,0 +1,102 @@
+html(ng-app="app")
+  head
+    title ListRGB
+    link(rel="stylesheet" href="/semantic.css")
+    script(src="/socket.io/socket.io.js")
+    script(src="/js/vendor.js")
+    script(src="/js/app.js")
+    link(rel="stylesheet" href="/css/index.css")
+  body(ng-controller="AppCtrl")
+    #content.ui.stackable.grid
+      .two.wide.column
+      #main.ten.wide.column
+        #header-menu.ui.inverted.menu
+          a.item
+            i.large.icon(ng-class="{cloud: connected, loading: !connected}")
+          .item
+            .ui.input
+              input(type="text" ng-model="doc.title" debounce="500")
+          .right.menu
+            .item
+              i.large.setting.icon
+        #percentage
+          span.vote-color.percent-green(style="width:{{percentage.green}}%") &nbsp;
+          span.vote-color.percent-blue(style="width:{{percentage.blue}}%") &nbsp;
+          span.vote-color.percent-red(style="width:{{percentage.red}}%") &nbsp;
+          span.vote-color.percent-none(style="width:{{percentage.none}}%") &nbsp;
+        #project-desc
+          .ui.fluid.input
+            textarea(ng-model="doc.desc" msd-elastic debounce="500")
+        #new-item-input.ui.fluid.left.icon.focus.input
+          i.add.icon
+          input(type="text"
+            placeholder="add to list"
+            ng-model="newItem" ui-keypress="{'enter': 'addEntry()'}")
+        #list(ng-model="list")
+          .ui.basic.segment(ng-repeat="entry in doc.entries | orderBy:predicate track by entry.uuid"
+            ng-mouseenter="hover=true"
+            ng-mouseleave="hover=false"
+            ng-class-even="'even'"
+            ng-show="([entry] | filter:entryFilter(customFilter)).length > 0")
+            .ui.grid.middle.aligned
+              .row.equal.height(ng-style="entryStyle[entry.uuid]")
+                .icon-col.one.wide.column.right.aligned
+                .icon-col.one.wide.column(ng-repeat="color in colors")
+                  i.large.status-icon.icon(ng-class="{disabled: !hover && fb.feedbacks[entry.uuid] != color,\
+                    '{{color}}': fb.feedbacks[entry.uuid] == color || hover,\
+                    'empty checkbox': fb.feedbacks[entry.uuid] != color,\
+                    sign: fb.feedbacks[entry.uuid] == color}"
+                    ng-mouseenter="hover=true"
+                    ng-mouseleave="hover=false"
+                    ng-init="hover=false"
+                    ng-click="toggleFeedback(entry, color)")
+                .input-col.drag-col.status-col.ten.wide.column
+                  .ui.fluid.input
+                    textarea(ng-model="entry.text" msd-elastic debounce="300"
+                    ng-focus="focusEntry(uid, entry.uuid)"
+                    ng-blur="unfocusEntry(uid, entry.uuid)")
+                .icon-col.one.wide.column.right.aligned
+                  i.trash.icon(ng-click="removeEntryByUuid(entry.uuid)"
+                    ng-class="{'disabled': !hover}")
+                .icon-col.one.wide.column
+                  .sparkline(sparkline
+                    ng-model="stats[entry.uuid]"
+                    opts="{{ {'type': 'pie', 'width': '30px', 'sliceColors': ['#b8bd8b','#92dbf7','#e28585','#808080']} }}"
+                    )
+      #side.three.wide.column
+        .ui.fluid.icon.input
+          i.search.icon
+          input(type="text" placeholder="search" ng-model="customFilter.text" debounce="300")
+        .ui.basic.segment
+          h5.ui.header Sort By
+          .ui.small.link.list
+            a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
+            a.item(ng-click="sortBy('color')" ng-class="{active: sorter == 'color'}") Color
+            a.item(ng-click="sortBy('stats-green')" ng-class="{active: sorter == 'stats-green'}") Stats-Green
+            a.item(ng-click="sortBy('stats-blue')" ng-class="{active: sorter == 'stats-blue'}") Stats-Blue
+            a.item(ng-click="sortBy('stats-red')" ng-class="{active: sorter == 'stats-red'}") Stats-Red
+          .ui.divider
+          h5.ui.header Color
+          .color-select
+            .ui.checkbox.green
+              input(type="checkbox" name="green" ng-model="customFilter.green" id="green-check")
+              label(for="green-check") Green
+          .color-select
+            .ui.checkbox.blue
+              input(type="checkbox" name="blue" ng-model="customFilter.blue" id="blue-check")
+              label(for="blue-check") Blue
+          .color-select
+            .ui.checkbox.red
+              input(type="checkbox" name="red" ng-model="customFilter.red" id="red-check")
+              label(for="red-check") Red
+          .color-select
+            .ui.checkbox
+              input(type="checkbox" name="none" ng-model="customFilter.none" id="none-check")
+              label(for="none-check") None
+          .ui.divider
+          h5.ui.header Tags
+          .ui.link.list
+            a.item(ng-repeat="t in doc.tags"
+              ng-click="setSearch(t)"
+              ng-class="{active: ([search] | filter:t).length > 0}") {{t | characters:20}}
+      .one.wide.column

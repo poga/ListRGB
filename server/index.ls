@@ -28,7 +28,7 @@ app.get '/_/fb/:docid/:uid' (req, res) ->
   <- UserFeedback.load-doc-user-redis redis, req.param('docid'), req.param('uid')
   res.send it
 app.all '/**' (req, res) ->
-  res.sendfile __dirname + "/_public/index.html"
+  res.sendfile __dirname + "/_public/app.html"
 http-server = require \http .create-server app
 
 io = require('socket.io')(http-server)
