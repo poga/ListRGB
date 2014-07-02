@@ -15,6 +15,7 @@ requirements:
 ### Development
 
 ```
+$ bower i
 $ npm i
 $ npm run dev
 ```
@@ -24,7 +25,7 @@ $ npm run dev
 [pm2](https://github.com/unitech/pm2) is recommanded for production server.
 
 ```
-pm2 start process.json
+$ pm2 start process.json
 ```
 
 ## REST API
