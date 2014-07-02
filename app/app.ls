@@ -99,6 +99,8 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       SocketIo.emit \op op: 'add entry', entry: entry
       $scope.new-item = ""
       $scope.calculate-percentage $scope.doc.entries.length
+      $scope.doc.parse-tags!
+      SocketIo.emit \op op: 'set feedback', uid: $scope.fb.user-id, entry-id: entry.uuid, color: \none
 
     remove-entry-by-uuid: (entry-uuid) ->
       remove = $window.confirm("Remove Item: #{$scope.doc.find-entry(entry-uuid).text} ?")
@@ -106,6 +108,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         $scope.doc.remove-entry-by-uuid entry-uuid
         SocketIo.emit \op op: 'remove entry', entry-uuid: entry-uuid
         $scope.calculate-percentage $scope.doc.entries.length
+        $scope.doc.parse-tags!
 
     toggle-feedback: (entry, color) ->
       if $scope.fb.feedbacks[entry.uuid] != color
