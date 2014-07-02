@@ -1,19 +1,20 @@
 Document = require './shared/document' .Document
 UserFeedback = require './shared/feedback' .UserFeedback
-require! <[fs path express redis]>
+require! <[fs path express redis body-parser]>
 
 redis = redis.createClient!
 redis.on \error -> throw it
 
 app = express!
 app.use (require 'connect-livereload')( port: 35729 )
+app.use body-parser.json!
 app.use express.static __dirname + "/_public"
 app.get '/_new' (req, res) ->
   res.redirect '/' + require('node-uuid').v1!replace(/-/g, '')
 app.get '/_/:docid/stats' (req, res) ->
   fbs <- UserFeedback.load-all-redis redis, req.param('docid')
   doc <- Document.find-or-create-redis redis, req.param('docid')
-  stats = doc-id: req.param('docid'), total:fbs.length
+  stats = doc-id: req.param('docid'), total: fbs.length
   for fb in fbs
     for e in doc.entries
       stats[e.uuid] = entry: e, green: 0, red: 0, blue: 0, none: 0 unless stats[e.uuid]
@@ -26,9 +27,27 @@ app.get '/_/:docid/stats' (req, res) ->
 app.get '/_/:docid' (req, res) ->
   <- Document.find-or-create-redis redis, req.param('docid')
   res.send it
-app.get '/_/fb/:docid/:uid' (req, res) ->
+app.get '/_/:docid/feedbacks/:uid' (req, res) ->
   <- UserFeedback.load-doc-user-redis redis, req.param('docid'), req.param('uid')
   res.send it
+app.post '/_/:docid/feedbacks/:uid' (req, res) ->
+  old-color, new-color <- UserFeedback.redis-set redis, req.param('docid'), req.param('uid'), req.body.entry-id, req.body.color
+  res.send \OK
+app.post '/_/:docid/entries' (req, res) ->
+  <- Document.redis-add-entry-by-text redis, req.param('docid'), req.body.text
+  res.send \OK
+app.delete '/_/:docid/entries/:eid' (req, res) ->
+  <- Document.redis-remove-entry redis, req.param('docid'), req.param('eid')
+  res.send \OK
+app.put '/_/:docid/entries/:eid' (req, res) ->
+  <- Document.redis-set-entry redis, req.param('docid'), req.param('eid'), req.body.text
+  res.send \OK
+app.put '/_/:docid/title' (req, res) ->
+  <- Document.redis-set-title redis, req.param('docid'), req.body.text
+  res.send \OK
+app.put '/_/:docid/desc' (req, res) ->
+  <- Document.redis-set-desc redis, req.param('docid'), req.body.text
+  res.send \OK
 app.all '/**' (req, res) ->
   res.sendfile __dirname + "/_public/app.html"
 http-server = require \http .create-server app

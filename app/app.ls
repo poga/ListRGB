@@ -35,7 +35,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       cb new Document it
     colors: <[green blue red]>
     get-feedback: (doc-id, uid, cb) ->
-      <- $http.get "_/fb/#{doc-id}/#{uid}" .success _
+      <- $http.get "_/#{doc-id}/feedbacks/#{uid}" .success _
       cb UserFeedback.load it
     get-stats: (doc-id, cb) ->
       <- $http.get "_/#doc-id/stats" .success _

@@ -35,10 +35,34 @@ $ pm2 start process.json
 
 return the list.
 
+### POST /_/:list/entries, body: { "text" : "foo" }, content-type: "application/json"
+
+add entry "foo" to the list.
+
+### PUT /_/:list/title,  body: { "text" : "foo" }, content-type: "application/json"
+
+set the title of the list to "foo"
+
+### PUT /_/:list/desc,  body: { "text" : "foo" }, content-type: "application/json"
+
+set the description of the list to "foo"
+
+### PUT /_/:list/entries/:eid,  body: { "text" : "foo" }, content-type: "application/json"
+
+update the text of specified entry to "foo"
+
+### DELETE /_/:list/entries/:eid
+
+delete the entry
+
 ### GET /_/:list/stats
 
 return the statistic of list.
 
-### GET /_/fb/:list/:user-id
+### GET /_/:list/feedbacks/:user-id
 
-return the feedback(colors) of user on the list
+return the feedback(colors) from the user on the list
+
+### POST /_/:list/feedbacks/:user-id, body: { "entryId" : id, "color": green/red/blue/none }, content-type: "application/json"
+
+set the color fomr the user one the entry to color
