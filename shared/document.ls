@@ -99,7 +99,7 @@ export class Document
 
   parse-tags: ->
     @tags = []
-    regex = /\s#(\S+)\s*?/g
+    regex = /(^|\s)#(\S+)\s*?/gm
     for e in @entries
       if e.text.match regex
         for tag in e.text.match regex
