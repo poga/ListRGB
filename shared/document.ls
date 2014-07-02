@@ -2,6 +2,15 @@ uuid = require 'node-uuid'
 require! async
 
 export class Document
+  @parse-tags = (texts) ->
+    tags = []
+    regex = /(^|\s)#(\S+)\s*?/gm
+    for t in texts
+      if t.match regex
+        for tag in t.match regex
+          tags.push tag unless tags.indexOf(tag) != -1
+    return tags
+
   @redis-set-title = (redis, doc-id, title, cb) ->
     err, v <- redis.set "doc:#doc-id:title", title
     cb!
@@ -98,12 +107,7 @@ export class Document
         return e
 
   parse-tags: ->
-    @tags = []
-    regex = /(^|\s)#(\S+)\s*?/gm
-    for e in @entries
-      if e.text.match regex
-        for tag in e.text.match regex
-          @tags.push tag unless @tags.indexOf(tag) != -1
+    @tags = Document.parse-tags @entries.map (.text)
 
   toJSON: ->
     title: @title, desc: @desc, entries: @entries

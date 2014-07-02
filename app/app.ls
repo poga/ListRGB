@@ -99,7 +99,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       SocketIo.emit \op op: 'add entry', entry: entry
       $scope.new-item = ""
       $scope.calculate-percentage $scope.doc.entries.length
-      $scope.doc.parse-tags!
+      $scope.parse-tags!
       SocketIo.emit \op op: 'set feedback', uid: $scope.fb.user-id, entry-id: entry.uuid, color: \none
 
     remove-entry-by-uuid: (entry-uuid) ->
@@ -108,7 +108,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         $scope.doc.remove-entry-by-uuid entry-uuid
         SocketIo.emit \op op: 'remove entry', entry-uuid: entry-uuid
         $scope.calculate-percentage $scope.doc.entries.length
-        $scope.doc.parse-tags!
+        $scope.parse-tags!
 
     toggle-feedback: (entry, color) ->
       if $scope.fb.feedbacks[entry.uuid] != color
@@ -174,6 +174,10 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
           break
       SocketIo.emit \op, op: \unfocus, entry-id: entry-id, user-id: $scope.uid if user-id == $scope.uid
 
+    parse-tags: ->
+      console.log \parsed
+      $scope.tags = Document.parse-tags $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter).map (.text)
+
   $scope.calculate-percentage $scope.doc.entries.length
 
   $scope.$watch 'doc.entries' (new-entries, old-entries) ->
@@ -187,7 +191,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
           changed := n if n.text != o.text
           break
     if changed
-      $scope.doc.parse-tags!
+      $scope.parse-tags!
       SocketIo.emit \op op: 'update entry', entry-uuid: changed.uuid, text: changed.text
   ,true
 
@@ -198,6 +202,10 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   $scope.$watch 'doc.desc' (new-desc, old-desc) ->
     if new-desc != old-desc
       SocketIo.emit \op op: 'update desc', text: new-desc
+
+  $scope.$watch 'customFilter' ->
+    $scope.parse-tags!
+  , true
 
   SocketIo.emit \register, $scope.doc-id
 
@@ -211,15 +219,15 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       $scope.doc.add-entry it.entry
       $scope.stats[it.entry.uuid] = [0, 0, 0, 1]
       $scope.calculate-percentage $scope.doc.entries.length
-      $scope.doc.parse-tags!
+      $scope.parse-tags!
     case 'remove entry'
       $scope.doc.remove-entry-by-uuid it.entry-uuid
       $scope.calculate-percentage $scope.doc.entries.length
-      $scope.doc.parse-tags!
+      $scope.parse-tags!
     case 'update entry'
       $scope.suppress-watch-entries = true
       $scope.doc.update-entry it.entry-uuid, it.text
-      $scope.doc.parse-tags!
+      $scope.parse-tags!
     case 'update title'
       $scope.doc.title = it.text
     case 'update desc'
