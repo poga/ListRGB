@@ -206,6 +206,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       $scope.unfocus-entry it.user-id, it.entry-id
     case 'add entry'
       $scope.doc.add-entry it.entry
+      $scope.stats[it.entry.uuid] = [0, 0, 0, 1]
     case 'remove entry'
       $scope.doc.remove-entry-by-uuid it.entry-uuid
     case 'update entry'
