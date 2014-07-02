@@ -11,6 +11,7 @@ requirements:
  * [node.js](https://nodejs.org) (tested on 0.10.28 and 0.10.29)
  * [npm](https://www.npmjs.org) (tested on 1.4.10 and 1.4.14)
  * [redis](https://redis.io) (tested on 2.8.12)
+ * [bower](https://bower.io)
 
 ### Development
 
