@@ -2,6 +2,6 @@
 apps:
   * name: \ListRGB
     script: "./index.js"
-    args: "80"
+    args: "8080"
   ...
 
