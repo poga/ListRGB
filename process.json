@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "ListRGB",
+      "script": "./index.js",
+      "args": "80"
+    }
+  ]
+}
