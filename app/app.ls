@@ -175,7 +175,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       SocketIo.emit \op, op: \unfocus, entry-id: entry-id, user-id: $scope.uid if user-id == $scope.uid
 
     parse-tags: ->
-      console.log \parsed
       $scope.tags = Document.parse-tags $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter).map (.text)
 
   $scope.calculate-percentage $scope.doc.entries.length

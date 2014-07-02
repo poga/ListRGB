@@ -10,10 +10,10 @@ app.use (require 'connect-livereload')( port: 35729 )
 app.use express.static __dirname + "/_public"
 app.get '/_new' (req, res) ->
   res.redirect '/' + require('node-uuid').v1!replace(/-/g, '')
-app.get '/_/:fn/stats' (req, res) ->
-  fbs <- UserFeedback.load-all-redis redis, req.param('fn')
-  doc <- Document.find-or-create-redis redis, req.param('fn')
-  stats = doc-id: req.param('fn'), total:fbs.length
+app.get '/_/:docid/stats' (req, res) ->
+  fbs <- UserFeedback.load-all-redis redis, req.param('docid')
+  doc <- Document.find-or-create-redis redis, req.param('docid')
+  stats = doc-id: req.param('docid'), total:fbs.length
   for fb in fbs
     for e in doc.entries
       stats[e.uuid] = entry: e, green: 0, red: 0, blue: 0, none: 0 unless stats[e.uuid]
@@ -23,8 +23,8 @@ app.get '/_/:fn/stats' (req, res) ->
       | \blue     => stats[e.uuid].blue++
       | otherwise => stats[e.uuid].none++
   res.send stats
-app.get '/_/:fn' (req, res) ->
-  <- Document.find-or-create-redis redis, req.param('fn')
+app.get '/_/:docid' (req, res) ->
+  <- Document.find-or-create-redis redis, req.param('docid')
   res.send it
 app.get '/_/fb/:docid/:uid' (req, res) ->
   <- UserFeedback.load-doc-user-redis redis, req.param('docid'), req.param('uid')
