@@ -30,7 +30,7 @@ html(ng-app="app")
         #new-item-input.ui.fluid.left.icon.focus.input
           i.add.icon
           input(type="text"
-            placeholder="add to list"
+            placeholder="New entry..."
             ng-model="newItem" ui-keypress="{'enter': 'addEntry()'}")
         #list(ng-model="list")
           .ui.basic.segment(ng-repeat="entry in doc.entries | orderBy:predicate track by entry.uuid"
