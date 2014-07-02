@@ -54,6 +54,8 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
   storage.bind $scope, 'uid', defaultValue: uuid.v1!
   storage.bind $scope, 'userColor', defaultValue: ListRGB.rand-user-color!
+  storage.bind $scope, 'sorter', defaultValue: \none
+  storage.bind $scope, 'customFilter', defaultValue: green: yes, red: yes, blue: yes, none: yes, text: ""
 
   $scope.doc-id = $location.path! - /^\//
   doc <- ListRGB.get $scope.doc-id
@@ -79,9 +81,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
     default-predicate: (entry) -> $scope.doc.entries.indexOf(entry)
     predicate: $scope.default-predicate
-    sorter: "none"
-
-    custom-filter: green: yes, red: yes, blue: yes, none: yes, text: ""
 
     entry-filter: (custom-filter)->
       return (e) ->
@@ -124,9 +123,10 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       else
         $scope.custom-filter.text = str
 
-    sort-by: (sorter) ->
-      $scope.sorter = sorter
-      switch sorter
+    set-sorter: (sorter) -> $scope.sorter = sorter
+
+    sort: ->
+      switch $scope.sorter
       case 'color'
         $scope.predicate = []
           ..push (entry) ->
@@ -178,6 +178,8 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       $scope.tags = Document.parse-tags $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter).map (.text)
 
   $scope.calculate-percentage $scope.doc.entries.length
+
+  $scope.$watch 'sorter', $scope.sort
 
   $scope.$watch 'doc.entries' (new-entries, old-entries) ->
     if $scope.suppress-watch-entries

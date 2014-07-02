@@ -70,11 +70,11 @@ html(ng-app="app")
         .ui.basic.segment
           h5.ui.header Sort By
           .ui.small.link.list
-            a.item(ng-click="sortBy('none')" ng-class="{active: sorter == 'none'}") None
-            a.item(ng-click="sortBy('color')" ng-class="{active: sorter == 'color'}") Color
-            a.item(ng-click="sortBy('stats-green')" ng-class="{active: sorter == 'stats-green'}") Stats-Green
-            a.item(ng-click="sortBy('stats-blue')" ng-class="{active: sorter == 'stats-blue'}") Stats-Blue
-            a.item(ng-click="sortBy('stats-red')" ng-class="{active: sorter == 'stats-red'}") Stats-Red
+            a.item(ng-click="setSorter('none')" ng-class="{active: sorter == 'none'}") None
+            a.item(ng-click="setSorter('color')" ng-class="{active: sorter == 'color'}") Color
+            a.item(ng-click="setSorter('stats-green')" ng-class="{active: sorter == 'stats-green'}") Stats-Green
+            a.item(ng-click="setSorter('stats-blue')" ng-class="{active: sorter == 'stats-blue'}") Stats-Blue
+            a.item(ng-click="setSorter('stats-red')" ng-class="{active: sorter == 'stats-red'}") Stats-Red
           .ui.divider
           h5.ui.header Color
           .color-select
