@@ -10,11 +10,11 @@ scripts:
   dev: "gulp"
   prepublish: "gulp prepublish"
 dependencies:
-  express: \*
+  express: \~4.4.5
   'socket.io': \~1.0.6
-  'node-uuid': \*
-  redis: \*
-  async: \*
+  'node-uuid': \~1.4.1
+  redis: \~0.10.3
+  async: \~0.9.0
 devDependencies:
   jade: \~1.3.1
   LiveScript: \~1.2.0
