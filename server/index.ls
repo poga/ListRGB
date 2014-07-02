@@ -71,6 +71,6 @@ io.on \connection (socket) ->
     case 'unfocus'
       socket.broadcast.to(doc-id).emit \broadcast, op
 
-http-server.listen 8000, ->
-  console.log "Running on http://localhost:8000"
+http-server.listen process.argv.2, ->
+  console.log "Running on http://localhost:#{process.argv.2}"
 

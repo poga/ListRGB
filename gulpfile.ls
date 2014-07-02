@@ -22,7 +22,7 @@ paths = do
     scripts: <[shared/*.ls]>
 
 gulp.task \server <[server:js]> ->
-  gulp-nodemon script: 'index.js', ignore: <[app _public vendor]>
+  gulp-nodemon script: 'index.js', ignore: <[app _public vendor]>, args: [8000]
 
 gulp.task \bower -> bower!
 
