@@ -8,6 +8,8 @@ redis.on \error -> throw it
 app = express!
 app.use (require 'connect-livereload')( port: 35729 )
 app.use express.static __dirname + "/_public"
+app.get '/_new' (req, res) ->
+  res.redirect '/' + require('node-uuid').v1!replace(/-/g, '')
 app.get '/_/:fn/stats' (req, res) ->
   fbs <- UserFeedback.load-all-redis redis, req.param('fn')
   doc <- Document.find-or-create-redis redis, req.param('fn')
