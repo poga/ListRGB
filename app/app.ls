@@ -210,8 +210,10 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     case 'add entry'
       $scope.doc.add-entry it.entry
       $scope.stats[it.entry.uuid] = [0, 0, 0, 1]
+      $scope.calculate-percentage $scope.doc.entries.length
     case 'remove entry'
       $scope.doc.remove-entry-by-uuid it.entry-uuid
+      $scope.calculate-percentage $scope.doc.entries.length
     case 'update entry'
       $scope.suppress-watch-entries = true
       $scope.doc.update-entry it.entry-uuid, it.text
