@@ -8,6 +8,7 @@ export class Document
     for t in texts
       if t.match regex
         for tag in t.match regex
+          tag = tag.replace /\s/, ''
           tags.push tag unless tags.indexOf(tag) != -1
     return tags
 
