@@ -3,5 +3,7 @@ apps:
   * name: \ListRGB
     script: "./index.js"
     args: "8080"
+    env:
+      NODE_ENV: \production
   ...
 

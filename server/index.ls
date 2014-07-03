@@ -6,7 +6,7 @@ redis = redis.createClient!
 redis.on \error -> throw it
 
 app = express!
-app.use (require 'connect-livereload')( port: 35729 )
+app.use (require 'connect-livereload')( port: 35729 ) unless process.env.NODE_ENV == \production
 app.use body-parser.json!
 app.use express.static __dirname + "/_public"
 app.get '/_new' (req, res) ->
