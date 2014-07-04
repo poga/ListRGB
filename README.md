@@ -13,11 +13,17 @@ requirements:
  * [redis](https://redis.io) (tested on 2.8.12)
  * [bower](https://bower.io)
 
+### Download & Build
+
+```
+$ git clone git@github.com:poga/ListRGB.git
+$ bower i
+$ npm i
+```
+
 ### Development
 
 ```
-$ bower i
-$ npm i
 $ npm run dev
 ```
 
@@ -65,4 +71,4 @@ return the feedback(colors) from the user on the list
 
 ### POST /_/:list/feedbacks/:user-id, body: { "entryId" : id, "color": green/red/blue/none }, content-type: "application/json"
 
-set the color fomr the user one the entry to color
+set the color from the user one the entry to color
