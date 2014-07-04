@@ -197,6 +197,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   ,true
 
   $scope.$watch 'doc.title' (new-title, old-title) ->
+    $scope.page-title = "#{doc.title} - listrgb.org"
     if new-title != old-title
       SocketIo.emit \op op: 'update title', text: new-title
 

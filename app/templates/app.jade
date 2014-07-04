@@ -1,12 +1,12 @@
-html(ng-app="app")
+html(ng-app="app" ng-controller="AppCtrl")
   head
-    title ListRGB
+    title(ng-bind="pageTitle")
     link(rel="stylesheet" href="/semantic.css")
     script(src="/socket.io/socket.io.js")
     script(src="/js/vendor.js")
     script(src="/js/app.js")
     link(rel="stylesheet" href="/css/app.css")
-  body(ng-controller="AppCtrl")
+  body
     #content.ui.stackable.grid
       .two.wide.column
       #main.ten.wide.column
