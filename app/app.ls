@@ -156,7 +156,11 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         $scope.predicate = $scope.default-predicate
 
     calculate-percentage: ->
-      $scope.percentage = $scope.fb.calculate-percentage $scope.doc.entries.length
+      filtered-entry-ids = $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter).map (.uuid)
+      filtered-fbs = {}
+      for eid, c of $scope.fb.feedbacks
+        filtered-fbs[eid] = c if filtered-entry-ids.indexOf(eid) != -1
+      $scope.percentage = UserFeedback.dist filtered-fbs, filtered-entry-ids.length
 
     focus-entry: (user-id, entry-id, color) ->
       if color
@@ -207,6 +211,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
   $scope.$watch 'customFilter' ->
     $scope.parse-tags!
+    $scope.calculate-percentage!
   , true
 
   SocketIo.emit \register, $scope.doc-id

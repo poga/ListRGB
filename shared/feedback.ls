@@ -1,6 +1,17 @@
 require! async
 
 export class UserFeedback
+  @dist = (feedbacks, total) ->
+    dist = {}
+    for c in UserFeedback.color
+      dist[c] = 0
+    for eid, color of feedbacks
+      dist[color]++
+    dist[\none] += total - dist[\green] - dist[\blue] - dist[\red] - dist[\none]
+    for c in UserFeedback.color
+      dist[c] = dist[c] / total * 100
+    return dist
+
   @redis-set = (redis, doc-id, user-id, entry-id, color, cb) ->
     err, old-color <- redis.hget "doc:#doc-id:feedbackers:#user-id", entry-id
     err, v <- redis.hset "doc:#doc-id:feedbackers:#user-id", entry-id, color
@@ -51,14 +62,5 @@ export class UserFeedback
   toJSON: ->
     user-id: @user-id, feedbacks: @feedbacks
 
-  calculate-percentage: (total) ->
-    percentage = {}
-    for c in @@color
-      percentage[c] = 0
-    for eid, color of @feedbacks
-      percentage[color]++
-    percentage[\none] += total - percentage[\green] - percentage[\blue] - percentage[\red] - percentage[\none]
-
-    for c in @@color
-      percentage[c] = percentage[c] / total * 100
-    return percentage
+  dist: (total) ->
+    UserFeedback.dist @feedbacks, total
