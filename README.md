@@ -72,3 +72,7 @@ return the feedback(colors) from the user on the list
 ### POST /_/:list/feedbacks/:user-id, body: { "entryId" : id, "color": green/red/blue/none }, content-type: "application/json"
 
 set the color from the user one the entry to color
+
+## License
+
+MIT
