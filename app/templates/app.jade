@@ -100,7 +100,6 @@ html(ng-app="app" ng-controller="AppCtrl")
             a.item(ng-repeat="t in tags"
               ng-click="setSearch(t)"
               ng-class="{active: ([search] | filter:t).length > 0}") {{t | characters:20}}
+          a(href="https://github.com/poga/ListRGB")
+            i.large.github.icon
       .one.wide.column
-    #footer
-      a(href="https://github.com/poga/ListRGB")
-        i.large.github.icon
