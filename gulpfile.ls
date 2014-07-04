@@ -11,6 +11,8 @@ bower-files = require 'gulp-bower-files'
 filter = require 'gulp-filter'
 source = require 'vinyl-source-stream'
 
+GA_ID = 'YOUR Google Analytics ID HERE'
+
 paths = do
   app:
     scripts: <[app/*.ls]>
@@ -73,7 +75,8 @@ gulp.task 'shared:js' ->
 gulp.task \jade ->
   gulp.src paths.app.jade
     .pipe plumber!
-    .pipe jade!
+    .pipe jade do
+      locals: googleAnalytics: GA_ID
     .pipe gulp.dest "_public"
 
 gulp.task \watch ->
