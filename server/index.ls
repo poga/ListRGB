@@ -91,6 +91,9 @@ io.on \connection (socket) ->
       socket.broadcast.to(doc-id).emit \broadcast, op
     case 'unfocus'
       socket.broadcast.to(doc-id).emit \broadcast, op
+    case 'update config'
+      <- Document.redis-set-config redis, doc-id, it.config
+      socket.broadcast.to(doc-id).emit \broadcast, op
 
 http-server.listen process.argv.2, ->
   console.log "Running on http://localhost:#{process.argv.2}"

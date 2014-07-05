@@ -59,6 +59,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
   $scope.doc-id = $location.path! - /^\//
   doc <- ListRGB.get $scope.doc-id
+  console.log doc.config
   fb <- ListRGB.get-feedback $scope.doc-id, $scope.uid
   stats <- ListRGB.get-stats $scope.doc-id
   # stats = { entry-id: [green, blue, red, none], ...}
@@ -72,6 +73,9 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         $scope.stats[k].push 1
 
   $scope <<< do
+    config-icons: <[sign archive add question remove play pause eject smile meh frown]>
+    config-dirty: false
+    show-settings: false
     colors: ListRGB.colors
     doc: doc
     fb: fb
@@ -181,9 +185,30 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     parse-tags: ->
       $scope.tags = Document.parse-tags $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter).map (.text)
 
+    set-config-icon: (color, icon) ->
+      $scope.doc.config.icon[color] = icon
+
+    save-config: ->
+      $scope.config-dirty = false
+      SocketIo.emit \op, op: 'update config', config: $scope.doc.config
+
+    icon-class: (color, entry-id, hover) ->
+      classes = [$scope.doc.config.icon[color]]
+      if $scope.fb.feedbacks[entry-id] != color
+        classes.push "disabled"
+      else if hover
+        classes.push color
+      return classes.join ' '
+
   $scope.calculate-percentage $scope.doc.entries.length
 
   $scope.$watch 'sorter', $scope.sort
+
+  $scope.$watch 'doc.config', (after, before) ->
+    if after !== before
+      console.log \dirty, after, before
+      $scope.config-dirty = true
+  , true
 
   $scope.$watch 'doc.entries' (new-entries, old-entries) ->
     if $scope.suppress-watch-entries
@@ -247,6 +272,8 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         $scope.stats[it.entry-id][color-idx[it.color]]++
       if ($scope.stats[it.entry-id].reduce (+) ) == 0
         $scope.stats[it.entry-id][3] = 1
+    case 'update config'
+      $scope.doc.set-config it.config
 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true

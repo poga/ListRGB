@@ -19,12 +19,62 @@ html(ng-app="app" ng-controller="AppCtrl")
               input(type="text" ng-model="doc.title" debounce="500")
           .right.menu
             .item
-              i.large.setting.icon
+              i.large.setting.icon(ng-click="showSettings = !showSettings" ng-class="{active: showSettings}")
         #percentage
           span.vote-color.percent-green(style="width:{{percentage.green}}%") &nbsp;
           span.vote-color.percent-blue(style="width:{{percentage.blue}}%") &nbsp;
           span.vote-color.percent-red(style="width:{{percentage.red}}%") &nbsp;
           span.vote-color.percent-none(style="width:{{percentage.none}}%") &nbsp;
+        #settings(ng-if="showSettings")
+          h2.ui.header Settings
+          .name-config
+            | Name : &nbsp;
+            .ui.small.input
+              input(type="text" ng-model="doc.config.naming.green")
+          .icon-config
+            | Icon : &nbsp;
+            .ui.small.icon.buttons
+              .ui.button(ng-repeat="icon in configIcons"
+                ng-class="{green: doc.config.icon.green == '{{icon}}'}"
+                ng-click="setConfigIcon('green', icon)")
+                i.icon(ng-class="icon")
+            .ui.small.input
+              input(type="text" ng-model="doc.config.icon.green")
+          .ui.divider
+          .name-config
+            | Name : &nbsp;
+            .ui.small.input
+              input(type="text" ng-model="doc.config.naming.blue")
+          .icon-config
+            | Icon : &nbsp;
+            .ui.small.icon.buttons
+              .ui.button(ng-repeat="icon in configIcons"
+                ng-class="{green: doc.config.icon.blue == '{{icon}}'}"
+                ng-click="setConfigIcon('blue', icon)")
+                i.icon(ng-class="icon")
+            .ui.small.input
+              input(type="text" ng-model="doc.config.icon.blue")
+          .ui.divider
+          .name-config
+            | Name : &nbsp;
+            .ui.small.input
+              input(type="text" ng-model="doc.config.naming.red")
+          .icon-config
+            | Icon : &nbsp;
+            .ui.small.icon.buttons
+              .ui.button(ng-repeat="icon in configIcons"
+                ng-class="{green: doc.config.icon.red == '{{icon}}'}"
+                ng-click="setConfigIcon('red', icon)")
+                i.icon(ng-class="icon")
+            .ui.small.input
+              input(type="text" ng-model="doc.config.icon.red")
+          .ui.divider
+          .name-config
+            | Name : &nbsp;
+            .ui.small.input
+              input(type="text" ng-model="doc.config.naming.none")
+          .ui.divider
+          .ui.button(ng-click="saveConfig()" ng-class="{disabled: !configDirty}") {{ configDirty ? "Save" : "Saved"}}
         #project-desc
           .ui.fluid.input
             textarea(ng-model="doc.desc" msd-elastic debounce="500")
@@ -43,10 +93,7 @@ html(ng-app="app" ng-controller="AppCtrl")
               .row.equal.height(ng-style="entryStyle[entry.uuid]")
                 .icon-col.one.wide.column.right.aligned
                 .icon-col.one.wide.column(ng-repeat="color in colors")
-                  i.large.status-icon.icon(ng-class="{disabled: !hover && fb.feedbacks[entry.uuid] != color,\
-                    '{{color}}': fb.feedbacks[entry.uuid] == color || hover,\
-                    'empty checkbox': fb.feedbacks[entry.uuid] != color,\
-                    sign: fb.feedbacks[entry.uuid] == color}"
+                  i.large.status-icon.icon(ng-class="iconClass(color, entry.uuid, hover)"
                     ng-mouseenter="hover=true"
                     ng-mouseleave="hover=false"
                     ng-init="hover=false"
@@ -81,19 +128,19 @@ html(ng-app="app" ng-controller="AppCtrl")
           .color-select
             .ui.checkbox.green
               input(type="checkbox" name="green" ng-model="customFilter.green" id="green-check")
-              label(for="green-check") Green
+              label(for="green-check") {{doc.config.naming.green}}
           .color-select
             .ui.checkbox.blue
               input(type="checkbox" name="blue" ng-model="customFilter.blue" id="blue-check")
-              label(for="blue-check") Blue
+              label(for="blue-check") {{doc.config.naming.blue}}
           .color-select
             .ui.checkbox.red
               input(type="checkbox" name="red" ng-model="customFilter.red" id="red-check")
-              label(for="red-check") Red
+              label(for="red-check") {{doc.config.naming.red}}
           .color-select
             .ui.checkbox
               input(type="checkbox" name="none" ng-model="customFilter.none" id="none-check")
-              label(for="none-check") None
+              label(for="none-check") {{doc.config.naming.none}}
           .ui.divider
           h5.ui.header Tags
           .ui.link.list

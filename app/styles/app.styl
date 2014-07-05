@@ -28,7 +28,6 @@ body
   .percent-none
     background-color: grey
 
-
 #main
   background-color: white
   padding: 0
@@ -68,6 +67,12 @@ body
       color: rgba(0,0,0,0.7)
       border: none
       background-color: transparent
+  #settings
+    background-color: rgb(220, 220, 220)
+    padding: 20px 40px
+    .icon-config
+      input
+        width: 100px
   #new-item-input
     margin: 0 35px
     margin-bottom: 30px
@@ -91,6 +96,25 @@ body
       margin: 0
       padding: 0
       .icon-col
+        .disabled.icon
+          opacity: 0.15
+          &.red
+            opacity: 0.5
+          &.blue
+            opacity: 0.5
+          &.green
+            opacity: 0.5
+          &.grey
+            opacity: 0.5
+        .icon.red
+          opacity: 1
+        .icon.blue
+          opacity: 1
+        .icon.green
+          color: green !important
+          opacity: 1
+        .icon.grey
+          opacity: 1
         padding: 0
         width: 1%
         .status-icon
