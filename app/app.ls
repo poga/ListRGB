@@ -59,7 +59,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
   $scope.doc-id = $location.path! - /^\//
   doc <- ListRGB.get $scope.doc-id
-  console.log doc.config
   fb <- ListRGB.get-feedback $scope.doc-id, $scope.uid
   stats <- ListRGB.get-stats $scope.doc-id
   # stats = { entry-id: [green, blue, red, none], ...}
