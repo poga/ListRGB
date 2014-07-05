@@ -196,7 +196,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       classes = [$scope.doc.config.icon[color]]
       if $scope.fb.feedbacks[entry-id] != color
         classes.push "disabled"
-      else if hover
+      if $scope.fb.feedbacks[entry-id] == color or hover
         classes.push color
       return classes.join ' '
 
