@@ -118,6 +118,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       else
         $scope.fb.feedbacks[entry.uuid] = \none
       $scope.calculate-percentage $scope.doc.entries.length
+      $scope.parse-tags!
       SocketIo.emit \op op: 'set feedback', uid: $scope.fb.user-id, entry-id: entry.uuid, color: $scope.fb.feedbacks[entry.uuid]
 
     set-search: (str) ->
