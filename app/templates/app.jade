@@ -18,14 +18,14 @@ html(ng-app="app" ng-controller="AppCtrl")
             .ui.input.fluid
               input(type="text" ng-model="doc.title" debounce="500")
           .right.menu
-            .item
+            a.item
               i.large.setting.icon(ng-click="showSettings = !showSettings" ng-class="{active: showSettings}")
         #percentage
           span.vote-color.percent-green(style="width:{{percentage.green}}%") &nbsp;
           span.vote-color.percent-blue(style="width:{{percentage.blue}}%") &nbsp;
           span.vote-color.percent-red(style="width:{{percentage.red}}%") &nbsp;
           span.vote-color.percent-none(style="width:{{percentage.none}}%") &nbsp;
-        #settings(ng-if="showSettings")
+        #settings(ng-if="showSettings" ng-cloak)
           h2.ui.header Settings
           .name-config
             | Name : &nbsp;
