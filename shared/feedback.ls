@@ -5,6 +5,8 @@ export class UserFeedback
     dist = {}
     for c in UserFeedback.color
       dist[c] = 0
+    return dist if Object.keys feedbacks .length == 0
+      
     for eid, color of feedbacks
       dist[color]++
     dist[\none] += total - dist[\green] - dist[\blue] - dist[\red] - dist[\none]
