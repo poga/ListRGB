@@ -111,6 +111,9 @@ html(ng-app="app" ng-controller="AppCtrl")
                     ng-model="stats[entry.uuid]"
                     opts="{{ {'type': 'pie', 'width': '30px', 'sliceColors': ['#b8bd8b','#92dbf7','#e28585','#808080']} }}"
                     )
+          #empty-hint.ui.basic.segment(ng-if="filtered.length == 0")
+            i.hand.up.icon
+            | 沒有項目可顯示... 要不要新增一個？
       #side.three.wide.column
         .ui.fluid.icon.input
           i.search.icon
