@@ -212,7 +212,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
   $scope.$watch 'doc.entries' (new-entries, old-entries) ->
     return if new-entries === old-entries or old-entries == undefined
-    console.log \doc-entries, new-entries, old-entries
 
     if $scope.suppress-watch-entries
       $scope.suppress-watch-entries = false
