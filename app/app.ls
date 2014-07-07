@@ -57,27 +57,15 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   storage.bind $scope, 'sorter', defaultValue: \none
   storage.bind $scope, 'customFilter', defaultValue: green: yes, red: yes, blue: yes, none: yes, text: ""
 
-  $scope.doc-id = $location.path! - /^\//
-  doc <- ListRGB.get $scope.doc-id
-  fb <- ListRGB.get-feedback $scope.doc-id, $scope.uid
-  stats <- ListRGB.get-stats $scope.doc-id
-  # stats = { entry-id: [green, blue, red, none], ...}
-  $scope.stats = {}
-  for k, v of stats
-    if k != "docId" and k != "total"
-      $scope.stats[k] = [v.green, v.blue, v.red]
-      if ($scope.stats[k].reduce (+) ) > 0
-        $scope.stats[k].push 0
-      else
-        $scope.stats[k].push 1
-
   $scope <<< do
+    doc-id: $location.path! - /^\//
     config-icons: <[sign archive add question remove play pause eject smile meh frown]>
     config-dirty: false
     show-settings: false
     colors: ListRGB.colors
-    doc: doc
-    fb: fb
+    doc: undefined
+    fb: undefined
+    stats: {}
 
     entry-style: {} # { entry-id: { background-color: color } }
     entry-focusing: {} # { user-id: { entry-id: , color }}
@@ -85,7 +73,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     default-predicate: (entry) -> $scope.doc.entries.indexOf(entry)
     predicate: $scope.default-predicate
 
-    filtered: doc.entries
+    filtered: []
     entry-filter: (custom-filter)->
       return (e) ->
         res = false
@@ -215,8 +203,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       $scope.parse-tags!
       $scope.calculate-percentage!
 
-  $scope.calculate-percentage $scope.doc.entries.length
-
   $scope.$watch 'sorter', $scope.sort
 
   $scope.$watch 'doc.config', (after, before) ->
@@ -225,6 +211,9 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   , true
 
   $scope.$watch 'doc.entries' (new-entries, old-entries) ->
+    return if new-entries === old-entries or old-entries == undefined
+    console.log \doc-entries, new-entries, old-entries
+
     if $scope.suppress-watch-entries
       $scope.suppress-watch-entries = false
       return
@@ -240,19 +229,22 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
   ,true
 
   $scope.$watch 'doc.title' (new-title, old-title) ->
-    $scope.page-title = "#{doc.title} - listrgb.org"
-    if new-title != old-title
+    return if new-title == old-title
+
+    $scope.page-title = "#{$scope.doc.title} - listrgb.org"
+    if new-title != old-title and old-title != undefined
       SocketIo.emit \op op: 'update title', text: new-title
 
   $scope.$watch 'doc.desc' (new-desc, old-desc) ->
-    if new-desc != old-desc
+    return if new-desc == old-desc
+
+    if new-desc != old-desc and old-desc != undefined
       SocketIo.emit \op op: 'update desc', text: new-desc
 
-  $scope.$watch 'customFilter' ->
-      $scope.refresh!
+  $scope.$watch 'customFilter' (n, o) ->
+    return if n === o
+    $scope.refresh!
   , true
-
-  SocketIo.emit \register, $scope.doc-id
 
   SocketIo.on \broadcast ->
     switch it.op
@@ -284,6 +276,23 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         $scope.stats[it.entry-id][3] = 1
     case 'update config'
       $scope.doc.set-config it.config
+
+  doc <- ListRGB.get $scope.doc-id
+  fb <- ListRGB.get-feedback $scope.doc-id, $scope.uid
+  stats <- ListRGB.get-stats $scope.doc-id
+  $scope.doc = doc
+  $scope.fb = fb
+  # stats = { entry-id: [green, blue, red, none], ...}
+  for k, v of stats
+    if k != "docId" and k != "total"
+      $scope.stats[k] = [v.green, v.blue, v.red]
+      if ($scope.stats[k].reduce (+) ) > 0
+        $scope.stats[k].push 0
+      else
+        $scope.stats[k].push 1
+  
+  SocketIo.emit \register, $scope.doc-id
+  $scope.refresh!
 
 angular.module 'app', <[app.controllers]> ($locationProvider) ->
   $locationProvider.html5Mode true

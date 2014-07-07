@@ -83,7 +83,9 @@ html(ng-app="app" ng-controller="AppCtrl")
           input(type="text"
             placeholder="New entry..."
             ng-model="newItem" ui-keypress="{'enter': 'addEntry()'}")
-        #list(ng-model="list")
+        #list.ui.basic.segment
+          .ui.active.inverted.dimmer(ng-if="!doc")
+            | 載入中...
           .ui.basic.segment(ng-repeat="entry in doc.entries | orderBy:predicate track by entry.uuid"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
@@ -111,7 +113,7 @@ html(ng-app="app" ng-controller="AppCtrl")
                     ng-model="stats[entry.uuid]"
                     opts="{{ {'type': 'pie', 'width': '30px', 'sliceColors': ['#b8bd8b','#92dbf7','#e28585','#808080']} }}"
                     )
-          #empty-hint.ui.basic.segment(ng-if="filtered.length == 0")
+          #empty-hint.ui.basic.segment(ng-if="doc && filtered.length == 0")
             i.hand.up.icon
             | 沒有項目可顯示... 要不要新增一個？
       #side.three.wide.column
