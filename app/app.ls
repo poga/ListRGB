@@ -101,8 +101,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       $scope.stats[entry.uuid] = [0, 0, 0, 1]
       SocketIo.emit \op op: 'add entry', entry: entry
       $scope.new-item = ""
-      $scope.calculate-percentage $scope.doc.entries.length
-      $scope.parse-tags!
+      $scope.refresh!
       SocketIo.emit \op op: 'set feedback', uid: $scope.fb.user-id, entry-id: entry.uuid, color: \none
 
     remove-entry-by-uuid: (entry-uuid) ->
@@ -110,16 +109,14 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       if remove
         $scope.doc.remove-entry-by-uuid entry-uuid
         SocketIo.emit \op op: 'remove entry', entry-uuid: entry-uuid
-        $scope.calculate-percentage $scope.doc.entries.length
-        $scope.parse-tags!
+        $scope.refresh!
 
     toggle-feedback: (entry, color) ->
       if $scope.fb.feedbacks[entry.uuid] != color
         $scope.fb.feedbacks[entry.uuid] = color
       else
         $scope.fb.feedbacks[entry.uuid] = \none
-      $scope.calculate-percentage $scope.doc.entries.length
-      $scope.parse-tags!
+      $scope.refresh!
       SocketIo.emit \op op: 'set feedback', uid: $scope.fb.user-id, entry-id: entry.uuid, color: $scope.fb.feedbacks[entry.uuid]
 
     set-search: (str) ->
@@ -205,7 +202,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     row-class: (e) ->
       classes = []
       # Can't use cached $scope.filtered, because this function is called before watch?
-      i = $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter).map (.uuid) .indexOf e.uuid
+      i = $scope.filtered.map (.uuid) .indexOf e.uuid
       if i != -1
         if i == 0 # first entry in filtered
           classes.push 'first'
@@ -213,13 +210,17 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
           classes.push 'even'
       return classes.join ' '
 
+    refresh: ->
+      $scope.filtered = $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter)
+      $scope.parse-tags!
+      $scope.calculate-percentage!
+
   $scope.calculate-percentage $scope.doc.entries.length
 
   $scope.$watch 'sorter', $scope.sort
 
   $scope.$watch 'doc.config', (after, before) ->
     if after !== before
-      console.log \dirty, after, before
       $scope.config-dirty = true
   , true
 
@@ -234,7 +235,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
           changed := n if n.text != o.text
           break
     if changed
-      $scope.parse-tags!
+      $scope.refresh!
       SocketIo.emit \op op: 'update entry', entry-uuid: changed.uuid, text: changed.text
   ,true
 
@@ -248,9 +249,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       SocketIo.emit \op op: 'update desc', text: new-desc
 
   $scope.$watch 'customFilter' ->
-    $scope.filtered = $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter)
-    $scope.parse-tags!
-    $scope.calculate-percentage!
+      $scope.refresh!
   , true
 
   SocketIo.emit \register, $scope.doc-id
@@ -264,16 +263,13 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     case 'add entry'
       $scope.doc.add-entry it.entry
       $scope.stats[it.entry.uuid] = [0, 0, 0, 1]
-      $scope.calculate-percentage $scope.doc.entries.length
-      $scope.parse-tags!
+      $scope.refresh!
     case 'remove entry'
       $scope.doc.remove-entry-by-uuid it.entry-uuid
-      $scope.calculate-percentage $scope.doc.entries.length
-      $scope.parse-tags!
+      $scope.refresh!
     case 'update entry'
       $scope.suppress-watch-entries = true
-      $scope.doc.update-entry it.entry-uuid, it.text
-      $scope.parse-tags!
+      $scope.refresh!
     case 'update title'
       $scope.doc.title = it.text
     case 'update desc'
