@@ -189,7 +189,6 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
 
     row-class: (e) ->
       classes = []
-      # Can't use cached $scope.filtered, because this function is called before watch?
       i = $scope.filtered.map (.uuid) .indexOf e.uuid
       if i != -1
         if i == 0 # first entry in filtered
