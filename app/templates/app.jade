@@ -87,18 +87,18 @@ html(ng-app="app" ng-controller="AppCtrl")
           .ui.basic.segment(ng-repeat="entry in doc.entries | orderBy:predicate track by entry.uuid"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
-            ng-class-even="'even'"
+            ng-class="rowClass(entry, $index)"
             ng-show="([entry] | filter:entryFilter(customFilter)).length > 0")
             .ui.grid.middle.aligned
               .row.equal.height(ng-style="entryStyle[entry.uuid]")
                 .icon-col.one.wide.column.right.aligned
-                .icon-col.one.wide.column(ng-repeat="color in colors")
+                .icon-col.one.wide.column(ng-repeat="color in colors" ng-class="'{{color}}-col'")
                   i.large.status-icon.icon(ng-class="iconClass(color, entry.uuid, hover)"
                     ng-mouseenter="hover=true"
                     ng-mouseleave="hover=false"
                     ng-init="hover=false"
                     ng-click="toggleFeedback(entry, color)")
-                .input-col.drag-col.status-col.ten.wide.column
+                .input-col.ten.wide.column
                   .ui.fluid.input
                     textarea(ng-model="entry.text" msd-elastic debounce="300"
                     ng-focus="focusEntry(uid, entry.uuid)"

@@ -90,38 +90,45 @@ body
       border: 1px transparent solid
     .row.focused
       border: 1px red solid
-    .segment.even
-      background-color: rgba(0,0,0, 0.005)
     .segment
+      &.even
+        background-color: rgba(0,0,0, 0.015)
+      &.first
+        .green-col
+          border-top: 2px solid #40a040
+        .red-col
+          border-top: 2px solid #d95c5c
+        .blue-col
+          border-top: 2px solid #6ecff5
       margin: 0
       padding: 0
       .icon-col
-        .disabled.icon
-          opacity: 0.15
-          &.red
-            opacity: 0.5
-          &.blue
-            opacity: 0.5
-          &.green
-            opacity: 0.5
-          &.grey
-            opacity: 0.5
-        .icon.red
-          opacity: 1
-        .icon.blue
-          opacity: 1
-        .icon.green
-          color: green !important
-          opacity: 1
-        .icon.grey
-          opacity: 1
+        text-align: center
+        width: 3%
         padding: 0
-        width: 1%
+        .icon
+          margin: 0 3px
+          &.red
+            opacity: 1
+          &.blue
+            opacity: 1
+          &.green
+            color: green !important
+            opacity: 1
+          &.grey
+            opacity: 1
+          &.disabled
+            opacity: 0.15
+            &.red
+              opacity: 0.5
+            &.blue
+              opacity: 0.5
+            &.green
+              opacity: 0.5
+            &.grey
+              opacity: 0.5
         .status-icon
           cursor: pointer
-        .drag-icon
-          cursor: -moz-grab
-          cursor: -webkit-grab
       .input-col
         padding-left: 0
       .column

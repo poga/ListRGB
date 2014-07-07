@@ -85,6 +85,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
     default-predicate: (entry) -> $scope.doc.entries.indexOf(entry)
     predicate: $scope.default-predicate
 
+    filtered: doc.entries
     entry-filter: (custom-filter)->
       return (e) ->
         res = false
@@ -160,7 +161,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         $scope.predicate = $scope.default-predicate
 
     calculate-percentage: ->
-      filtered-entry-ids = $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter).map (.uuid)
+      filtered-entry-ids = $scope.filtered.map (.uuid)
       filtered-fbs = {}
       for eid, c of $scope.fb.feedbacks
         filtered-fbs[eid] = c if filtered-entry-ids.indexOf(eid) != -1
@@ -183,7 +184,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       SocketIo.emit \op, op: \unfocus, entry-id: entry-id, user-id: $scope.uid if user-id == $scope.uid
 
     parse-tags: ->
-      $scope.tags = Document.parse-tags $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter).map (.text)
+      $scope.tags = Document.parse-tags $scope.filtered.map (.text)
 
     set-config-icon: (color, icon) ->
       $scope.doc.config.icon[color] = icon
@@ -198,6 +199,15 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
         classes.push "disabled"
       if $scope.fb.feedbacks[entry-id] == color or hover
         classes.push color
+      i = $scope.filtered.map (.uuid) .indexOf entry-id
+      return classes.join ' '
+
+    row-class: (e, i) ->
+      classes = []
+      if i == 0 # first entry in filtered
+        classes.push 'first'
+      if i % 2 == 1
+        classes.push 'even'
       return classes.join ' '
 
   $scope.calculate-percentage $scope.doc.entries.length
@@ -235,6 +245,7 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       SocketIo.emit \op op: 'update desc', text: new-desc
 
   $scope.$watch 'customFilter' ->
+    $scope.filtered = $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter)
     $scope.parse-tags!
     $scope.calculate-percentage!
   , true
