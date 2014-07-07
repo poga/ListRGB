@@ -87,7 +87,7 @@ html(ng-app="app" ng-controller="AppCtrl")
           .ui.basic.segment(ng-repeat="entry in doc.entries | orderBy:predicate track by entry.uuid"
             ng-mouseenter="hover=true"
             ng-mouseleave="hover=false"
-            ng-class="rowClass(entry, $index)"
+            ng-class="rowClass(entry)"
             ng-show="([entry] | filter:entryFilter(customFilter)).length > 0")
             .ui.grid.middle.aligned
               .row.equal.height(ng-style="entryStyle[entry.uuid]")

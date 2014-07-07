@@ -202,12 +202,15 @@ angular.module 'app.controllers', <[ui.keypress monospaced.elastic truncate btfo
       i = $scope.filtered.map (.uuid) .indexOf entry-id
       return classes.join ' '
 
-    row-class: (e, i) ->
+    row-class: (e) ->
       classes = []
-      if i == 0 # first entry in filtered
-        classes.push 'first'
-      if i % 2 == 1
-        classes.push 'even'
+      # Can't use cached $scope.filtered, because this function is called before watch?
+      i = $scope.doc.entries.filter($scope.entry-filter $scope.custom-filter).map (.uuid) .indexOf e.uuid
+      if i != -1
+        if i == 0 # first entry in filtered
+          classes.push 'first'
+        if i % 2 == 1
+          classes.push 'even'
       return classes.join ' '
 
   $scope.calculate-percentage $scope.doc.entries.length
