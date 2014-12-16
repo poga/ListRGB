@@ -17,14 +17,11 @@ body
   span.vote-color
     display: inline-block
   .percent-green
-    background-color: green
-    opacity: 0.75
+    background-color: #47d296
   .percent-red
-    background-color: red
-    opacity: 0.75
+    background-color: #db4d6d
   .percent-blue
-    background-color: #6ECFF5
-    opacity: 0.75
+    background-color: #479fc9
   .percent-none
     background-color: grey
 
@@ -99,11 +96,11 @@ body
         background-color: rgba(0,0,0, 0.015)
       &.first
         .green-col
-          border-top: 2px solid #40a040
+          border-top: 2px solid #47d296
         .red-col
-          border-top: 2px solid #d95c5c
+          border-top: 2px solid #db4d6d
         .blue-col
-          border-top: 2px solid #6ecff5
+          border-top: 2px solid #479fc9
       margin: 0
       padding: 0
       .icon-col
@@ -113,11 +110,13 @@ body
         .icon
           margin: 0 3px
           &.red
+            color: #db4d6d !important
             opacity: 1
           &.blue
+            color: #479fc9 !important
             opacity: 1
           &.green
-            color: green !important
+            color: #47d296 !important
             opacity: 1
           &.grey
             opacity: 1
@@ -160,11 +159,11 @@ body
   .color-select
     margin-bottom: 5px
     .green.checkbox label
-      color: green
+      color: #47d296
     .blue.checkbox label
-      color: blue
+      color: #479fc9
     .red.checkbox label
-      color: red
+      color: #db4d6d
   a
     text-decoration: none
     color: grey
