@@ -76,3 +76,5 @@ set the color from the user one the entry to color
 ## License
 
 MIT
+
+Logo designed by @shulusama 
