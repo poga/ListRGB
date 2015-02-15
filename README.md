@@ -19,6 +19,7 @@ requirements:
 $ git clone git@github.com:poga/ListRGB.git
 $ bower i
 $ npm i
+$ npm run prepublish
 ```
 
 ### Development
